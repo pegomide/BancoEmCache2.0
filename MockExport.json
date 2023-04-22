@@ -1,0 +1,440 @@
+{
+    "uuid": "71f29fb8-b937-42bc-abfd-0be128345368",
+    "lastMigration": 27,
+    "name": "DatabaseAsCache",
+    "endpointPrefix": "",
+    "latency": 0,
+    "port": 3002,
+    "hostname": "",
+    "rootChildren": [
+        {
+            "type": "route",
+            "uuid": "1189d8a0-6e38-4e79-ac17-ff05c5e47c75"
+        }
+    ],
+    "folders": [],
+    "routes": [
+        {
+            "uuid": "1189d8a0-6e38-4e79-ac17-ff05c5e47c75",
+            "type": "http",
+            "documentation": "Default CLP communication",
+            "method": "post",
+            "endpoint": "api/opc/read",
+            "responses": [
+                {
+                    "uuid": "d069f69d-88df-4f48-b210-9dc9af0ebf1d",
+                    "body": "{\r\n    \"Message\": \"An error has occurred.\",\r\n    \"ExceptionMessage\": \"Object reference not set to an instance of an object.\",\r\n    \"ExceptionType\": \"System.NullReferenceException\",\r\n    \"StackTrace\": \"   at Vale.ProcessApi.Controllers.OpcController.Read(OpcReadRequest request)\\r\\n   at lambda_method(Closure , Object , Object[] )\\r\\n   at System.Web.Http.Controllers.ReflectedHttpActionDescriptor.ActionExecutor.<>c__DisplayClass10.<GetExecutor>b__9(Object instance, Object[] methodParameters)\\r\\n   at System.Web.Http.Controllers.ReflectedHttpActionDescriptor.ExecuteAsync(HttpControllerContext controllerContext, IDictionary`2 arguments, CancellationToken cancellationToken)\\r\\n--- End of stack trace from previous location where exception was thrown ---\\r\\n   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()\\r\\n   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)\\r\\n   at System.Web.Http.Controllers.ApiControllerActionInvoker.<InvokeActionAsyncCore>d__0.MoveNext()\\r\\n--- End of stack trace from previous location where exception was thrown ---\\r\\n   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()\\r\\n   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)\\r\\n   at System.Web.Http.Controllers.ActionFilterResult.<ExecuteAsync>d__2.MoveNext()\\r\\n--- End of stack trace from previous location where exception was thrown ---\\r\\n   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()\\r\\n   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)\\r\\n   at System.Web.Http.Dispatcher.HttpControllerDispatcher.<SendAsync>d__1.MoveNext()\"\r\n}",
+                    "latency": 0,
+                    "statusCode": 500,
+                    "label": "Error Tag reading",
+                    "headers": [],
+                    "bodyType": "INLINE",
+                    "filePath": "",
+                    "databucketID": "",
+                    "sendFileAsBody": false,
+                    "rules": [],
+                    "rulesOperator": "OR",
+                    "disableTemplating": false,
+                    "fallbackTo404": false,
+                    "default": true
+                },
+                {
+                    "uuid": "cbebe035-c583-48f9-9c03-cdbf713f9b2f",
+                    "body": "[\r\n    {\r\n        \"Value\": \"Erro ao adicionar Grupo [Group_00].\",\r\n        \"TimeStamp\": \"2023-04-18T15:49:39.7553651-03:00\",\r\n        \"Quality\": \"Bad\",\r\n        \"Name\": \"The remote server is not currently connected.\",\r\n        \"FloatValue\": 0.0,\r\n        \"DoubleValue\": 0.0,\r\n        \"Int32Value\": 0,\r\n        \"StringValue\": \"Erro ao adicionar Grupo [Group_00].\"\r\n    }\r\n]",
+                    "latency": 0,
+                    "statusCode": 200,
+                    "label": "Servernave does not exists",
+                    "headers": [],
+                    "bodyType": "INLINE",
+                    "filePath": "",
+                    "databucketID": "",
+                    "sendFileAsBody": false,
+                    "rules": [
+                        {
+                            "target": "body",
+                            "modifier": "servername",
+                            "value": "Schneider-Aut.OFS.2",
+                            "invert": true,
+                            "operator": "equals"
+                        }
+                    ],
+                    "rulesOperator": "OR",
+                    "disableTemplating": false,
+                    "fallbackTo404": false,
+                    "default": false
+                },
+                {
+                    "uuid": "8cf6def1-830c-4db3-9d48-fce0713c0930",
+                    "body": "[\r\n    {\r\n        \"Value\": false,\r\n        \"TimeStamp\": \"2023-04-18T15:35:28.319-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!PIMS_AM_NEW_INCR\",\r\n        \"FloatValue\": 0.0,\r\n        \"DoubleValue\": 0.0,\r\n        \"Int32Value\": 0,\r\n        \"StringValue\": \"False\"\r\n    }\r\n]",
+                    "latency": 0,
+                    "statusCode": 200,
+                    "label": "New registry false (even requests = False)",
+                    "headers": [],
+                    "bodyType": "DATABUCKET",
+                    "filePath": "",
+                    "databucketID": "8pb3",
+                    "sendFileAsBody": false,
+                    "rules": [
+                        {
+                            "target": "body",
+                            "modifier": "hostname",
+                            "value": "localhost",
+                            "invert": false,
+                            "operator": "equals"
+                        },
+                        {
+                            "target": "body",
+                            "modifier": "servername",
+                            "value": "Schneider-Aut.OFS.2",
+                            "invert": false,
+                            "operator": "equals"
+                        },
+                        {
+                            "target": "body",
+                            "modifier": "items",
+                            "value": "EMB!PIMS_AM_NEW_INCR",
+                            "invert": false,
+                            "operator": "equals"
+                        },
+                        {
+                            "target": "request_number",
+                            "modifier": "",
+                            "value": "^\\d*[13579]$",
+                            "invert": false,
+                            "operator": "regex"
+                        }
+                    ],
+                    "rulesOperator": "AND",
+                    "disableTemplating": false,
+                    "fallbackTo404": false,
+                    "default": false
+                },
+                {
+                    "uuid": "a963e901-4a7a-47c9-a437-7172eb146033",
+                    "body": "[\r\n    {\r\n        \"Value\": true,\r\n        \"TimeStamp\": \"2023-04-18T15:35:28.319-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!PIMS_AM_NEW_INCR\",\r\n        \"FloatValue\": 1.0,\r\n        \"DoubleValue\": 1.0,\r\n        \"Int32Value\": 1,\r\n        \"StringValue\": \"True\"\r\n    }\r\n]",
+                    "latency": 0,
+                    "statusCode": 200,
+                    "label": "New registry (odd requests = True)",
+                    "headers": [],
+                    "bodyType": "DATABUCKET",
+                    "filePath": "",
+                    "databucketID": "h3a7",
+                    "sendFileAsBody": false,
+                    "rules": [
+                        {
+                            "target": "body",
+                            "modifier": "hostname",
+                            "value": "localhost",
+                            "invert": false,
+                            "operator": "equals"
+                        },
+                        {
+                            "target": "body",
+                            "modifier": "servername",
+                            "value": "Schneider-Aut.OFS.2",
+                            "invert": false,
+                            "operator": "equals"
+                        },
+                        {
+                            "target": "body",
+                            "modifier": "items",
+                            "value": "EMB!PIMS_AM_NEW_INCR",
+                            "invert": false,
+                            "operator": "equals"
+                        }
+                    ],
+                    "rulesOperator": "AND",
+                    "disableTemplating": false,
+                    "fallbackTo404": false,
+                    "default": false
+                },
+                {
+                    "uuid": "458dc854-11d5-470d-b7ad-8d4ceaa78f62",
+                    "body": "",
+                    "latency": 0,
+                    "statusCode": 200,
+                    "label": "Verify pier (even requests = South)",
+                    "headers": [],
+                    "bodyType": "DATABUCKET",
+                    "filePath": "",
+                    "databucketID": "kzi7",
+                    "sendFileAsBody": false,
+                    "rules": [
+                        {
+                            "target": "body",
+                            "modifier": "hostname",
+                            "value": "localhost",
+                            "invert": false,
+                            "operator": "equals"
+                        },
+                        {
+                            "target": "body",
+                            "modifier": "servername",
+                            "value": "Schneider-Aut.OFS.2",
+                            "invert": false,
+                            "operator": "equals"
+                        },
+                        {
+                            "target": "body",
+                            "modifier": "items",
+                            "value": "EMB!Ordem_amos_berco",
+                            "invert": false,
+                            "operator": "equals"
+                        },
+                        {
+                            "target": "request_number",
+                            "modifier": "",
+                            "value": "^\\d*[13579]$",
+                            "invert": false,
+                            "operator": "regex"
+                        }
+                    ],
+                    "rulesOperator": "AND",
+                    "disableTemplating": false,
+                    "fallbackTo404": false,
+                    "default": false
+                },
+                {
+                    "uuid": "db15663a-5683-4de3-9b75-9a96a634802c",
+                    "body": "{}",
+                    "latency": 0,
+                    "statusCode": 200,
+                    "label": "Verify pier (odd requests = North)",
+                    "headers": [],
+                    "bodyType": "DATABUCKET",
+                    "filePath": "",
+                    "databucketID": "3s07",
+                    "sendFileAsBody": false,
+                    "rules": [
+                        {
+                            "target": "body",
+                            "modifier": "hostname",
+                            "value": "localhost",
+                            "invert": false,
+                            "operator": "equals"
+                        },
+                        {
+                            "target": "body",
+                            "modifier": "servername",
+                            "value": "Schneider-Aut.OFS.2",
+                            "invert": false,
+                            "operator": "equals"
+                        },
+                        {
+                            "target": "body",
+                            "modifier": "items",
+                            "value": "EMB!Ordem_amos_berco",
+                            "invert": false,
+                            "operator": "equals"
+                        }
+                    ],
+                    "rulesOperator": "AND",
+                    "disableTemplating": false,
+                    "fallbackTo404": false,
+                    "default": false
+                },
+                {
+                    "uuid": "3c56e731-1f4c-43b5-8f8a-04bfc1cf2cfa",
+                    "body": "{}",
+                    "latency": 0,
+                    "statusCode": 200,
+                    "label": "Data South",
+                    "headers": [],
+                    "bodyType": "DATABUCKET",
+                    "filePath": "",
+                    "databucketID": "0y4p",
+                    "sendFileAsBody": false,
+                    "rules": [
+                        {
+                            "target": "body",
+                            "modifier": "hostname",
+                            "value": "localhost",
+                            "invert": false,
+                            "operator": "equals"
+                        },
+                        {
+                            "target": "body",
+                            "modifier": "servername",
+                            "value": "Schneider-Aut.OFS.2",
+                            "invert": false,
+                            "operator": "equals"
+                        },
+                        {
+                            "target": "body",
+                            "modifier": "items",
+                            "value": "EMB!PIMS_TIG_CNG02_GRL_SHIP_01_D",
+                            "invert": false,
+                            "operator": "equals"
+                        },
+                        {
+                            "target": "body",
+                            "modifier": "items",
+                            "value": "EMB!PIMS_CN01_BERCS_TOT_01_D",
+                            "invert": false,
+                            "operator": "equals"
+                        },
+                        {
+                            "target": "body",
+                            "modifier": "items",
+                            "value": "EMB!PIMS_AM_SUL_PARC_D",
+                            "invert": false,
+                            "operator": "equals"
+                        },
+                        {
+                            "target": "body",
+                            "modifier": "items",
+                            "value": "EMB!PIMS_AMOS_SUL_SP_VAL_QUAR",
+                            "invert": false,
+                            "operator": "equals"
+                        },
+                        {
+                            "target": "body",
+                            "modifier": "items",
+                            "value": "EMB!PIMS_AM_SUL_QUA_SPED_VAL",
+                            "invert": false,
+                            "operator": "equals"
+                        }
+                    ],
+                    "rulesOperator": "AND",
+                    "disableTemplating": false,
+                    "fallbackTo404": false,
+                    "default": false
+                },
+                {
+                    "uuid": "16348b4c-ab74-44d7-a4e9-cc8902677e67",
+                    "body": "{}",
+                    "latency": 0,
+                    "statusCode": 200,
+                    "label": "Data North",
+                    "headers": [],
+                    "bodyType": "DATABUCKET",
+                    "filePath": "",
+                    "databucketID": "s30n",
+                    "sendFileAsBody": false,
+                    "rules": [
+                        {
+                            "target": "body",
+                            "modifier": "hostname",
+                            "value": "localhost",
+                            "invert": false,
+                            "operator": "equals"
+                        },
+                        {
+                            "target": "body",
+                            "modifier": "servername",
+                            "value": "Schneider-Aut.OFS.2",
+                            "invert": false,
+                            "operator": "equals"
+                        },
+                        {
+                            "target": "body",
+                            "modifier": "items",
+                            "value": "EMB!PIMS_TIG_CNG01_GRL_SHIP_01_D",
+                            "invert": false,
+                            "operator": "equals"
+                        },
+                        {
+                            "target": "body",
+                            "modifier": "items",
+                            "value": "EMB!PIMS_CN01_BERCN_TOT_01_D",
+                            "invert": false,
+                            "operator": "equals"
+                        },
+                        {
+                            "target": "body",
+                            "modifier": "items",
+                            "value": "EMB!PIMS_AM_NORTE_PARC_D",
+                            "invert": false,
+                            "operator": "equals"
+                        },
+                        {
+                            "target": "body",
+                            "modifier": "items",
+                            "value": "EMB!PIMS_AM_NORTE_SP_VAL_QUAR",
+                            "invert": false,
+                            "operator": "equals"
+                        },
+                        {
+                            "target": "body",
+                            "modifier": "items",
+                            "value": "EMB!PIMS_AM_NORTE_QUA_SPED_VAL",
+                            "invert": false,
+                            "operator": "equals"
+                        }
+                    ],
+                    "rulesOperator": "AND",
+                    "disableTemplating": false,
+                    "fallbackTo404": false,
+                    "default": false
+                }
+            ],
+            "enabled": true,
+            "responseMode": null
+        }
+    ],
+    "proxyMode": false,
+    "proxyHost": "",
+    "proxyRemovePrefix": false,
+    "tlsOptions": {
+        "enabled": false,
+        "type": "CERT",
+        "pfxPath": "",
+        "certPath": "",
+        "keyPath": "",
+        "caPath": "",
+        "passphrase": ""
+    },
+    "cors": true,
+    "headers": [
+        {
+            "key": "Content-Type",
+            "value": "application/json"
+        }
+    ],
+    "proxyReqHeaders": [],
+    "proxyResHeaders": [],
+    "data": [
+        {
+            "uuid": "1ad46e1a-0978-458e-8a41-066440b3ec9a",
+            "id": "8pb3",
+            "name": "New increment false data",
+            "documentation": "",
+            "value": "[\r\n    {\r\n        \"Value\": false,\r\n        \"TimeStamp\": \"2023-04-18T15:35:28.319-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!PIMS_AM_NEW_INCR\",\r\n        \"FloatValue\": 0.0,\r\n        \"DoubleValue\": 0.0,\r\n        \"Int32Value\": 0,\r\n        \"StringValue\": \"False\"\r\n    }\r\n]"
+        },
+        {
+            "uuid": "ed7d8a6a-a73d-4a8d-a4c7-1dbd47734b02",
+            "id": "h3a7",
+            "name": "New increment true data",
+            "documentation": "",
+            "value": "[\r\n    {\r\n        \"Value\": true,\r\n        \"TimeStamp\": \"2023-04-18T15:35:28.319-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!PIMS_AM_NEW_INCR\",\r\n        \"FloatValue\": 1.0,\r\n        \"DoubleValue\": 1.0,\r\n        \"Int32Value\": 1,\r\n        \"StringValue\": \"True\"\r\n    }\r\n]"
+        },
+        {
+            "uuid": "717cce52-4675-4369-b439-cb0dc1bd858b",
+            "id": "0y4p",
+            "name": "South pier data",
+            "documentation": "",
+            "value": "[\r\n    {\r\n        \"Value\": \"ICAgICAgICAgICAgICAgIA==\",\r\n        \"TimeStamp\": \"2023-04-18T15:42:59.671-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!PIMS_TIG_CNG02_GRL_SHIP_01_D\",\r\n        \"FloatValue\": 0.0,\r\n        \"DoubleValue\": 0.0,\r\n        \"Int32Value\": 0,\r\n        \"StringValue\": \"System.Byte[]\"\r\n    },\r\n    {\r\n        \"Value\": 288300,\r\n        \"TimeStamp\": \"2023-04-18T15:42:59.671-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!PIMS_CN01_BERCS_TOT_01_D\",\r\n        \"FloatValue\": 288300.0,\r\n        \"DoubleValue\": 288300.0,\r\n        \"Int32Value\": 288300,\r\n        \"StringValue\": \"288300\"\r\n    },\r\n    {\r\n        \"Value\": 6,\r\n        \"TimeStamp\": \"2023-04-18T15:42:59.671-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!PIMS_AM_PORAO_NUM_1_D\",\r\n        \"FloatValue\": 6.0,\r\n        \"DoubleValue\": 6.0,\r\n        \"Int32Value\": 6,\r\n        \"StringValue\": \"6\"\r\n    },\r\n    {\r\n        \"Value\": 0,\r\n        \"TimeStamp\": \"2023-04-18T15:42:59.671-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!PIMS_AM_PORAO_TOT_1_D\",\r\n        \"FloatValue\": 0.0,\r\n        \"DoubleValue\": 0.0,\r\n        \"Int32Value\": 0,\r\n        \"StringValue\": \"0\"\r\n    },\r\n    {\r\n        \"Value\": 2,\r\n        \"TimeStamp\": \"2023-04-18T15:42:59.671-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!PIMS_AM_PORAO_NUM_2_D\",\r\n        \"FloatValue\": 2.0,\r\n        \"DoubleValue\": 2.0,\r\n        \"Int32Value\": 2,\r\n        \"StringValue\": \"2\"\r\n    },\r\n    {\r\n        \"Value\": 568,\r\n        \"TimeStamp\": \"2023-04-18T15:42:59.671-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!PIMS_AM_PORAO_TOT_2_D\",\r\n        \"FloatValue\": 568.0,\r\n        \"DoubleValue\": 568.0,\r\n        \"Int32Value\": 568,\r\n        \"StringValue\": \"568\"\r\n    },\r\n    {\r\n        \"Value\": 0,\r\n        \"TimeStamp\": \"2023-04-18T15:42:59.671-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!PIMS_AM_PORAO_NUM_3_D\",\r\n        \"FloatValue\": 0.0,\r\n        \"DoubleValue\": 0.0,\r\n        \"Int32Value\": 0,\r\n        \"StringValue\": \"0\"\r\n    },\r\n    {\r\n        \"Value\": 0,\r\n        \"TimeStamp\": \"2023-04-18T15:42:59.671-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!PIMS_AM_PORAO_TOT_3_D\",\r\n        \"FloatValue\": 0.0,\r\n        \"DoubleValue\": 0.0,\r\n        \"Int32Value\": 0,\r\n        \"StringValue\": \"0\"\r\n    },\r\n    {\r\n        \"Value\": 6,\r\n        \"TimeStamp\": \"2023-04-18T15:42:59.671-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!PIMS_AM_SUL_PARC_D\",\r\n        \"FloatValue\": 6.0,\r\n        \"DoubleValue\": 6.0,\r\n        \"Int32Value\": 6,\r\n        \"StringValue\": \"6\"\r\n    },\r\n    {\r\n        \"Value\": 3,\r\n        \"TimeStamp\": \"2023-04-18T15:42:59.671-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!PIMS_AMOS_SUL_SP_VAL_QUAR\",\r\n        \"FloatValue\": 3.0,\r\n        \"DoubleValue\": 3.0,\r\n        \"Int32Value\": 3,\r\n        \"StringValue\": \"3\"\r\n    },\r\n    {\r\n        \"Value\": 3,\r\n        \"TimeStamp\": \"2023-04-18T15:42:59.671-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!PIMS_AM_SUL_QUA_SPED_VAL\",\r\n        \"FloatValue\": 3.0,\r\n        \"DoubleValue\": 3.0,\r\n        \"Int32Value\": 3,\r\n        \"StringValue\": \"3\"\r\n    }\r\n]"
+        },
+        {
+            "uuid": "a68d64cc-d87e-4232-93b2-91ed4168f16b",
+            "id": "s30n",
+            "name": "North pier data",
+            "documentation": "",
+            "value": "[\r\n    {\r\n        \"Value\": \"ICAgICAgICAgICAgICAgIA==\",\r\n        \"TimeStamp\": \"2023-04-18T15:53:41.239-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!PIMS_TIG_CNG01_GRL_SHIP_01_D\",\r\n        \"FloatValue\": 0.0,\r\n        \"DoubleValue\": 0.0,\r\n        \"Int32Value\": 0,\r\n        \"StringValue\": \"System.Byte[]\"\r\n    },\r\n    {\r\n        \"Value\": 111411,\r\n        \"TimeStamp\": \"2023-04-18T15:53:41.239-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!PIMS_CN01_BERCN_TOT_01_D\",\r\n        \"FloatValue\": 111411.0,\r\n        \"DoubleValue\": 111411.0,\r\n        \"Int32Value\": 111411,\r\n        \"StringValue\": \"111411\"\r\n    },\r\n    {\r\n        \"Value\": 6,\r\n        \"TimeStamp\": \"2023-04-18T15:53:41.239-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!PIMS_AM_PORAO_NUM_1_D\",\r\n        \"FloatValue\": 6.0,\r\n        \"DoubleValue\": 6.0,\r\n        \"Int32Value\": 6,\r\n        \"StringValue\": \"6\"\r\n    },\r\n    {\r\n        \"Value\": 0,\r\n        \"TimeStamp\": \"2023-04-18T15:53:41.239-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!PIMS_AM_PORAO_TOT_1_D\",\r\n        \"FloatValue\": 0.0,\r\n        \"DoubleValue\": 0.0,\r\n        \"Int32Value\": 0,\r\n        \"StringValue\": \"0\"\r\n    },\r\n    {\r\n        \"Value\": 2,\r\n        \"TimeStamp\": \"2023-04-18T15:53:41.239-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!PIMS_AM_PORAO_NUM_2_D\",\r\n        \"FloatValue\": 2.0,\r\n        \"DoubleValue\": 2.0,\r\n        \"Int32Value\": 2,\r\n        \"StringValue\": \"2\"\r\n    },\r\n    {\r\n        \"Value\": 568,\r\n        \"TimeStamp\": \"2023-04-18T15:53:41.239-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!PIMS_AM_PORAO_TOT_2_D\",\r\n        \"FloatValue\": 568.0,\r\n        \"DoubleValue\": 568.0,\r\n        \"Int32Value\": 568,\r\n        \"StringValue\": \"568\"\r\n    },\r\n    {\r\n        \"Value\": 0,\r\n        \"TimeStamp\": \"2023-04-18T15:53:41.239-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!PIMS_AM_PORAO_NUM_3_D\",\r\n        \"FloatValue\": 0.0,\r\n        \"DoubleValue\": 0.0,\r\n        \"Int32Value\": 0,\r\n        \"StringValue\": \"0\"\r\n    },\r\n    {\r\n        \"Value\": 0,\r\n        \"TimeStamp\": \"2023-04-18T15:53:41.239-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!PIMS_AM_PORAO_TOT_3_D\",\r\n        \"FloatValue\": 0.0,\r\n        \"DoubleValue\": 0.0,\r\n        \"Int32Value\": 0,\r\n        \"StringValue\": \"0\"\r\n    },\r\n    {\r\n        \"Value\": 3,\r\n        \"TimeStamp\": \"2023-04-18T15:53:41.239-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!PIMS_AM_NORTE_PARC_D\",\r\n        \"FloatValue\": 3.0,\r\n        \"DoubleValue\": 3.0,\r\n        \"Int32Value\": 3,\r\n        \"StringValue\": \"3\"\r\n    },\r\n    {\r\n        \"Value\": 0,\r\n        \"TimeStamp\": \"2023-04-18T15:53:41.239-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!PIMS_AMOS_NORTE_SP_VAL_QUAR\",\r\n        \"FloatValue\": 0.0,\r\n        \"DoubleValue\": 0.0,\r\n        \"Int32Value\": 0,\r\n        \"StringValue\": \"0\"\r\n    },\r\n    {\r\n        \"Value\": 3,\r\n        \"TimeStamp\": \"2023-04-18T15:53:41.239-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!PIMS_AM_NORTE_QUA_SPED_VAL\",\r\n        \"FloatValue\": 3.0,\r\n        \"DoubleValue\": 3.0,\r\n        \"Int32Value\": 3,\r\n        \"StringValue\": \"3\"\r\n    }\r\n]"
+        },
+        {
+            "uuid": "cef56331-b4d7-4870-99bd-16bd9fb9a7ae",
+            "id": "kzi7",
+            "name": "Select pier data south",
+            "documentation": "",
+            "value": "[\r\n    {\r\n        \"Value\": 1,\r\n        \"TimeStamp\": \"2023-04-18T15:44:03.793-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!Ordem_amos_berco\",\r\n        \"FloatValue\": 1.0,\r\n        \"DoubleValue\": 1.0,\r\n        \"Int32Value\": 1,\r\n        \"StringValue\": \"1\"\r\n    }\r\n]"
+        },
+        {
+            "uuid": "32c2021e-c1c4-4282-8dfe-ef28b4ecf263",
+            "id": "3s07",
+            "name": "Select pier data north",
+            "documentation": "",
+            "value": "[\r\n    {\r\n        \"Value\": 2,\r\n        \"TimeStamp\": \"2023-04-18T15:44:03.793-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!Ordem_amos_berco\",\r\n        \"FloatValue\": 2.0,\r\n        \"DoubleValue\": 2.0,\r\n        \"Int32Value\": 2,\r\n        \"StringValue\": \"2\"\r\n    }\r\n]"
+        }
+    ]
+}
