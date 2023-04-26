@@ -54,9 +54,14 @@
   <ItemGroup>
     <Compile Include="Models\OpcApiResponseBody.cs" />
     <Compile Include="Models\OpcApiRequestBody.cs" />
+    <Compile Include="Models\PierEnum.cs" />
+    <Compile Include="Models\StatusEnum.cs" />
+    <Compile Include="Models\SubPartialEnum.cs" />
+    <Compile Include="Models\Tag.cs" />
     <Compile Include="OpcApiOptions.cs" />
-    <Compile Include="Infrastructure\OpcApi.cs" />
+    <Compile Include="Infrastructure\OpcApiInterface.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\OpcApiService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -67,8 +72,6 @@
       <Name>Vale.DatabaseAsCache.Data</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Services\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

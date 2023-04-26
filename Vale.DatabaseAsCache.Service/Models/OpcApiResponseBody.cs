@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 
-namespace Vale.GetFuseData.ApiService.Models
+namespace Vale.DatabaseAsCache.ApiService.Models
 {
     public class OpcApiResponseBody
     {
@@ -18,10 +18,10 @@ namespace Vale.GetFuseData.ApiService.Models
         public string Name { get; set; }
 
         [JsonProperty("FloatValue")]
-        public int FloatValue { get; set; }
+        public float FloatValue { get; set; }
 
         [JsonProperty("DoubleValue")]
-        public int DoubleValue { get; set; }
+        public double DoubleValue { get; set; }
 
         [JsonProperty("Int32Value")]
         public int Int32Value { get; set; }

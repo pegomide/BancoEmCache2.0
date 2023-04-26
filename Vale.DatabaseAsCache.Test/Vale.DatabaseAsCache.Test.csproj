@@ -60,6 +60,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Vale.DatabaseAsCache.Data\Vale.DatabaseAsCache.Data.csproj">
+      <Project>{1092F795-9BF4-429E-946E-6957E0C11A8A}</Project>
+      <Name>Vale.DatabaseAsCache.Data</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Vale.DatabaseAsCache.Service\Vale.DatabaseAsCache.Service.csproj">
       <Project>{a199009f-a3b8-4154-913d-61312a09e062}</Project>
       <Name>Vale.DatabaseAsCache.Service</Name>

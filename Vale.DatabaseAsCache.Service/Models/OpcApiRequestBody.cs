@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 
-namespace Vale.GetFuseData.ApiService.Models
+namespace Vale.DatabaseAsCache.ApiService.Models
 {
     public class OpcApiRequestBody
     {

@@ -1,22 +1,42 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
+using Vale.DatabaseAsCache.Service;
 using Vale.DatabaseAsCache.Service.Infrastructure;
 
 namespace Vale.DatabaseAsCache.Test
 {
+    // Usage toguether with Mockoon API
+    // Configuration in DatabaseAsCache.json on root folder
+    // Possible upgrade is include mock of .net framework instead of Mockoon API
     [TestClass]
     public class OpcApiIntegrationTest
     {
-        [TestMethod]
-        public void TemNovoRegistroTest()
-        {
-            OpcApi api = new OpcApi(null, "http://localhost:3002/api/opc/read");
+        private readonly OpcApiInterface _api = new OpcApiInterface(new OpcApiOptions(null, "http://localhost:3002/api/opc/read", "localhost", "Schneider-Aut.OFS.2"));
 
-            string hostname = "localhost";
-            string serverName = "Schneider-Aut.OFS.2";
-            string tag = "EMB!PIMS_AM_NEW_INCR";
-            var response = api.TemNovoRegistro(hostname, serverName, tag);
+        [TestMethod]
+        public void PostTemNovoRegistro_Test()
+        {
+            var response = _api.PostTemNovoRegistro();
+            Assert.IsNotNull(response);
+        }
+
+        [TestMethod]
+        public void PostVerificaPier_Test()
+        {
+            var response = _api.PostVerificaPier();
+            Assert.IsNotNull(response);
+        }
+
+        [TestMethod]
+        public void PostDataSouth_Test()
+        {
+            var response = _api.PostDataSouth();
+            Assert.IsNotNull(response);
+        }
+
+        [TestMethod]
+        public void PostDataNorth_Test()
+        {
+            var response = _api.PostDataNorth();
             Assert.IsNotNull(response);
         }
     }

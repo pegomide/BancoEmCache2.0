@@ -2,6 +2,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using log4net;
+using System;
 
 namespace Vale.DatabaseAsCache.Application
 {
@@ -17,11 +18,12 @@ namespace Vale.DatabaseAsCache.Application
                 .ConfigureServices((hostContext, services) =>
                 {
                     IConfiguration configuration = hostContext.Configuration;
-                    services.AddHostedService<ScheduleDatabaseRequest>();
+                    services.AddHostedService<ScheduleOpcRequest>();
                 })
                 .Build();
 
             host.Run();
+            Console.ReadLine();
         }
     }
 }

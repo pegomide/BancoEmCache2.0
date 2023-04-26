@@ -1,21 +1,27 @@
 ﻿using Dapper;
+using log4net;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Linq.Expressions;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using Vale.GetFuseData.Data.TableModels;
+using System.Transactions;
+using Vale.DatabaseAsCache.Data.TableModels;
 
-namespace Vale.GetFuseData.Data.Repository
+namespace Vale.DatabaseAsCache.Data.Repository
 {
     public interface IColetaFuseRepository
     {
-        Task<IEnumerable<ColetaFuseData>> Select(ColetaFuseData data);
-        Task<int> Insert(ColetaFuseData data);
-
+        bool IsConnectionOpen();
+        IEnumerable<ColetaFuseData> Select(ColetaFuseData data);
+        int Insert(ColetaFuseData data);
     }
 
     public class ColetaFuseRepository : IColetaFuseRepository
     {
+        private static readonly ILog _log = LogManager.GetLogger("log");
         private readonly string _tableName = "ColetaFuse";
         private readonly IDbConnection _connection;
 
@@ -29,40 +35,86 @@ namespace Vale.GetFuseData.Data.Repository
         }
 
         /// <summary>
+        /// Valida a capacidade de conexão com o banco.
+        /// </summary>
+        /// <returns>Se a conexão foi aberta.</returns>
+        public bool IsConnectionOpen()
+        {
+            bool isOpen;
+            try
+            {
+                using (var transaction = new TransactionScope())
+                {
+                    _connection.Open();
+                    isOpen = _connection.State.Equals(ConnectionState.Open);
+                    _connection.Close();
+                    transaction.Complete();
+                }
+            }
+            catch (SqlException)
+            {
+                isOpen = false;
+            }
+            catch (TransactionAbortedException ex)
+            {
+                _log.Error($"Checagem de conexão ao banco abortada durante transação: {ex}");
+                isOpen = false;
+            }
+            return isOpen;
+        }
+
+        /// <summary>
         /// Select data based on filter sent.
         /// </summary>
         /// <param name="data">Use as filter</param>
         /// <returns>List of data searched.</returns>
-        public async Task<IEnumerable<ColetaFuseData>> Select(ColetaFuseData data)
+        public IEnumerable<ColetaFuseData> Select(ColetaFuseData data)
         {
-            var sql = $@"
-                SELECT [PIER_CODE]
-                      ,[BOARDING_CODE]
-                      ,[INCREMENT_NUMBER]
-                      ,[PRODUCT_CODE]
-                      ,[CLIENT_CODE]
-                      ,[STACKER_NAME]
-                      ,[ESTIMATED_WEIGHT]
-                      ,[PORAO1_ID]
-                      ,[PORAO1_PESO]
-                      ,[PORAO2_ID]
-                      ,[PORAO2_PESO]
-                      ,[PORAO3_ID]
-                      ,[PORAO3_PESO]
-                      ,[ORDER_NUMBER]
-                      ,[BOARDING_LINE]
-                      ,[INCREMENT_DATETIME]
-                      ,[PARTIAL_SAMPLE]
-                      ,[SUBPARTIAL_SAMPLE]
-                      ,[SUBSUBPARTIAL_SAMPLE]
-                      ,[WEIGHTATCUT]
-                      ,[STATUS_TYPE]
-                  FROM [dbo].[{_tableName}]
-                  WHERE [PIER_CODE] = '{data.PIER_CODE}'
-                      ,[BOARDING_CODE] = '{data.BOARDING_CODE}'
-                      ,[INCREMENT_NUMBER] = {data.INCREMENT_NUMBER}
-            ";
-            return await _connection.QueryAsync<ColetaFuseData>(sql, data);
+            IEnumerable<ColetaFuseData> response = null;
+            try
+            {
+                using (var transaction = new TransactionScope())
+                {
+                    var sql = $@"
+SELECT [PIER_CODE]
+    ,[BOARDING_CODE]
+    ,[INCREMENT_NUMBER]
+    ,[PRODUCT_CODE]
+    ,[CLIENT_CODE]
+    ,[STACKER_NAME]
+    ,[ESTIMATED_WEIGHT]
+    ,[PORAO1_ID]
+    ,[PORAO1_PESO1]
+    ,[PORAO2_ID]
+    ,[PORAO2_PESO1]
+    ,[PORAO3_ID]
+    ,[PORAO3_PESO1]
+    ,[ORDER_NUMBER]
+    ,[BOARDING_LINE]
+    ,[INCREMENT_DATETIME]
+    ,[PARTIAL_SAMPLE]
+    ,[SUBPARTIAL_SAMPLE]
+    ,[SUBSUBPARTIAL_SAMPLE]
+    ,[WEIGHTATCUT]
+    ,[STATUS_TYPE]
+FROM [dbo].[{_tableName}]
+WHERE [PIER_CODE] = '{data.PIER_CODE}'
+    ,[BOARDING_CODE] = '{data.BOARDING_CODE}'
+    ,[INCREMENT_NUMBER] = {data.INCREMENT_NUMBER}";
+                    response = _connection.Query<ColetaFuseData>(sql, data);
+                    transaction.Complete();
+                }
+            }
+            catch (SqlException ex)
+            {
+                _log.Error($"Erro ao executar seleção: {ex.ToString().Replace(Environment.NewLine, string.Empty)}");
+            }
+            catch (TransactionAbortedException ex)
+            {
+                _log.Error($"Seleção no banco abortada durante transação: {ex.ToString().Replace(Environment.NewLine, string.Empty)}");
+            }
+
+            return response;
         }
 
         /// <summary>
@@ -70,55 +122,84 @@ namespace Vale.GetFuseData.Data.Repository
         /// </summary>
         /// <param name="data">Objeto com dados a serem inseridos.</param>
         /// <returns>Number of lines inserted. Probably one.</returns>
-        public async Task<int> Insert(ColetaFuseData data)
+        public int Insert(ColetaFuseData data)
         {
-            var sql = $@"
-                INSERT INTO [dbo].[{_tableName}]
-                    ([PRODUCT_CODE]
-                    ,[CLIENT_CODE]
-                    ,[PIER_CODE]
-                    ,[BOARDING_CODE]
-                    ,[STACKER_NAME]
-                    ,[ESTIMATED_WEIGHT]
-                    ,[PORAO1_ID]
-                    ,[PORAO1_PESO]
-                    ,[PORAO2_ID]
-                    ,[PORAO2_PESO]
-                    ,[PORAO3_ID]
-                    ,[PORAO3_PESO]
-                    ,[ORDER_NUMBER]
-                    ,[BOARDING_LINE]
-                    ,[INCREMENT_DATETIME]
-                    ,[PARTIAL_SAMPLE]
-                    ,[SUBPARTIAL_SAMPLE]
-                    ,[SUBSUBPARTIAL_SAMPLE]
-                    ,[INCREMENT_NUMBER]
-                    ,[WEIGHTATCUT]
-                    ,[STATUS_TYPE])
-                VALUES
-                    ({data.PRODUCT_CODE}
-                    ,{data.CLIENT_CODE}
-                    ,{data.PIER_CODE}
-                    ,{data.BOARDING_CODE}
-                    ,{data.STACKER_NAME}
-                    ,{data.ESTIMATED_WEIGHT}
-                    ,{data.PORAO1_ID}
-                    ,{data.PORAO1_PESO}
-                    ,{data.PORAO2_ID}
-                    ,{data.PORAO2_PESO}
-                    ,{data.PORAO3_ID}
-                    ,{data.PORAO3_PESO}
-                    ,{data.ORDER_NUMBER}
-                    ,{data.BOARDING_LINE}
-                    ,{data.INCREMENT_DATETIME}
-                    ,{data.PARTIAL_SAMPLE}
-                    ,{data.SUBPARTIAL_SAMPLE}
-                    ,{data.SUBSUBPARTIAL_SAMPLE}
-                    ,{data.INCREMENT_NUMBER}
-                    ,{data.WEIGHTATCUT}
-                    ,{data.STATUS_TYPE})
-            ";
-            return await _connection.ExecuteAsync(sql, data);
+            if (data is null)
+            {
+                throw new ArgumentNullException(nameof(data));
+            }
+
+            int numRowsInserted = -1;
+            try
+            {
+
+                using (var transaction = new TransactionScope())
+                {
+                    var sql = $@"
+INSERT INTO [dbo].[{_tableName}]
+    ([PRODUCT_CODE]
+    ,[INCREMENT_NUMBER]
+    ,[PIER_CODE]
+    {(data.CLIENT_CODE is null ? string.Empty : ",[CLIENT_CODE]")}
+    {(data.BOARDING_CODE is null ? string.Empty : ",[BOARDING_CODE]")}
+    {(data.STACKER_NAME is null ? string.Empty : ",[STACKER_NAME]")}
+    {(data.ESTIMATED_WEIGHT.HasValue ? ",[ESTIMATED_WEIGHT]" : string.Empty)}
+    {(data.PORAO1_ID.HasValue ? ",[PORAO1_ID]" : string.Empty)}
+    {(data.PORAO1_PESO1.HasValue ? ",[PORAO1_PESO1]" : string.Empty)}
+    {(data.PORAO1_PESO2.HasValue ? ",[PORAO1_PESO2]" : string.Empty)}
+    {(data.PORAO2_ID.HasValue ? ",[PORAO2_ID]" : string.Empty)}
+    {(data.PORAO2_PESO1.HasValue ? ",[PORAO2_PESO1]" : string.Empty)}
+    {(data.PORAO2_PESO2.HasValue ? ",[PORAO2_PESO2]" : string.Empty)}
+    {(data.PORAO3_ID.HasValue ? ",[PORAO3_ID]" : string.Empty)}
+    {(data.PORAO3_PESO1.HasValue ? ",[PORAO3_PESO1]" : string.Empty)}
+    {(data.PORAO3_PESO2.HasValue ? ",[PORAO3_PESO2]" : string.Empty)}
+    {(data.ORDER_NUMBER.HasValue ? ",[ORDER_NUMBER]" : string.Empty)}
+    {(data.BOARDING_LINE.HasValue ? ",[BOARDING_LINE]" : string.Empty)}
+    ,[INCREMENT_DATETIME]
+    {(data.PARTIAL_SAMPLE is null ? string.Empty : ",[PARTIAL_SAMPLE]")}
+    {(data.SUBPARTIAL_SAMPLE is null ? string.Empty : ",[SUBPARTIAL_SAMPLE]")}
+    {(data.SUBSUBPARTIAL_SAMPLE is null ? string.Empty : ",[SUBSUBPARTIAL_SAMPLE]")}
+    {(data.WEIGHTATCUT.HasValue ? ",[WEIGHTATCUT]" : string.Empty)}
+    ,[STATUS_TYPE])
+VALUES
+    ('{data.PRODUCT_CODE}'
+    ,{data.INCREMENT_NUMBER}
+    ,'{data.PIER_CODE}'
+    {(data.CLIENT_CODE is null ? string.Empty : $",'{data.CLIENT_CODE}'")}
+    {(data.BOARDING_CODE is null ? string.Empty : $",'{data.BOARDING_CODE}'")}
+    {(data.STACKER_NAME is null ? string.Empty : $",'{data.STACKER_NAME}'")}
+    {(data.ESTIMATED_WEIGHT.HasValue ? $",{data.ESTIMATED_WEIGHT}" : string.Empty)}
+    {(data.PORAO1_ID.HasValue ? $",'{data.PORAO1_ID}'" : string.Empty)}
+    {(data.PORAO1_PESO1.HasValue ? $",'{data.PORAO1_PESO1}'" : string.Empty)}
+    {(data.PORAO1_PESO2.HasValue ? $",'{data.PORAO1_PESO2}'" : string.Empty)}
+    {(data.PORAO2_ID.HasValue ? $",'{data.PORAO2_ID}'" : string.Empty)}
+    {(data.PORAO2_PESO1.HasValue ? $",'{data.PORAO2_PESO1}'" : string.Empty)}
+    {(data.PORAO2_PESO2.HasValue ? $",'{data.PORAO2_PESO2}'" : string.Empty)}
+    {(data.PORAO3_ID.HasValue ? $",'{data.PORAO3_ID}'" : string.Empty)}
+    {(data.PORAO3_PESO1.HasValue ? $",'{data.PORAO3_PESO1}'" : string.Empty)}
+    {(data.PORAO3_PESO2.HasValue ? $",'{data.PORAO3_PESO2}'" : string.Empty)}
+    {(data.ORDER_NUMBER.HasValue ? $",{data.ORDER_NUMBER}'" : string.Empty)}
+    {(data.BOARDING_LINE.HasValue ? $",{data.BOARDING_LINE}'" : string.Empty)}
+    ,CAST(N'{data.INCREMENT_DATETIME:yyyy-MM-dd HH:mm:ss.fff}' AS DateTime)
+    {(data.PARTIAL_SAMPLE is null ? string.Empty : $",'{data.PARTIAL_SAMPLE}'")}
+    {(data.SUBPARTIAL_SAMPLE is null ? string.Empty : $",'{data.SUBPARTIAL_SAMPLE}'")}
+    {(data.SUBSUBPARTIAL_SAMPLE is null ? string.Empty : $",'{data.SUBSUBPARTIAL_SAMPLE}'")}
+    {(data.WEIGHTATCUT.HasValue ? $",{data.WEIGHTATCUT}" : string.Empty)}
+    ,'{data.STATUS_TYPE}')";
+                    numRowsInserted = _connection.Execute(sql, data);
+                    transaction.Complete();
+                }
+            }
+            catch (SqlException ex)
+            {
+                _log.Error($"Erro ao executar inserção: {ex.ToString().Replace(Environment.NewLine, string.Empty)}");
+            }
+            catch (TransactionAbortedException ex)
+            {
+                _log.Error($"Inserção no banco abortada durante transação: {ex.ToString().Replace(Environment.NewLine, string.Empty)}");
+            }
+
+            return numRowsInserted;
         }
     }
 }
