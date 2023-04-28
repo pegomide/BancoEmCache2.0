@@ -12,9 +12,9 @@ using Vale.DatabaseAsCache.Service;
 using Vale.DatabaseAsCache.Service.Infrastructure;
 using Vale.GetFuseData.ApiService.Services;
 
-namespace Vale.DatabaseAsCache.Application
+namespace Vale.DatabaseAsCache.SendFuse
 {
-    public class ScheduleOpcRequest : BackgroundService
+    public class ScheduleDatabasePooling : BackgroundService
     {
         /// <summary>
         /// Logger object
@@ -35,14 +35,14 @@ namespace Vale.DatabaseAsCache.Application
         /// <summary>
         /// Interface to connect into OpcAPI
         /// </summary>
-        private readonly OpcApiInterface _opcApiInterface;
+        private readonly FuseApiInterface _fuseApiInterface;
 
         /// <summary>
         /// Interface to connect into database
         /// </summary>
         private readonly ColetaFuseRepository _coletaFuseRepository;
 
-        public ScheduleOpcRequest()
+        public ScheduleDatabasePooling()
         {
             // Handling scheduler pooling interval
             if (!TimeSpan.TryParse(ConfigurationManager.AppSettings["SchedulerInterval"], out _poolingInterval))
@@ -57,19 +57,17 @@ namespace Vale.DatabaseAsCache.Application
                 throw new FormatException();
             }
 
-            // Handling OpcApiInterface options
-            OpcApiOptions opcApiOptions = new OpcApiOptions()
+            // Handling FuseApiInterface options
+            FuseApiOptions fuseApiOptions = new FuseApiOptions()
             {
-                OpcApiUrl = ConfigurationManager.AppSettings["FuseApiUrl"],
-                HostName = ConfigurationManager.AppSettings["HostName"],
-                ServerName = ConfigurationManager.AppSettings["ServerName"],
+                FuseApiUrl = ConfigurationManager.AppSettings["FuseApiUrl"],
             };
-            if (opcApiOptions.OpcApiUrl is null || opcApiOptions.HostName is null || opcApiOptions.ServerName is null)
+            if (fuseApiOptions.FuseApiUrl is null)
             {
-                _log.Error($"Erro ao ler campo de configuração da API do OPC: {nameof(OpcApiOptions)}.");
+                _log.Error($"Erro ao ler campo de configuração da API do OPC: {nameof(fuseApiOptions)}.");
                 throw new FormatException();
             }
-            _opcApiInterface = new OpcApiInterface(opcApiOptions);
+            _fuseApiInterface = new FuseApiInterface(fuseApiOptions);
 
 
             //Handling SqlServer repository connection
@@ -100,66 +98,35 @@ namespace Vale.DatabaseAsCache.Application
         {
             while (!stoppingToken.IsCancellationRequested)
             {
+                var triggerDate = DateTime.Now;
                 try
                 {
-                    var triggerDate = DateTime.Now;
                     _log.Info($"### Gatilho de leitura às {triggerDate:dd/MM/yyyy HH:mm:ss} ###");
-                    var response = _opcApiInterface.PostTemNovoRegistro();
-                    if (response is null)
+                    var data = _coletaFuseRepository.SelectMostRecentWithStatusPending();
+                    if (data != null)
                     {
-                        _log.Info($"Erro ao requisitar verificação de novo registro");
+                        var requestBody = FuseApiService.TransformDatabaseIntoRequestBody(data);
+                        if (_fuseApiInterface.PostSendData(requestBody))
+                        {
+                            _log.Info($"Dado enviado ao Fuse: {{BoardingCode:{data.BOARDING_CODE}, PierCode:{data.PIER_CODE}, IncNumber:{data.INCREMENT_NUMBER}}}");
+                            if (_coletaFuseRepository.UpdateStatusToDone(data))
+                            {
+                                _log.Info("Status atualizado na tabela como enviado (DONE).");
+                            }
+                        }
+
                     }
                     else
                     {
-                        if (OpcApiService.TemNovoRegistro(response))
-                        {
-                            _log.Info($"Novo registro disponível no CLP");
-                            response = _opcApiInterface.PostVerificaPier();
-                            if (response is null)
-                            {
-                                _log.Info($"Erro ao requisitar verificação do pier");
-                            }
-                            else
-                            {
-                                PierEnum pier = OpcApiService.ExtraiPier(response);
-                                ColetaFuseData data = null;
-                                switch (pier)
-                                {
-                                    case PierEnum.North:
-                                        response = _opcApiInterface.PostDataNorth();
-                                        data = OpcApiService.ExtractDataNorth(response, triggerDate);
-                                        break;
-                                    case PierEnum.South:
-                                        response = _opcApiInterface.PostDataSouth();
-                                        data = OpcApiService.ExtractDataSouth(response, triggerDate);
-                                        break;
-                                    default:
-                                        _log.Error("Tipo de pier não identificado!");
-                                        break;
-                                }
-                                if (data != null)
-                                {
-                                    var rowsInserted = _coletaFuseRepository.Insert(data);
-                                    if (rowsInserted > 0)
-                                    {
-                                        _log.Info($"Dado foi salvo no banco!");
-                                        _log.Debug($"{rowsInserted} dado(s) inserido(s): {data}");
-                                    }
-                                    else
-                                    {
-                                        _log.Info($"Erro ao salvar dados no banco.");
-                                    }
-                                }
-                            }
-
-                        }
+                        _log.Info($"Sem dados pendentes para sincronização com Fuse!");
                     }
                 }
                 catch (Exception ex)
                 {
                     _log.Error($"Erro no gatilho principal: {ex.ToString().Replace(Environment.NewLine, string.Empty)}");
                 }
-                await Task.Delay(_poolingInterval, stoppingToken);
+                var calculationTime = DateTime.Now - triggerDate;
+                await Task.Delay(_poolingInterval - calculationTime, stoppingToken);
             }
         }
     }

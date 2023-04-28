@@ -13,7 +13,7 @@
         private static readonly string ShipmentClpPrefix = "EMB!";
 
         /// <summary>
-        /// Tag for new increment. If returns 1, there is new data to read.
+        /// Tag for new IncrementData. If returns 1, there is new data to read.
         /// </summary>
         public static readonly string NewIncrement = ShipmentClpPrefix + "PIMS_AM_NEW_INCR";
         

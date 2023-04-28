@@ -1,12 +1,8 @@
 ﻿using Dapper;
 using log4net;
 using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq.Expressions;
-using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
 using System.Transactions;
 using Vale.DatabaseAsCache.Data.TableModels;
 
@@ -15,8 +11,9 @@ namespace Vale.DatabaseAsCache.Data.Repository
     public interface IColetaFuseRepository
     {
         bool IsConnectionOpen();
-        IEnumerable<ColetaFuseData> Select(ColetaFuseData data);
+        ColetaFuseData SelectMostRecentWithStatusPending();
         int Insert(ColetaFuseData data);
+        bool UpdateStatusToDone(ColetaFuseData data);
     }
 
     public class ColetaFuseRepository : IColetaFuseRepository
@@ -64,13 +61,13 @@ namespace Vale.DatabaseAsCache.Data.Repository
         }
 
         /// <summary>
-        /// Select data based on filter sent.
+        /// SelectMostRecentWithStatusPending data based on filter sent.
         /// </summary>
         /// <param name="data">Use as filter</param>
         /// <returns>List of data searched.</returns>
-        public IEnumerable<ColetaFuseData> Select(ColetaFuseData data)
+        public ColetaFuseData SelectMostRecentWithStatusPending()
         {
-            IEnumerable<ColetaFuseData> response = null;
+            ColetaFuseData response = null;
             try
             {
                 using (var transaction = new TransactionScope())
@@ -98,10 +95,9 @@ SELECT [PIER_CODE]
     ,[WEIGHTATCUT]
     ,[STATUS_TYPE]
 FROM [dbo].[{_tableName}]
-WHERE [PIER_CODE] = '{data.PIER_CODE}'
-    ,[BOARDING_CODE] = '{data.BOARDING_CODE}'
-    ,[INCREMENT_NUMBER] = {data.INCREMENT_NUMBER}";
-                    response = _connection.Query<ColetaFuseData>(sql, data);
+WHERE [STATUS_TYPE] = 'PENDING'
+ORDER BY [INCREMENT_DATETIME] DESC";
+                    response = _connection.QueryFirstOrDefault<ColetaFuseData>(sql);
                     transaction.Complete();
                 }
             }
@@ -136,7 +132,7 @@ WHERE [PIER_CODE] = '{data.PIER_CODE}'
                 using (var transaction = new TransactionScope())
                 {
                     var sql = $@"
-INSERT INTO [dbo].[{_tableName}]
+UPDATE INTO [dbo].[{_tableName}]
     ([PRODUCT_CODE]
     ,[INCREMENT_NUMBER]
     ,[PIER_CODE]
@@ -200,6 +196,38 @@ VALUES
             }
 
             return numRowsInserted;
+        }
+
+        public bool UpdateStatusToDone(ColetaFuseData data)
+        {
+            bool lineUpdated;
+            try
+            {
+                using (var transaction = new TransactionScope())
+                {
+                    var sql = $@"
+UPDATE [dbo].[{_tableName}]
+   SET [STATUS_TYPE] = 'DONE'
+ WHERE [BOARDING_CODE] = '{data.BOARDING_CODE}'
+	AND [PIER_CODE] = '{data.PIER_CODE}'
+	AND [INCREMENT_NUMBER] = '{data.INCREMENT_NUMBER}'
+";
+                    lineUpdated = _connection.Execute(sql, data) >= 1;
+                    transaction.Complete();
+                }
+            }
+            catch (SqlException ex)
+            {
+                _log.Error($"Erro ao executar seleção: {ex.ToString().Replace(Environment.NewLine, string.Empty)}");
+                lineUpdated = false;
+            }
+            catch (TransactionAbortedException ex)
+            {
+                _log.Error($"Seleção no banco abortada durante transação: {ex.ToString().Replace(Environment.NewLine, string.Empty)}");
+                lineUpdated = false;
+            }
+
+            return lineUpdated;
         }
     }
 }

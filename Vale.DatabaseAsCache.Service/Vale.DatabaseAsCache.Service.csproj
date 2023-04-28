@@ -52,15 +52,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Infrastructure\FuseApiInterface.cs" />
+    <Compile Include="Models\FuseApiRequestBody.cs" />
     <Compile Include="Models\OpcApiResponseBody.cs" />
     <Compile Include="Models\OpcApiRequestBody.cs" />
     <Compile Include="Models\PierEnum.cs" />
     <Compile Include="Models\StatusEnum.cs" />
     <Compile Include="Models\SubPartialEnum.cs" />
     <Compile Include="Models\Tag.cs" />
+    <Compile Include="FuseApiOptions.cs" />
     <Compile Include="OpcApiOptions.cs" />
     <Compile Include="Infrastructure\OpcApiInterface.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\FuseApiService.cs" />
     <Compile Include="Services\OpcApiService.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -4,7 +4,7 @@ using Microsoft.Extensions.Configuration;
 using log4net;
 using System;
 
-namespace Vale.DatabaseAsCache.Application
+namespace Vale.DatabaseAsCache.SendFuse
 {
     internal class Program
     {
@@ -13,12 +13,12 @@ namespace Vale.DatabaseAsCache.Application
             log4net.Config.XmlConfigurator.Configure();
             ILog _log = LogManager.GetLogger("log");
 
-            _log.Info("INICIANDO Vale.DatabaseAsCache.Application ...");
+            _log.Info("INICIANDO Vale.DatabaseAsCache.SendFuse ...");
             IHost host = Host.CreateDefaultBuilder(args)
                 .ConfigureServices((hostContext, services) =>
                 {
                     IConfiguration configuration = hostContext.Configuration;
-                    services.AddHostedService<ScheduleOpcRequest>();
+                    services.AddHostedService<ScheduleDatabasePooling>();
                 })
                 .Build();
 

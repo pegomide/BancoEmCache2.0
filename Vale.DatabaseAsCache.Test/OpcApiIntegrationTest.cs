@@ -10,7 +10,7 @@ namespace Vale.DatabaseAsCache.Test
     [TestClass]
     public class OpcApiIntegrationTest
     {
-        private readonly OpcApiInterface _api = new OpcApiInterface(new OpcApiOptions(null, "http://localhost:3002/api/opc/read", "localhost", "Schneider-Aut.OFS.2"));
+        private readonly OpcApiInterface _api = new OpcApiInterface(new OpcApiOptions("http://localhost:3002/api/opc/read", "localhost", "Schneider-Aut.OFS.2"));
 
         [TestMethod]
         public void PostTemNovoRegistro_Test()

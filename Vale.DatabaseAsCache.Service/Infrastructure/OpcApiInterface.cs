@@ -69,10 +69,6 @@ namespace Vale.DatabaseAsCache.Service.Infrastructure
                     responseBody = response.Content.ReadAsStringAsync().Result;
                 }
             }
-            catch (InvalidCastException ex)
-            {
-                _log.Error($"Impossível converter resposta da API: {ex.ToString().Replace(Environment.NewLine, string.Empty)}");
-            }
             catch (HttpRequestException ex)
             {
                 _log.Error($"Erro na requisição HTTP: {ex.ToString().Replace(Environment.NewLine, string.Empty)}");
@@ -109,10 +105,6 @@ namespace Vale.DatabaseAsCache.Service.Infrastructure
                     response.EnsureSuccessStatusCode();
                     responseBody = response.Content.ReadAsStringAsync().Result;
                 }
-            }
-            catch (InvalidCastException ex)
-            {
-                _log.Error($"Impossível converter resposta da API: {ex.ToString().Replace(Environment.NewLine, string.Empty)}");
             }
             catch (HttpRequestException ex)
             {
@@ -166,10 +158,6 @@ namespace Vale.DatabaseAsCache.Service.Infrastructure
                     responseBody = response.Content.ReadAsStringAsync().Result;
                 }
             }
-            catch (InvalidCastException ex)
-            {
-                _log.Error($"Impossível converter resposta da API: {ex.ToString().Replace(Environment.NewLine, string.Empty)}");
-            }
             catch (HttpRequestException ex)
             {
                 _log.Error($"Erro na requisição HTTP: {ex.ToString().Replace(Environment.NewLine, string.Empty)}");
@@ -221,10 +209,6 @@ namespace Vale.DatabaseAsCache.Service.Infrastructure
                     response.EnsureSuccessStatusCode();
                     responseBody = response.Content.ReadAsStringAsync().Result;
                 }
-            }
-            catch (InvalidCastException ex)
-            {
-                _log.Error($"Impossível converter resposta da API: {ex.ToString().Replace(Environment.NewLine, string.Empty)}");
             }
             catch (HttpRequestException ex)
             {

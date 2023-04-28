@@ -10,6 +10,10 @@
     {
       "type": "route",
       "uuid": "1189d8a0-6e38-4e79-ac17-ff05c5e47c75"
+    },
+    {
+      "type": "route",
+      "uuid": "a7afddcd-56ca-42dc-ac37-df944731c05b"
     }
   ],
   "folders": [],
@@ -408,6 +412,34 @@
           "disableTemplating": false,
           "fallbackTo404": false,
           "default": false
+        }
+      ],
+      "enabled": true,
+      "responseMode": null
+    },
+    {
+      "uuid": "a7afddcd-56ca-42dc-ac37-df944731c05b",
+      "type": "http",
+      "documentation": "",
+      "method": "post",
+      "endpoint": "",
+      "responses": [
+        {
+          "uuid": "e086fe3c-8bb9-4ec9-915e-0d9c6a192c96",
+          "body": "{}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true
         }
       ],
       "enabled": true,
