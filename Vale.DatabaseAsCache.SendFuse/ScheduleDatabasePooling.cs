@@ -126,7 +126,10 @@ namespace Vale.DatabaseAsCache.SendFuse
                     _log.Error($"Erro no gatilho principal: {ex.ToString().Replace(Environment.NewLine, string.Empty)}");
                 }
                 var calculationTime = DateTime.Now - triggerDate;
-                await Task.Delay(_poolingInterval - calculationTime, stoppingToken);
+                if (calculationTime < _poolingInterval)
+                {
+                    await Task.Delay(_poolingInterval - calculationTime, stoppingToken);
+                }
             }
         }
     }

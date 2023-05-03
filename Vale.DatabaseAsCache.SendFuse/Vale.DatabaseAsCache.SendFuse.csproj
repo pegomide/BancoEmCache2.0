@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{98EE9944-1C92-471C-A277-91FDE1B4424C}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>Vale.GetFuseData.App</RootNamespace>
-    <AssemblyName>Vale.GetFuseData.App</AssemblyName>
+    <RootNamespace>Vale.DatabaseAsCache.SendFuseApplication</RootNamespace>
+    <AssemblyName>Vale.DatabaseAsCache.SendFuseApplication</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>

@@ -132,7 +132,7 @@ ORDER BY [INCREMENT_DATETIME] DESC";
                 using (var transaction = new TransactionScope())
                 {
                     var sql = $@"
-UPDATE INTO [dbo].[{_tableName}]
+INSERT INTO [dbo].[{_tableName}]
     ([PRODUCT_CODE]
     ,[INCREMENT_NUMBER]
     ,[PIER_CODE]
@@ -175,7 +175,7 @@ VALUES
     {(data.PORAO3_PESO1.HasValue ? $",'{data.PORAO3_PESO1}'" : string.Empty)}
     {(data.PORAO3_PESO2.HasValue ? $",'{data.PORAO3_PESO2}'" : string.Empty)}
     {(data.ORDER_NUMBER.HasValue ? $",{data.ORDER_NUMBER}'" : string.Empty)}
-    {(data.BOARDING_LINE.HasValue ? $",{data.BOARDING_LINE}'" : string.Empty)}
+    {(data.BOARDING_LINE.HasValue ? $",{data.BOARDING_LINE}" : string.Empty)}
     ,CAST(N'{data.INCREMENT_DATETIME:yyyy-MM-dd HH:mm:ss.fff}' AS DateTime)
     {(data.PARTIAL_SAMPLE is null ? string.Empty : $",'{data.PARTIAL_SAMPLE}'")}
     {(data.SUBPARTIAL_SAMPLE is null ? string.Empty : $",'{data.SUBPARTIAL_SAMPLE}'")}

@@ -51,6 +51,7 @@ namespace Vale.DatabaseAsCache.Service.Infrastructure
                 HttpContent content = new StringContent(JsonConvert.SerializeObject(body), Encoding.UTF8, "application/json");
                 using (HttpResponseMessage response = client.PostAsync("", content).Result)
                 {
+                    _log.Debug($"PostSendData: {JsonConvert.SerializeObject(response)}");
                     response.EnsureSuccessStatusCode();
                     return true;
                 }

@@ -27,17 +27,17 @@
         /// <summary>
         /// Product code tag.
         /// </summary>
-        public static readonly string ProductCode = ShipmentClpPrefix + "PIMS_C20_MW29706_PRODUTO";
+        public static readonly string ProductCode = ShipmentClpPrefix + "PRODUTO_01_ARRAY";
 
         /// <summary>
         /// Boarding code tag for south pier.
         /// </summary>
-        public static readonly string BoardingCodeSouth = ShipmentClpPrefix + "PIMS_TIG_CNG02_GRL_SHIP_01_D";
+        public static readonly string BoardingCodeSouth = ShipmentClpPrefix + "LOTE_02_ARRAY";
 
         /// <summary>
         /// Boarding code tag for north pier.
         /// </summary>
-        public static readonly string BoardingCodeNorth = ShipmentClpPrefix + "PIMS_TIG_CNG01_GRL_SHIP_01_D";
+        public static readonly string BoardingCodeNorth = ShipmentClpPrefix + "LOTE_01_ARRAY";
         
         /// <summary>
         /// Weigth estimated for south pier.

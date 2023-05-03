@@ -60,7 +60,7 @@ namespace Vale.DatabaseAsCache.Application
             // Handling OpcApiInterface options
             OpcApiOptions opcApiOptions = new OpcApiOptions()
             {
-                OpcApiUrl = ConfigurationManager.AppSettings["FuseApiUrl"],
+                OpcApiUrl = ConfigurationManager.AppSettings["OpcApiUrl"],
                 HostName = ConfigurationManager.AppSettings["HostName"],
                 ServerName = ConfigurationManager.AppSettings["ServerName"],
             };
@@ -100,9 +100,9 @@ namespace Vale.DatabaseAsCache.Application
         {
             while (!stoppingToken.IsCancellationRequested)
             {
+                var triggerDate = DateTime.Now;
                 try
                 {
-                    var triggerDate = DateTime.Now;
                     _log.Info($"### Gatilho de leitura às {triggerDate:dd/MM/yyyy HH:mm:ss} ###");
                     var response = _opcApiInterface.PostTemNovoRegistro();
                     if (response is null)
@@ -151,7 +151,10 @@ namespace Vale.DatabaseAsCache.Application
                                     }
                                 }
                             }
-
+                        }
+                        else
+                        {
+                            _log.Info($"Nenhum registro disponível no CLP");
                         }
                     }
                 }
@@ -159,7 +162,11 @@ namespace Vale.DatabaseAsCache.Application
                 {
                     _log.Error($"Erro no gatilho principal: {ex.ToString().Replace(Environment.NewLine, string.Empty)}");
                 }
-                await Task.Delay(_poolingInterval, stoppingToken);
+                var calculationTime = DateTime.Now - triggerDate;
+                if (calculationTime < _poolingInterval)
+                {
+                    await Task.Delay(_poolingInterval - calculationTime, stoppingToken);
+                }
             }
         }
     }

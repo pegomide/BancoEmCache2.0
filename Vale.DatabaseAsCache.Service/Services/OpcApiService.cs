@@ -73,7 +73,7 @@ namespace Vale.GetFuseData.ApiService.Services
                 else if (body.Name.Equals(Tag.BoardingCodeSouth))
                 {
                     inputListAux = ((IEnumerable<object>)body.Value).Select(x => Convert.ToInt32(x)).ToList();
-                    fuseData.BOARDING_CODE = TransformDouble8BitToString(inputListAux);
+                    fuseData.BOARDING_CODE = TransformDouble8BitToString(inputListAux).TrimEnd();
                 }
                 else if (body.Name.Equals(Tag.IncrementNumberSouth))
                 {
@@ -82,7 +82,7 @@ namespace Vale.GetFuseData.ApiService.Services
                 else if (body.Name.Equals(Tag.ProductCode))
                 {
                     inputListAux = ((IEnumerable<object>)body.Value).Select(x => Convert.ToInt32(x)).ToList();
-                    fuseData.PRODUCT_CODE = TransformDouble8BitToString(inputListAux);
+                    fuseData.PRODUCT_CODE = TransformDouble8BitToString(inputListAux).TrimEnd();
                 }
                 else if (body.Name.Equals(Tag.EstimatedWeightSouth))
                 {
@@ -192,7 +192,7 @@ namespace Vale.GetFuseData.ApiService.Services
                 else if (body.Name.Equals(Tag.BoardingCodeNorth))
                 {
                     inputListAux = ((IEnumerable<object>)body.Value).Select(x => Convert.ToInt32(x)).ToList();
-                    fuseData.BOARDING_CODE = TransformDouble8BitToString(inputListAux);
+                    fuseData.BOARDING_CODE = TransformDouble8BitToString(inputListAux).TrimEnd();
                 }
                 else if (body.Name.Equals(Tag.IncrementNumberNorth))
                 {
@@ -201,7 +201,7 @@ namespace Vale.GetFuseData.ApiService.Services
                 else if (body.Name.Equals(Tag.ProductCode))
                 {
                     inputListAux = ((IEnumerable<object>)body.Value).Select(x => Convert.ToInt32(x)).ToList();
-                    fuseData.PRODUCT_CODE = TransformDouble8BitToString(inputListAux);
+                    fuseData.PRODUCT_CODE = TransformDouble8BitToString(inputListAux).TrimEnd();
                 }
                 else if (body.Name.Equals(Tag.EstimatedWeightNorth))
                 {

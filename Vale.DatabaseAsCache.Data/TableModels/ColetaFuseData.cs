@@ -36,7 +36,7 @@ namespace Vale.DatabaseAsCache.Data.TableModels
 
         public int? ORDER_NUMBER { get; set; }
 
-        public decimal? BOARDING_LINE = null;
+        public decimal? BOARDING_LINE = 1;
 
         public DateTime? INCREMENT_DATETIME { get; set; }
 

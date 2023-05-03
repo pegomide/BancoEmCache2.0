@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 using Vale.DatabaseAsCache.ApiService.Models;
@@ -65,8 +66,10 @@ namespace Vale.DatabaseAsCache.Service.Infrastructure
                 HttpContent content = new StringContent(JsonConvert.SerializeObject(requestBody), Encoding.UTF8, "application/json");
                 using (HttpResponseMessage response = client.PostAsync("", content).Result)
                 {
+                    _log.Debug($"[PostTemNovoRegistro] RequestItem: {string.Join(",", requestBody.Items)}, StatusCode: {response.StatusCode}");
                     response.EnsureSuccessStatusCode();
                     responseBody = response.Content.ReadAsStringAsync().Result;
+                    _log.Debug($"[PostTemNovoRegistro] Response: {responseBody}");
                 }
             }
             catch (HttpRequestException ex)
@@ -102,8 +105,10 @@ namespace Vale.DatabaseAsCache.Service.Infrastructure
                 HttpContent content = new StringContent(JsonConvert.SerializeObject(requestBody), Encoding.UTF8, "application/json");
                 using (HttpResponseMessage response = client.PostAsync("", content).Result)
                 {
+                    _log.Debug($"[PostVerificaPier] RequestItem: {string.Join(",", requestBody.Items)}, StatusCode: {response.StatusCode}");
                     response.EnsureSuccessStatusCode();
                     responseBody = response.Content.ReadAsStringAsync().Result;
+                    _log.Debug($"[PostVerificaPier] Response: {responseBody}");
                 }
             }
             catch (HttpRequestException ex)
@@ -139,23 +144,29 @@ namespace Vale.DatabaseAsCache.Service.Infrastructure
                         Tag.BoardingCodeSouth,
                         Tag.EstimatedWeightSouth,
                         Tag.PoraoID1,
+                        Tag.Porao1WeigthFirstScale,
                         Tag.Porao1WeigthSecondScale,
                         Tag.PoraoID2,
+                        Tag.Porao2WeigthSecondScale,
                         Tag.Porao2WeigthFirstScale,
                         Tag.PoraoID3,
+                        Tag.Porao3WeigthSecondScale,
                         Tag.Porao3WeigthFirstScale,
                         Tag.PartialSampleSouth,
                         Tag.SubPartialSampleSouth,
                         Tag.SubSubPartialSampleSouth,
                         Tag.IncrementNumberSouth,
-                        Tag.WeightAtCutSouth
+                        Tag.WeightAtCutSouth,
+                        Tag.OrderName
                     }
                 };
                 HttpContent content = new StringContent(JsonConvert.SerializeObject(requestBody), Encoding.UTF8, "application/json");
                 using (HttpResponseMessage response = client.PostAsync("", content).Result)
                 {
+                    _log.Debug($"[PostDataSouth] RequestItem: {string.Join(",", requestBody.Items)}, StatusCode: {response.StatusCode}");
                     response.EnsureSuccessStatusCode();
                     responseBody = response.Content.ReadAsStringAsync().Result;
+                    _log.Debug($"[PostDataSouth] Response: {responseBody}");
                 }
             }
             catch (HttpRequestException ex)
@@ -191,23 +202,29 @@ namespace Vale.DatabaseAsCache.Service.Infrastructure
                         Tag.BoardingCodeNorth,
                         Tag.EstimatedWeightNorth,
                         Tag.PoraoID1,
+                        Tag.Porao1WeigthFirstScale,
                         Tag.Porao1WeigthSecondScale,
                         Tag.PoraoID2,
+                        Tag.Porao2WeigthSecondScale,
                         Tag.Porao2WeigthFirstScale,
                         Tag.PoraoID3,
+                        Tag.Porao3WeigthSecondScale,
                         Tag.Porao3WeigthFirstScale,
                         Tag.PartialSampleNorth,
                         Tag.SubPartialSampleNorth,
                         Tag.SubSubPartialSampleNorth,
                         Tag.IncrementNumberNorth,
-                        Tag.WeightAtCutNorth
+                        Tag.WeightAtCutNorth,
+                        Tag.OrderName
                     }
                 };
                 HttpContent content = new StringContent(JsonConvert.SerializeObject(requestBody), Encoding.UTF8, "application/json");
                 using (HttpResponseMessage response = client.PostAsync("", content).Result)
                 {
+                    _log.Debug($"[PostDataNorth] RequestItem: {string.Join(",",requestBody.Items)}, StatusCode: {response.StatusCode}");
                     response.EnsureSuccessStatusCode();
                     responseBody = response.Content.ReadAsStringAsync().Result;
+                    _log.Debug($"[PostDataNorth] Response: {responseBody}");
                 }
             }
             catch (HttpRequestException ex)
