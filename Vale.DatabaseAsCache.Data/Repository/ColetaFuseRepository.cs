@@ -174,7 +174,7 @@ VALUES
     {(data.PORAO3_ID.HasValue ? $",'{data.PORAO3_ID}'" : string.Empty)}
     {(data.PORAO3_PESO1.HasValue ? $",'{data.PORAO3_PESO1}'" : string.Empty)}
     {(data.PORAO3_PESO2.HasValue ? $",'{data.PORAO3_PESO2}'" : string.Empty)}
-    {(data.ORDER_NUMBER.HasValue ? $",{data.ORDER_NUMBER}'" : string.Empty)}
+    {(data.ORDER_NUMBER.HasValue ? $",'{data.ORDER_NUMBER}'" : string.Empty)}
     {(data.BOARDING_LINE.HasValue ? $",{data.BOARDING_LINE}" : string.Empty)}
     ,CAST(N'{data.INCREMENT_DATETIME:yyyy-MM-dd HH:mm:ss.fff}' AS DateTime)
     {(data.PARTIAL_SAMPLE is null ? string.Empty : $",'{data.PARTIAL_SAMPLE}'")}
