@@ -5,9 +5,7 @@ using System.Configuration;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
-using Vale.DatabaseAsCache.ApiService.Models;
 using Vale.DatabaseAsCache.Data.Repository;
-using Vale.DatabaseAsCache.Data.TableModels;
 using Vale.DatabaseAsCache.Service;
 using Vale.DatabaseAsCache.Service.Infrastructure;
 using Vale.GetFuseData.ApiService.Services;
@@ -108,13 +106,12 @@ namespace Vale.DatabaseAsCache.SendFuse
                         var requestBody = FuseApiService.TransformDatabaseIntoRequestBody(data);
                         if (_fuseApiInterface.PostSendData(requestBody))
                         {
-                            _log.Info($"Dado enviado ao Fuse: {{BoardingCode:{data.BOARDING_CODE}, PierCode:{data.PIER_CODE}, IncNumber:{data.INCREMENT_NUMBER}}}");
+                            _log.Info($"Dado enviado ao Fuse: {data}");
                             if (_coletaFuseRepository.UpdateStatusToDone(data))
                             {
                                 _log.Info("Status atualizado na tabela como enviado (DONE).");
                             }
                         }
-
                     }
                     else
                     {
