@@ -18,6 +18,7 @@ namespace Vale.GetFuseData.ApiService.Services
                 {
                     Increment = new FuseApiRequestBody.IncrementData()
                     {
+                        PortCode = "GB",
                         BoardingCode = data.BOARDING_CODE,
                         ProductCode = data.PRODUCT_CODE,
                         ClientCode = data.CLIENT_CODE,
@@ -30,10 +31,10 @@ namespace Vale.GetFuseData.ApiService.Services
                         SubPartialSample = data.SUBPARTIAL_SAMPLE,
                         SubSubPartialSample = data.SUBSUBPARTIAL_SAMPLE,
                         IncrementNumber = data.INCREMENT_NUMBER,
-                        IncrementDateTime = data.INCREMENT_DATETIME.Value
+                        IncrementDateTime = data.INCREMENT_DATETIME.Value,
+                        BasementList = new List<FuseApiRequestBody.IncrementData.BasementListData>() { }
                     }
                 };
-                var basementList = new List<FuseApiRequestBody.IncrementData.BasementListData>() { };
                 if (data.PORAO1_ID.HasValue)
                 {
                     var porao1 = new FuseApiRequestBody.IncrementData.BasementListData()
@@ -42,7 +43,7 @@ namespace Vale.GetFuseData.ApiService.Services
                     };
                     if (data.PORAO1_PESO1.HasValue) { porao1.WheightPrimary = (double)data.PORAO1_PESO1.Value; }
                     if (data.PORAO1_PESO2.HasValue) { porao1.WheightSecondary = (double)data.PORAO1_PESO2.Value; }
-                    basementList.Add(porao1);
+                    body.Increment.BasementList.Add(porao1);
                 }
 
                 if (data.PORAO2_ID.HasValue)
@@ -54,7 +55,7 @@ namespace Vale.GetFuseData.ApiService.Services
                     if (data.PORAO2_PESO1.HasValue) { porao2.WheightPrimary = (double)data.PORAO2_PESO1.Value; }
                     if (data.PORAO2_PESO2.HasValue) { porao2.WheightSecondary = (double)data.PORAO2_PESO2.Value; }
 
-                    basementList.Add(porao2);
+                    body.Increment.BasementList.Add(porao2);
                 }
                 if (data.PORAO3_ID.HasValue)
                 {
@@ -64,10 +65,8 @@ namespace Vale.GetFuseData.ApiService.Services
                     };
                     if (data.PORAO3_PESO1.HasValue) { porao3.WheightPrimary = (double)data.PORAO3_PESO1.Value; }
                     if (data.PORAO3_PESO2.HasValue) { porao3.WheightSecondary = (double)data.PORAO3_PESO2.Value; }
-                    basementList.Add(porao3);
+                    body.Increment.BasementList.Add(porao3);
                 }
-
-                body.Increment.BasementList = basementList;
 
                 return body;
             }

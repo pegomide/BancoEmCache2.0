@@ -1,8 +1,6 @@
 ﻿using log4net;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 using System;
-using System.Configuration;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
@@ -36,7 +34,6 @@ namespace Vale.DatabaseAsCache.Service.Infrastructure
                 BaseAddress = new Uri(baseUrl)
             };
             client.DefaultRequestHeaders.Add("Accept", "application/json");
-            client.DefaultRequestHeaders.Add("SiglaPorto", "GB");
             client.DefaultRequestHeaders.ConnectionClose = true;
             client.Timeout = TimeSpan.FromSeconds(60);
         }

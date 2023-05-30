@@ -11,6 +11,9 @@ namespace Vale.GetFuseData.ApiService.Models
 
         public class IncrementData
         {
+            [JsonProperty("portCode")]
+            public string PortCode { get; set; }
+
             [JsonProperty("boardingCode")]
             public string BoardingCode { get; set; }
 

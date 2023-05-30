@@ -106,7 +106,7 @@ namespace Vale.DatabaseAsCache.SendFuse
                         var requestBody = FuseApiService.TransformDatabaseIntoRequestBody(data);
                         if (_fuseApiInterface.PostSendData(requestBody))
                         {
-                            _log.Info($"Dado enviado ao Fuse: {data}");
+                            _log.Info($"Dado enviado ao Fuse: {requestBody}");
                             if (_coletaFuseRepository.UpdateStatusToDone(data))
                             {
                                 _log.Info("Status atualizado na tabela como enviado (DONE).");
