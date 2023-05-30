@@ -1,6 +1,8 @@
 ﻿using log4net;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using System;
+using System.Configuration;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
@@ -48,7 +50,7 @@ namespace Vale.DatabaseAsCache.Service.Infrastructure
         {
             try
             {
-                HttpContent content = new StringContent(JsonConvert.SerializeObject(body), Encoding.UTF8, "application/json");
+                HttpContent content = new StringContent(body.ToString(), Encoding.UTF8, "application/json");
                 using (HttpResponseMessage response = client.PostAsync("", content).Result)
                 {
                     _log.Debug($"PostSendData response: {JsonConvert.SerializeObject(response)}");

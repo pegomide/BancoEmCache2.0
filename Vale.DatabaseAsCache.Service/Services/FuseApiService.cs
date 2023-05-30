@@ -30,8 +30,7 @@ namespace Vale.GetFuseData.ApiService.Services
                         SubPartialSample = data.SUBPARTIAL_SAMPLE,
                         SubSubPartialSample = data.SUBSUBPARTIAL_SAMPLE,
                         IncrementNumber = data.INCREMENT_NUMBER,
-                        IncrementDateTime = data.INCREMENT_DATETIME.Value,
-
+                        IncrementDateTime = data.INCREMENT_DATETIME.Value
                     }
                 };
                 var basementList = new List<FuseApiRequestBody.IncrementData.BasementListData>() { };

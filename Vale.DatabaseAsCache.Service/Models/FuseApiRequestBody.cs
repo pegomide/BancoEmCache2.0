@@ -68,7 +68,12 @@ namespace Vale.GetFuseData.ApiService.Models
 
         public override string ToString()
         {
-            return JsonConvert.SerializeObject(this);
+            var jsonSettings = new JsonSerializerSettings
+            {
+                DateFormatString = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffzzz"
+            };
+            return JsonConvert.SerializeObject(this, jsonSettings);
         }
+
     }
 }
