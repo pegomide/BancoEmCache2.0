@@ -15,7 +15,7 @@ namespace Vale.DatabaseAsCache.Data.TableModels
 
         public string CLIENT_CODE = null;
 
-        public string STACKER_NAME = "CN02";
+        public string STACKER_NAME = "CNG02";
 
         public decimal? ESTIMATED_WEIGHT { get; set; }
 
@@ -49,6 +49,8 @@ namespace Vale.DatabaseAsCache.Data.TableModels
         public decimal? WEIGHTATCUT { get; set; }
 
         public string STATUS_TYPE { get; set; }
+
+        public int ERRO_LEITURA { get; set; } = 0;
 
         public override string ToString()
         {

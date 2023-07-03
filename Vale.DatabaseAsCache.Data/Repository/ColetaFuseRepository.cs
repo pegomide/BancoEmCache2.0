@@ -82,10 +82,13 @@ SELECT [PIER_CODE]
     ,[ESTIMATED_WEIGHT]
     ,[PORAO1_ID]
     ,[PORAO1_PESO1]
+    ,[PORAO1_PESO2]
     ,[PORAO2_ID]
     ,[PORAO2_PESO1]
+    ,[PORAO2_PESO2]
     ,[PORAO3_ID]
     ,[PORAO3_PESO1]
+    ,[PORAO3_PESO2]
     ,[ORDER_NUMBER]
     ,[BOARDING_LINE]
     ,[INCREMENT_DATETIME]
@@ -156,7 +159,8 @@ INSERT INTO [dbo].[{_tableName}]
     {(data.SUBPARTIAL_SAMPLE is null ? string.Empty : ",[SUBPARTIAL_SAMPLE]")}
     {(data.SUBSUBPARTIAL_SAMPLE is null ? string.Empty : ",[SUBSUBPARTIAL_SAMPLE]")}
     {(data.WEIGHTATCUT.HasValue ? ",[WEIGHTATCUT]" : string.Empty)}
-    ,[STATUS_TYPE])
+    ,[STATUS_TYPE]
+    ,[ERRO_LEITURA])
 VALUES
     ('{data.PRODUCT_CODE}'
     ,{data.INCREMENT_NUMBER}
@@ -181,7 +185,8 @@ VALUES
     {(data.SUBPARTIAL_SAMPLE is null ? string.Empty : $",'{data.SUBPARTIAL_SAMPLE}'")}
     {(data.SUBSUBPARTIAL_SAMPLE is null ? string.Empty : $",'{data.SUBSUBPARTIAL_SAMPLE}'")}
     {(data.WEIGHTATCUT.HasValue ? $",{data.WEIGHTATCUT}" : string.Empty)}
-    ,'{data.STATUS_TYPE}')";
+    ,'{data.STATUS_TYPE}'
+    ,{data.ERRO_LEITURA})";
                     numRowsInserted = _connection.Execute(sql, data);
                     transaction.Complete();
                 }

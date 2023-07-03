@@ -159,6 +159,33 @@ namespace Vale.GetFuseData.ApiService.Services
                     break;
                 }
             }
+
+            if (string.IsNullOrEmpty(fuseData.PIER_CODE)
+                || string.IsNullOrEmpty(fuseData.BOARDING_CODE)
+                || fuseData.INCREMENT_NUMBER == 0
+                || string.IsNullOrEmpty(fuseData.PRODUCT_CODE)
+                || fuseData.ESTIMATED_WEIGHT.GetValueOrDefault() == 0
+                || fuseData.ORDER_NUMBER.GetValueOrDefault() == 0
+                || fuseData.BOARDING_LINE.GetValueOrDefault() == 0
+                || string.IsNullOrEmpty(fuseData.PARTIAL_SAMPLE)
+                || string.IsNullOrEmpty(fuseData.SUBPARTIAL_SAMPLE)
+                || string.IsNullOrEmpty(fuseData.SUBSUBPARTIAL_SAMPLE)
+                || fuseData.WEIGHTATCUT.GetValueOrDefault() == 0)
+            {
+                fuseData.ERRO_LEITURA = 1;
+                _log.Error("Algum campo obrigatório não foi lido corretamente do OPC! " +
+                    (string.IsNullOrEmpty(fuseData.PIER_CODE) ? $"PIER_CODE " : string.Empty) +
+                    (string.IsNullOrEmpty(fuseData.BOARDING_CODE) ? $"BOARDING_CODE " : string.Empty) +
+                    (fuseData.INCREMENT_NUMBER == 0 ? $"INCREMENT_NUMBER " : string.Empty) +
+                    (string.IsNullOrEmpty(fuseData.PRODUCT_CODE) ? $"PRODUCT_CODE " : string.Empty) +
+                    (fuseData.ESTIMATED_WEIGHT.GetValueOrDefault() == 0 ? $"ESTIMATED_WEIGHT " : string.Empty) +
+                    (fuseData.ORDER_NUMBER.GetValueOrDefault() == 0 ? $"ORDER_NUMBER " : string.Empty) +
+                    (fuseData.BOARDING_LINE.GetValueOrDefault() == 0 ? $"BOARDING_LINE " : string.Empty) +
+                    (string.IsNullOrEmpty(fuseData.PARTIAL_SAMPLE) ? $"PARTIAL_SAMPLE " : string.Empty) +
+                    (string.IsNullOrEmpty(fuseData.SUBPARTIAL_SAMPLE) ? $"SUBPARTIAL_SAMPLE " : string.Empty) +
+                    (string.IsNullOrEmpty(fuseData.SUBSUBPARTIAL_SAMPLE) ? $"SUBSUBPARTIAL_SAMPLE " : string.Empty) +
+                    (fuseData.WEIGHTATCUT.GetValueOrDefault() == 0 ? $"WEIGHTATCUT ": string.Empty));
+            }
             return fuseData;
         }
 
@@ -276,6 +303,33 @@ namespace Vale.GetFuseData.ApiService.Services
                 {
                     _log.Error($"Tag inválida ao tratar dados do norte: {body.Name}");
                 }
+            }
+
+            if (string.IsNullOrEmpty(fuseData.PIER_CODE)
+                || string.IsNullOrEmpty(fuseData.BOARDING_CODE)
+                || fuseData.INCREMENT_NUMBER == 0
+                || string.IsNullOrEmpty(fuseData.PRODUCT_CODE)
+                || fuseData.ESTIMATED_WEIGHT.GetValueOrDefault() == 0
+                || fuseData.ORDER_NUMBER.GetValueOrDefault() == 0
+                || fuseData.BOARDING_LINE.GetValueOrDefault() == 0
+                || string.IsNullOrEmpty(fuseData.PARTIAL_SAMPLE)
+                || string.IsNullOrEmpty(fuseData.SUBPARTIAL_SAMPLE)
+                || string.IsNullOrEmpty(fuseData.SUBSUBPARTIAL_SAMPLE)
+                || fuseData.WEIGHTATCUT.GetValueOrDefault() == 0)
+            {
+                fuseData.ERRO_LEITURA = 1;
+                _log.Error("Campo obrigatório não foi lido corretamente do OPC: " +
+                    (string.IsNullOrEmpty(fuseData.PIER_CODE) ? $"PIER_CODE " : string.Empty) +
+                    (string.IsNullOrEmpty(fuseData.BOARDING_CODE) ? $"BOARDING_CODE " : string.Empty) +
+                    (fuseData.INCREMENT_NUMBER == 0 ? $"INCREMENT_NUMBER " : string.Empty) +
+                    (string.IsNullOrEmpty(fuseData.PRODUCT_CODE) ? $"PRODUCT_CODE " : string.Empty) +
+                    (fuseData.ESTIMATED_WEIGHT.GetValueOrDefault() == 0 ? $"ESTIMATED_WEIGHT " : string.Empty) +
+                    (fuseData.ORDER_NUMBER.GetValueOrDefault() == 0 ? $"ORDER_NUMBER " : string.Empty) +
+                    (fuseData.BOARDING_LINE.GetValueOrDefault() == 0 ? $"BOARDING_LINE " : string.Empty) +
+                    (string.IsNullOrEmpty(fuseData.PARTIAL_SAMPLE) ? $"PARTIAL_SAMPLE " : string.Empty) +
+                    (string.IsNullOrEmpty(fuseData.SUBPARTIAL_SAMPLE) ? $"SUBPARTIAL_SAMPLE " : string.Empty) +
+                    (string.IsNullOrEmpty(fuseData.SUBSUBPARTIAL_SAMPLE) ? $"SUBSUBPARTIAL_SAMPLE " : string.Empty) +
+                    (fuseData.WEIGHTATCUT.GetValueOrDefault() == 0 ? $"WEIGHTATCUT " : string.Empty));
             }
             return fuseData;
         }
