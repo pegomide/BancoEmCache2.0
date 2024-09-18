@@ -2,9 +2,12 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Runtime.CompilerServices;
 using System.Text;
 using Vale.DatabaseAsCache.ApiService.Models;
 
@@ -48,11 +51,8 @@ namespace Vale.DatabaseAsCache.Service.Infrastructure
         /// <summary>
         /// Verifica se há novo registro disponível
         /// </summary>
-        /// <param name="hostname"></param>
-        /// <param name="servername"></param>
-        /// <param name="tag"></param>
-        /// <returns></returns>
-        public string PostTemNovoRegistro()
+        /// <returns>Corpo da resposta em formato string</returns>
+        public string PostVerificaNovoRegistro()
         {
             string responseBody = null;
             try
@@ -63,14 +63,7 @@ namespace Vale.DatabaseAsCache.Service.Infrastructure
                     Servername = _servername,
                     Items = new List<string>() { Tag.NewIncrement }
                 };
-                HttpContent content = new StringContent(JsonConvert.SerializeObject(requestBody), Encoding.UTF8, "application/json");
-                using (HttpResponseMessage response = client.PostAsync("", content).Result)
-                {
-                    _log.Debug($"[PostTemNovoRegistro] RequestItem: {string.Join(",", requestBody.Items)}, StatusCode: {response.StatusCode}");
-                    response.EnsureSuccessStatusCode();
-                    responseBody = response.Content.ReadAsStringAsync().Result;
-                    _log.Debug($"[PostTemNovoRegistro] Response: {responseBody}");
-                }
+                responseBody = PostOpcRequest(requestBody, OpcRequestType.Read);
             }
             catch (HttpRequestException ex)
             {
@@ -85,52 +78,13 @@ namespace Vale.DatabaseAsCache.Service.Infrastructure
         }
 
         /// <summary>
-        /// Verifica de qual pier é a mensagem
+        /// Get data of South or North pier.
         /// </summary>
         /// <param name="hostname"></param>
         /// <param name="servername"></param>
         /// <param name="tag"></param>
         /// <returns></returns>
-        public string PostVerificaPier()
-        {
-            string responseBody = null;
-            try
-            {
-                var requestBody = new OpcApiRequestBody()
-                {
-                    Hostname = _hostname,
-                    Servername = _servername,
-                    Items = new List<string>() { Tag.PierCode }
-                };
-                HttpContent content = new StringContent(JsonConvert.SerializeObject(requestBody), Encoding.UTF8, "application/json");
-                using (HttpResponseMessage response = client.PostAsync("", content).Result)
-                {
-                    _log.Debug($"[PostVerificaPier] RequestItem: {string.Join(",", requestBody.Items)}, StatusCode: {response.StatusCode}");
-                    response.EnsureSuccessStatusCode();
-                    responseBody = response.Content.ReadAsStringAsync().Result;
-                    _log.Debug($"[PostVerificaPier] Response: {responseBody}");
-                }
-            }
-            catch (HttpRequestException ex)
-            {
-                _log.Error($"Erro na requisição HTTP: {ex.ToString().Replace(Environment.NewLine, string.Empty)}");
-            }
-            catch (Exception ex)
-            {
-                _log.Error($"Erro genérico ao checar pier: {ex.ToString().Replace(Environment.NewLine, string.Empty)}");
-            }
-
-            return responseBody;
-        }
-
-        /// <summary>
-        /// Get data of South pier.
-        /// </summary>
-        /// <param name="hostname"></param>
-        /// <param name="servername"></param>
-        /// <param name="tag"></param>
-        /// <returns></returns>
-        public string PostDataSouth()
+        public string PostDataFromPier()
         {
             string responseBody = null;
             try
@@ -140,9 +94,10 @@ namespace Vale.DatabaseAsCache.Service.Infrastructure
                     Hostname = _hostname,
                     Servername = _servername,
                     Items = new List<string>() {
+                        Tag.PierCode,
                         Tag.ProductCode,
-                        Tag.BoardingCodeSouth,
-                        Tag.EstimatedWeightSouth,
+                        Tag.BoardingCode,
+                        Tag.EstimatedWeight,
                         Tag.PoraoID1,
                         Tag.Porao1WeigthFirstScale,
                         Tag.Porao1WeigthSecondScale,
@@ -152,22 +107,15 @@ namespace Vale.DatabaseAsCache.Service.Infrastructure
                         Tag.PoraoID3,
                         Tag.Porao3WeigthSecondScale,
                         Tag.Porao3WeigthFirstScale,
-                        Tag.PartialSampleSouth,
-                        Tag.SubPartialSampleSouth,
-                        Tag.SubSubPartialSampleSouth,
-                        Tag.IncrementNumberSouth,
-                        Tag.WeightAtCutSouth,
+                        Tag.PartialSample,
+                        Tag.SubPartialSample,
+                        Tag.SubSubPartialSample,
+                        Tag.IncrementNumber,
+                        Tag.WeightAtCut,
                         Tag.OrderName
                     }
                 };
-                HttpContent content = new StringContent(JsonConvert.SerializeObject(requestBody), Encoding.UTF8, "application/json");
-                using (HttpResponseMessage response = client.PostAsync("", content).Result)
-                {
-                    _log.Debug($"[PostDataSouth] RequestItem: {string.Join(",", requestBody.Items)}, StatusCode: {response.StatusCode}");
-                    response.EnsureSuccessStatusCode();
-                    responseBody = response.Content.ReadAsStringAsync().Result;
-                    _log.Debug($"[PostDataSouth] Response: {responseBody}");
-                }
+                responseBody = PostOpcRequest(requestBody, OpcRequestType.Read);
             }
             catch (HttpRequestException ex)
             {
@@ -181,62 +129,29 @@ namespace Vale.DatabaseAsCache.Service.Infrastructure
             return responseBody;
         }
 
-        /// <summary>
-        /// Get data of North pier.
-        /// </summary>
-        /// <param name="hostname"></param>
-        /// <param name="servername"></param>
-        /// <param name="tag"></param>
-        /// <returns></returns>
-        public string PostDataNorth()
+        private enum OpcRequestType
         {
-            string responseBody = null;
-            try
-            {
-                var requestBody = new OpcApiRequestBody()
-                {
-                    Hostname = _hostname,
-                    Servername = _servername,
-                    Items = new List<string>() {
-                        Tag.ProductCode,
-                        Tag.BoardingCodeNorth,
-                        Tag.EstimatedWeightNorth,
-                        Tag.PoraoID1,
-                        Tag.Porao1WeigthFirstScale,
-                        Tag.Porao1WeigthSecondScale,
-                        Tag.PoraoID2,
-                        Tag.Porao2WeigthSecondScale,
-                        Tag.Porao2WeigthFirstScale,
-                        Tag.PoraoID3,
-                        Tag.Porao3WeigthSecondScale,
-                        Tag.Porao3WeigthFirstScale,
-                        Tag.PartialSampleNorth,
-                        Tag.SubPartialSampleNorth,
-                        Tag.SubSubPartialSampleNorth,
-                        Tag.IncrementNumberNorth,
-                        Tag.WeightAtCutNorth,
-                        Tag.OrderName
-                    }
-                };
-                HttpContent content = new StringContent(JsonConvert.SerializeObject(requestBody), Encoding.UTF8, "application/json");
-                using (HttpResponseMessage response = client.PostAsync("", content).Result)
-                {
-                    _log.Debug($"[PostDataNorth] RequestItem: {string.Join(",",requestBody.Items)}, StatusCode: {response.StatusCode}");
-                    response.EnsureSuccessStatusCode();
-                    responseBody = response.Content.ReadAsStringAsync().Result;
-                    _log.Debug($"[PostDataNorth] Response: {responseBody}");
-                }
-            }
-            catch (HttpRequestException ex)
-            {
-                _log.Error($"Erro na requisição HTTP: {ex.ToString().Replace(Environment.NewLine, string.Empty)}");
-            }
-            catch (Exception ex)
-            {
-                _log.Error($"Erro genérico ao extrair dados do pier sul: {ex.ToString().Replace(Environment.NewLine, string.Empty)}");
-            }
+            Read,
+            Write
+        }
 
-            return responseBody;
+        /// <summary>
+        /// Método comum para ler ou setar dados no servidor OPC
+        /// </summary>
+        /// <param name="requestBody"></param>
+        /// <param name="callerName"></param>
+        /// <returns>Corpo da resposta da requisição. No caso de setar os dados, é retornado uma confirmação.</returns>
+        private string PostOpcRequest(OpcApiRequestBody requestBody, OpcRequestType requestType, [CallerMemberName] string callerName = "")
+        {
+            HttpContent content = new StringContent(JsonConvert.SerializeObject(requestBody), Encoding.UTF8, "application/json");
+            using (HttpResponseMessage response = client.PostAsync(requestType.ToString().ToLower(CultureInfo.InvariantCulture), content).Result)
+            {
+                _log.Debug($"[{callerName}] RequestItem: {string.Join(",", requestBody.Items)}, StatusCode: {response.StatusCode}");
+                response.EnsureSuccessStatusCode();
+                string responseBody = response.Content.ReadAsStringAsync().Result;
+                _log.Debug($"[{callerName}] Response: {responseBody}");
+                return responseBody;
+            }
         }
     }
 }

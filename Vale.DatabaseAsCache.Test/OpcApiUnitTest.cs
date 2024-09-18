@@ -14,7 +14,7 @@ namespace Vale.DatabaseAsCache.Test
         public void IsFalse_ExtraiRespostaTemNovoRegistroTest_Sucess()
         {
             string input = "[{\"Value\":false,\"TimeStamp\":\"2023-04-18T15:35:28.319-03:00\",\"Quality\":\"good\",\"Name\":\"EMB!PIMS_AM_NEW_INCR\",\"FloatValue\":0,\"DoubleValue\":0,\"Int32Value\":0,\"StringValue\":\"False\"}]";
-            bool retorno = OpcApiService.TemNovoRegistro(input);
+            bool retorno = OpcApiService.ConverteNovoRegistro(input);
             Assert.IsFalse(retorno);
         }
 
@@ -22,7 +22,7 @@ namespace Vale.DatabaseAsCache.Test
         public void IsTrue_ExtraiRespostaTemNovoRegistroTest_Sucess()
         {
             string input = "[{\"Value\":true,\"TimeStamp\":\"2023-04-18T15:35:28.319-03:00\",\"Quality\":\"good\",\"Name\":\"EMB!PIMS_AM_NEW_INCR\",\"FloatValue\":1,\"DoubleValue\":1,\"Int32Value\":1,\"StringValue\":\"True\"}]";
-            bool retorno = OpcApiService.TemNovoRegistro(input);
+            bool retorno = OpcApiService.ConverteNovoRegistro(input);
             Assert.IsTrue(retorno);
         }
 
@@ -30,14 +30,14 @@ namespace Vale.DatabaseAsCache.Test
         public void JsonSerializationException_ExtraiRespostaTemNovoRegistroTest_Fail()
         {
             string input = "{\"Value\":true,\"TimeStamp\":\"2023-04-18T15:35:28.319-03:00\",\"Quality\":\"good\",\"Name\":\"EMB!PIMS_AM_NEW_INCR\",\"FloatValue\":1,\"DoubleValue\":1,\"Int32Value\":1,\"StringValue\":\"True\"}";
-            Assert.ThrowsException<JsonSerializationException>(() => OpcApiService.TemNovoRegistro(input));
+            Assert.ThrowsException<JsonSerializationException>(() => OpcApiService.ConverteNovoRegistro(input));
         }
 
         [TestMethod]
         public void InvalidCastException_ExtraiRespostaTemNovoRegistroTest_Fail()
         {
             string input = "[{}]";
-            Assert.ThrowsException<InvalidCastException>(() => OpcApiService.TemNovoRegistro(input));
+            Assert.ThrowsException<InvalidCastException>(() => OpcApiService.ConverteNovoRegistro(input));
         }
 
         [TestMethod]
@@ -83,7 +83,7 @@ namespace Vale.DatabaseAsCache.Test
         {
             DateTime currentTime = DateTime.Now;
             string input = "[{\"Value\":[21318,20295,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\"TimeStamp\":\"2023-04-25T11:50:29.615-03:00\",\"Quality\":\"good\",\"Name\":\"EMB!PRODUTO_01_ARRAY\",\"FloatValue\":0.0,\"DoubleValue\":0.0,\"Int32Value\":0,\"StringValue\":\"System.Int16[]\"},{\"Value\":[12848,12851,11569,12338,12800,0,0,0,0,0,0,0,0,0,0,0],\"TimeStamp\":\"2023-04-25T11:50:29.615-03:00\",\"Quality\":\"good\",\"Name\":\"EMB!LOTE_01_ARRAY\",\"FloatValue\":0.0,\"DoubleValue\":0.0,\"Int32Value\":0,\"StringValue\":\"System.Int16[]\"},{\"Value\":111411,\"TimeStamp\":\"2023-04-18T15:53:41.239-03:00\",\"Quality\":\"good\",\"Name\":\"EMB!PIMS_CN01_BERCN_TOT_01_D\",\"FloatValue\":111411.0,\"DoubleValue\":111411.0,\"Int32Value\":111411,\"StringValue\":\"111411\"},{\"Value\":6,\"TimeStamp\":\"2023-04-18T15:53:41.239-03:00\",\"Quality\":\"good\",\"Name\":\"EMB!PIMS_AM_PORAO_NUM_1_D\",\"FloatValue\":6.0,\"DoubleValue\":6.0,\"Int32Value\":6,\"StringValue\":\"6\"},{\"Value\":0,\"TimeStamp\":\"2023-04-18T15:53:41.239-03:00\",\"Quality\":\"good\",\"Name\":\"EMB!PIMS_AM_PORAO_TOT_1_D\",\"FloatValue\":0.0,\"DoubleValue\":0.0,\"Int32Value\":0,\"StringValue\":\"0\"},{\"Value\":0,\"TimeStamp\":\"2023-04-18T15:53:41.239-03:00\",\"Quality\":\"good\",\"Name\":\"EMB!PIMS_AM_PORAO_TOT08_1_D\",\"FloatValue\":0.0,\"DoubleValue\":0.0,\"Int32Value\":0,\"StringValue\":\"0\"},{\"Value\":2,\"TimeStamp\":\"2023-04-18T15:53:41.239-03:00\",\"Quality\":\"good\",\"Name\":\"EMB!PIMS_AM_PORAO_NUM_2_D\",\"FloatValue\":2.0,\"DoubleValue\":2.0,\"Int32Value\":2,\"StringValue\":\"2\"},{\"Value\":568,\"TimeStamp\":\"2023-04-18T15:53:41.239-03:00\",\"Quality\":\"good\",\"Name\":\"EMB!PIMS_AM_PORAO_TOT_2_D\",\"FloatValue\":568.0,\"DoubleValue\":568.0,\"Int32Value\":568,\"StringValue\":\"568\"},{\"Value\":568,\"TimeStamp\":\"2023-04-18T15:53:41.239-03:00\",\"Quality\":\"good\",\"Name\":\"EMB!PIMS_AM_PORAO_TOT08_2_D\",\"FloatValue\":568.0,\"DoubleValue\":568.0,\"Int32Value\":568,\"StringValue\":\"568\"},{\"Value\":0,\"TimeStamp\":\"2023-04-18T15:53:41.239-03:00\",\"Quality\":\"good\",\"Name\":\"EMB!PIMS_AM_PORAO_NUM_3_D\",\"FloatValue\":0.0,\"DoubleValue\":0.0,\"Int32Value\":0,\"StringValue\":\"0\"},{\"Value\":0,\"TimeStamp\":\"2023-04-18T15:53:41.239-03:00\",\"Quality\":\"good\",\"Name\":\"EMB!PIMS_AM_PORAO_TOT_3_D\",\"FloatValue\":0.0,\"DoubleValue\":0.0,\"Int32Value\":0,\"StringValue\":\"0\"},{\"Value\":0,\"TimeStamp\":\"2023-04-18T15:53:41.239-03:00\",\"Quality\":\"good\",\"Name\":\"EMB!PIMS_AM_PORAO_TOT08_3_D\",\"FloatValue\":0.0,\"DoubleValue\":0.0,\"Int32Value\":0,\"StringValue\":\"0\"},{\"Value\":3,\"TimeStamp\":\"2023-04-18T15:53:41.239-03:00\",\"Quality\":\"good\",\"Name\":\"EMB!PIMS_AM_NORTE_PARC_D\",\"FloatValue\":3.0,\"DoubleValue\":3.0,\"Int32Value\":3,\"StringValue\":\"3\"},{\"Value\":1,\"TimeStamp\":\"2023-04-18T15:53:41.239-03:00\",\"Quality\":\"good\",\"Name\":\"EMB!PIMS_AM_NORTE_SP_VAL_QUAR\",\"FloatValue\":1.0,\"DoubleValue\":1.0,\"Int32Value\":1,\"StringValue\":\"1\"},{\"Value\":3,\"TimeStamp\":\"2023-04-18T15:53:41.239-03:00\",\"Quality\":\"good\",\"Name\":\"EMB!PIMS_AM_NORTE_QUA_SPED_VAL\",\"FloatValue\":3.0,\"DoubleValue\":3.0,\"Int32Value\":3,\"StringValue\":\"3\"},{\"Value\":1423,\"TimeStamp\":\"2023-04-18T15:42:59.671-03:00\",\"Quality\":\"good\",\"Name\":\"EMB!AMOS_NORTE_INC_NUM\",\"FloatValue\":0.0,\"DoubleValue\":0.0,\"Int32Value\":0,\"StringValue\":\"0\"}]";
-            var output = OpcApiService.ExtractDataNorth(input, currentTime);
+            var output = OpcApiService.ExtractDataFromPier(input, currentTime);
             var expectedOutput = new ColetaFuseData()
             {
                 BOARDING_CODE = "2023-1022",

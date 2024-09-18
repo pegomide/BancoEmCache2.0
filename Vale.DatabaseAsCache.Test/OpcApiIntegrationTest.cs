@@ -15,7 +15,7 @@ namespace Vale.DatabaseAsCache.Test
         [TestMethod]
         public void PostTemNovoRegistro_Test()
         {
-            var response = _api.PostTemNovoRegistro();
+            var response = _api.PostVerificaNovoRegistro();
             Assert.IsNotNull(response);
         }
 
@@ -36,7 +36,7 @@ namespace Vale.DatabaseAsCache.Test
         [TestMethod]
         public void PostDataNorth_Test()
         {
-            var response = _api.PostDataNorth();
+            var response = _api.PostDataFromPier();
             Assert.IsNotNull(response);
         }
     }

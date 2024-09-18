@@ -14,5 +14,7 @@ namespace Vale.DatabaseAsCache.ApiService.Models
         [JsonProperty("items")]
         public List<string> Items { get; set; }
 
+        [JsonProperty("values")]
+        public List<int> Values { get; set; }
     }
 }

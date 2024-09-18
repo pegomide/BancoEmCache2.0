@@ -14,11 +14,11 @@ namespace Vale.GetFuseData.ApiService.Services
         private static readonly ILog _log = LogManager.GetLogger("log");
 
         /// <summary>
-        /// Checa body da requisição PostTemNovoRegistro.
+        /// Checa body da requisição PostVerificaNovoRegistro.
         /// </summary>
         /// <param name="rawResponseBody"></param>
         /// <returns>Conteúdo da resposta avaliada.</returns>
-        public static bool TemNovoRegistro(string rawResponseBody)
+        public static bool ConverteNovoRegistro(string rawResponseBody)
         {
             var responseBodyList = JsonConvert.DeserializeObject<List<OpcApiResponseBody>>(rawResponseBody);
             if (responseBodyList[0].Value == null)
@@ -44,21 +44,19 @@ namespace Vale.GetFuseData.ApiService.Services
         }
 
         /// <summary>
-        /// Extract data of south pier.
+        /// Extract data of pier.
         /// </summary>
         /// <param name="rawResponseBody"></param>
         /// <returns></returns>
-        public static ColetaFuseData ExtractDataSouth(string rawResponseBody, DateTime triggerTime)
+        public static ColetaFuseData ExtractDataFromPier(string rawResponseBody, DateTime triggerTime)
         {
             var responseBodyList = JsonConvert.DeserializeObject<List<OpcApiResponseBody>>(rawResponseBody);
 
             ColetaFuseData fuseData = new ColetaFuseData
             {
-                PIER_CODE = "1S",
                 INCREMENT_DATETIME = triggerTime,
                 STATUS_TYPE = StatusEnum.Pending.ToString(),
             };
-            List<int> inputListAux;
             foreach (OpcApiResponseBody body in responseBodyList)
             {
                 if (body.Name.Equals(Tag.Porao1WeigthFirstScale)
@@ -70,21 +68,25 @@ namespace Vale.GetFuseData.ApiService.Services
                 {
                     continue;
                 }
-                else if (body.Name.Equals(Tag.BoardingCodeSouth))
+                else if (body.Name.Equals(Tag.PierCode))
                 {
-                    inputListAux = ((IEnumerable<object>)body.Value).Select(x => Convert.ToInt32(x)).ToList();
+                    fuseData.PIER_CODE = Convert.ToInt32(body.Value) == 1 ? "1S" : "1N";
+                }
+                else if (body.Name.Equals(Tag.BoardingCode))
+                {
+                    List<int> inputListAux = ((IEnumerable<object>)body.Value).Select(x => Convert.ToInt32(x)).ToList();
                     fuseData.BOARDING_CODE = TransformDouble8BitToString(inputListAux).TrimEnd();
                 }
-                else if (body.Name.Equals(Tag.IncrementNumberSouth))
+                else if (body.Name.Equals(Tag.IncrementNumber))
                 {
                     fuseData.INCREMENT_NUMBER = Convert.ToInt32(body.Value);
                 }
                 else if (body.Name.Equals(Tag.ProductCode))
                 {
-                    inputListAux = ((IEnumerable<object>)body.Value).Select(x => Convert.ToInt32(x)).ToList();
+                    List<int> inputListAux = ((IEnumerable<object>)body.Value).Select(x => Convert.ToInt32(x)).ToList();
                     fuseData.PRODUCT_CODE = TransformDouble8BitToString(inputListAux).TrimEnd();
                 }
-                else if (body.Name.Equals(Tag.EstimatedWeightSouth))
+                else if (body.Name.Equals(Tag.EstimatedWeight))
                 {
                     fuseData.ESTIMATED_WEIGHT = Convert.ToDecimal(body.Value);
                 }
@@ -137,171 +139,25 @@ namespace Vale.GetFuseData.ApiService.Services
                 {
                     fuseData.ORDER_NUMBER = Convert.ToInt32(body.Value);
                 }
-                else if (body.Name.Equals(Tag.PartialSampleSouth))
+                else if (body.Name.Equals(Tag.PartialSample))
                 {
                     fuseData.PARTIAL_SAMPLE = Convert.ToString(body.Value);
                 }
-                else if (body.Name.Equals(Tag.SubPartialSampleSouth))
+                else if (body.Name.Equals(Tag.SubPartialSample))
                 {
                     fuseData.SUBPARTIAL_SAMPLE = ((SubPartialEnum)Convert.ToInt32(body.Value)).ToString();
                 }
-                else if (body.Name.Equals(Tag.SubSubPartialSampleSouth))
+                else if (body.Name.Equals(Tag.SubSubPartialSample))
                 {
                     fuseData.SUBSUBPARTIAL_SAMPLE = Convert.ToString(body.Value);
                 }
-                else if (body.Name.Equals(Tag.WeightAtCutSouth))
+                else if (body.Name.Equals(Tag.WeightAtCut))
                 {
                     fuseData.WEIGHTATCUT = Convert.ToDecimal(body.Value);
                 }
                 else
                 {
-                    _log.Error("Tag inválida ao tratar dados do sul");
-                    break;
-                }
-            }
-
-            if (string.IsNullOrEmpty(fuseData.PIER_CODE)
-                || string.IsNullOrEmpty(fuseData.BOARDING_CODE)
-                || fuseData.INCREMENT_NUMBER == 0
-                || string.IsNullOrEmpty(fuseData.PRODUCT_CODE)
-                || fuseData.ESTIMATED_WEIGHT.GetValueOrDefault() == 0
-                || fuseData.ORDER_NUMBER.GetValueOrDefault() == 0
-                || fuseData.BOARDING_LINE.GetValueOrDefault() == 0
-                || string.IsNullOrEmpty(fuseData.PARTIAL_SAMPLE)
-                || string.IsNullOrEmpty(fuseData.SUBPARTIAL_SAMPLE)
-                || string.IsNullOrEmpty(fuseData.SUBSUBPARTIAL_SAMPLE)
-                || fuseData.WEIGHTATCUT.GetValueOrDefault() == 0)
-            {
-                fuseData.ERRO_LEITURA = 1;
-                _log.Error("Algum campo obrigatório não foi lido corretamente do OPC! " +
-                    (string.IsNullOrEmpty(fuseData.PIER_CODE) ? $"PIER_CODE " : string.Empty) +
-                    (string.IsNullOrEmpty(fuseData.BOARDING_CODE) ? $"BOARDING_CODE " : string.Empty) +
-                    (fuseData.INCREMENT_NUMBER == 0 ? $"INCREMENT_NUMBER " : string.Empty) +
-                    (string.IsNullOrEmpty(fuseData.PRODUCT_CODE) ? $"PRODUCT_CODE " : string.Empty) +
-                    (fuseData.ESTIMATED_WEIGHT.GetValueOrDefault() == 0 ? $"ESTIMATED_WEIGHT " : string.Empty) +
-                    (fuseData.ORDER_NUMBER.GetValueOrDefault() == 0 ? $"ORDER_NUMBER " : string.Empty) +
-                    (fuseData.BOARDING_LINE.GetValueOrDefault() == 0 ? $"BOARDING_LINE " : string.Empty) +
-                    (string.IsNullOrEmpty(fuseData.PARTIAL_SAMPLE) ? $"PARTIAL_SAMPLE " : string.Empty) +
-                    (string.IsNullOrEmpty(fuseData.SUBPARTIAL_SAMPLE) ? $"SUBPARTIAL_SAMPLE " : string.Empty) +
-                    (string.IsNullOrEmpty(fuseData.SUBSUBPARTIAL_SAMPLE) ? $"SUBSUBPARTIAL_SAMPLE " : string.Empty) +
-                    (fuseData.WEIGHTATCUT.GetValueOrDefault() == 0 ? $"WEIGHTATCUT ": string.Empty));
-            }
-            return fuseData;
-        }
-
-        /// <summary>
-        /// Extract data of North pier.
-        /// </summary>
-        /// <param name="rawResponseBody"></param>
-        /// <returns></returns>
-        public static ColetaFuseData ExtractDataNorth(string rawResponseBody, DateTime triggerTime)
-        {
-            var responseBodyList = JsonConvert.DeserializeObject<List<OpcApiResponseBody>>(rawResponseBody);
-
-            ColetaFuseData fuseData = new ColetaFuseData
-            {
-                PIER_CODE = "1N",
-                INCREMENT_DATETIME = triggerTime,
-                STATUS_TYPE = StatusEnum.Pending.ToString(),
-            };
-            List<int> inputListAux;
-            foreach (OpcApiResponseBody body in responseBodyList)
-            {
-                if (body.Name.Equals(Tag.Porao1WeigthFirstScale)
-                    || body.Name.Equals(Tag.Porao1WeigthSecondScale)
-                    || body.Name.Equals(Tag.Porao2WeigthFirstScale)
-                    || body.Name.Equals(Tag.Porao2WeigthSecondScale)
-                    || body.Name.Equals(Tag.Porao3WeigthFirstScale)
-                    || body.Name.Equals(Tag.Porao3WeigthSecondScale))
-                {
-                    continue;
-                }
-                else if (body.Name.Equals(Tag.BoardingCodeNorth))
-                {
-                    inputListAux = ((IEnumerable<object>)body.Value).Select(x => Convert.ToInt32(x)).ToList();
-                    fuseData.BOARDING_CODE = TransformDouble8BitToString(inputListAux).TrimEnd();
-                }
-                else if (body.Name.Equals(Tag.IncrementNumberNorth))
-                {
-                    fuseData.INCREMENT_NUMBER = Convert.ToInt32(body.Value);
-                }
-                else if (body.Name.Equals(Tag.ProductCode))
-                {
-                    inputListAux = ((IEnumerable<object>)body.Value).Select(x => Convert.ToInt32(x)).ToList();
-                    fuseData.PRODUCT_CODE = TransformDouble8BitToString(inputListAux).TrimEnd();
-                }
-                else if (body.Name.Equals(Tag.EstimatedWeightNorth))
-                {
-                    fuseData.ESTIMATED_WEIGHT = Convert.ToDecimal(body.Value);
-                }
-                else if (body.Name.Equals(Tag.PoraoID1))
-                {
-                    if (body.Value != null)
-                    {
-                        var id = Convert.ToInt32(body.Value);
-                        if (id > 0 && id <= 30)
-                        {
-                            fuseData.PORAO1_ID = id;
-                            var peso1 = responseBodyList.Find(item => item.Name.Equals(Tag.Porao1WeigthFirstScale));
-                            fuseData.PORAO1_PESO1 = Convert.ToDecimal(peso1.Value);
-                            var peso2 = responseBodyList.Find(item => item.Name.Equals(Tag.Porao1WeigthSecondScale));
-                            fuseData.PORAO1_PESO2 = Convert.ToDecimal(peso2.Value);
-                        }
-                    }
-                }
-                else if (body.Name.Equals(Tag.PoraoID2))
-                {
-                    if (body.Value != null)
-                    {
-                        var id = Convert.ToInt32(body.Value);
-                        if (id > 0 && id <= 30)
-                        {
-                            fuseData.PORAO2_ID = id;
-                            var peso1 = responseBodyList.Find(item => item.Name.Equals(Tag.Porao2WeigthFirstScale));
-                            fuseData.PORAO2_PESO1 = Convert.ToDecimal(peso1.Value);
-                            var peso2 = responseBodyList.Find(item => item.Name.Equals(Tag.Porao2WeigthSecondScale));
-                            fuseData.PORAO2_PESO2 = Convert.ToDecimal(peso2.Value);
-                        }
-                    }
-                }
-                else if (body.Name.Equals(Tag.PoraoID3))
-                {
-                    if (body.Value != null)
-                    {
-                        var id = Convert.ToInt32(body.Value);
-                        if (id > 0 && id <= 30)
-                        {
-                            fuseData.PORAO3_ID = id;
-                            var peso1 = responseBodyList.Find(item => item.Name.Equals(Tag.Porao3WeigthFirstScale));
-                            fuseData.PORAO3_PESO1 = Convert.ToDecimal(peso1.Value);
-                            var peso2 = responseBodyList.Find(item => item.Name.Equals(Tag.Porao3WeigthSecondScale));
-                            fuseData.PORAO3_PESO2 = Convert.ToDecimal(peso2.Value);
-                        }
-                    }
-                }
-                else if (body.Name.Equals(Tag.OrderName))
-                {
-                    fuseData.ORDER_NUMBER = Convert.ToInt32(body.Value);
-                }
-                else if (body.Name.Equals(Tag.PartialSampleNorth))
-                {
-                    fuseData.PARTIAL_SAMPLE = Convert.ToString(body.Value);
-                }
-                else if (body.Name.Equals(Tag.SubPartialSampleNorth))
-                {
-                    fuseData.SUBPARTIAL_SAMPLE = ((SubPartialEnum)Convert.ToInt32(body.Value)).ToString();
-                }
-                else if (body.Name.Equals(Tag.SubSubPartialSampleNorth))
-                {
-                    fuseData.SUBSUBPARTIAL_SAMPLE = Convert.ToString(body.Value);
-                }
-                else if (body.Name.Equals(Tag.WeightAtCutNorth))
-                {
-                    fuseData.WEIGHTATCUT = Convert.ToDecimal(body.Value);
-                }
-                else
-                {
-                    _log.Error($"Tag inválida ao tratar dados do norte: {body.Name}");
+                    _log.Error($"Tag inválida ao tratar dados do pier: {body.Name}");
                 }
             }
 

@@ -100,55 +100,35 @@ namespace Vale.DatabaseAsCache.Application
         {
             while (!stoppingToken.IsCancellationRequested)
             {
-                var triggerDate = DateTime.Now;
+                DateTime triggerStartTime = DateTime.Now;
                 try
                 {
-                    _log.Info($"### Gatilho de leitura às {triggerDate:dd/MM/yyyy HH:mm:ss} ###");
-                    var response = _opcApiInterface.PostTemNovoRegistro();
-                    if (response is null)
+                    _log.Info($"### Gatilho de leitura às {triggerStartTime:dd/MM/yyyy HH:mm:ss} ###");
+                    string novoRegistro = _opcApiInterface.PostVerificaNovoRegistro();
+                    if (novoRegistro is null)
                     {
                         _log.Info($"Erro ao requisitar verificação de novo registro");
                     }
                     else
                     {
-                        if (OpcApiService.TemNovoRegistro(response))
+                        if (OpcApiService.ConverteNovoRegistro(novoRegistro))
                         {
                             _log.Info($"Novo registro disponível no CLP");
-                            response = _opcApiInterface.PostVerificaPier();
-                            if (response is null)
+                            ColetaFuseData data = null;
+                            string dataFromPier = _opcApiInterface.PostDataFromPier();
+                            data = OpcApiService.ExtractDataFromPier(dataFromPier, triggerStartTime);
+                            if (data != null)
                             {
-                                _log.Info($"Erro ao requisitar verificação do pier");
-                            }
-                            else
-                            {
-                                PierEnum pier = OpcApiService.ExtraiPier(response);
-                                ColetaFuseData data = null;
-                                switch (pier)
+                                var rowsInserted = _coletaFuseRepository.Insert(data);
+                                if (rowsInserted > 0)
                                 {
-                                    case PierEnum.North:
-                                        response = _opcApiInterface.PostDataNorth();
-                                        data = OpcApiService.ExtractDataNorth(response, triggerDate);
-                                        break;
-                                    case PierEnum.South:
-                                        response = _opcApiInterface.PostDataSouth();
-                                        data = OpcApiService.ExtractDataSouth(response, triggerDate);
-                                        break;
-                                    default:
-                                        _log.Error("Tipo de pier não identificado!");
-                                        break;
+                                    _log.Info($"Dado foi salvo no banco!");
+                                    _log.Debug($"{rowsInserted} dado(s) inserido(s): {data}");
+                                    // TODO: Enviar para OPC que foi inserido com sucesso (DB_INC_RECV_OK_RX)
                                 }
-                                if (data != null)
+                                else
                                 {
-                                    var rowsInserted = _coletaFuseRepository.Insert(data);
-                                    if (rowsInserted > 0)
-                                    {
-                                        _log.Info($"Dado foi salvo no banco!");
-                                        _log.Debug($"{rowsInserted} dado(s) inserido(s): {data}");
-                                    }
-                                    else
-                                    {
-                                        _log.Info($"Erro ao salvar dados no banco.");
-                                    }
+                                    _log.Info($"Erro ao salvar dados no banco.");
                                 }
                             }
                         }
@@ -162,10 +142,10 @@ namespace Vale.DatabaseAsCache.Application
                 {
                     _log.Error($"Erro no gatilho principal: {ex.ToString().Replace(Environment.NewLine, string.Empty)}");
                 }
-                var calculationTime = DateTime.Now - triggerDate;
-                if (calculationTime < _poolingInterval)
+                var executionDuration = DateTime.Now - triggerStartTime;
+                if (executionDuration < _poolingInterval)
                 {
-                    await Task.Delay(_poolingInterval - calculationTime, stoppingToken);
+                    await Task.Delay(_poolingInterval - executionDuration, stoppingToken);
                 }
             }
         }

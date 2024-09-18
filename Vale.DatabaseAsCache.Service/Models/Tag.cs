@@ -15,139 +15,105 @@
         /// <summary>
         /// Tag for new IncrementData. If returns 1, there is new data to read.
         /// </summary>
-        public static readonly string NewIncrement = ShipmentClpPrefix + "PIMS_AM_NEW_INCR";
+        public static readonly string NewIncrement = ShipmentClpPrefix + "BD_AM_NEW_INCR_TX";
         
         /// <summary>
         /// Pier where the ship is.
         /// 1 = South
         /// 2 = North
         /// </summary>
-        public static readonly string PierCode = ShipmentClpPrefix + "Ordem_amos_berco";
+        public static readonly string PierCode = ShipmentClpPrefix + "BD_ORDEM_AMOS_BERCO_TX";
 
         /// <summary>
         /// Product code tag.
         /// </summary>
-        public static readonly string ProductCode = ShipmentClpPrefix + "PRODUTO_01_ARRAY";
-
-        /// <summary>
-        /// Boarding code tag for south pier.
-        /// </summary>
-        public static readonly string BoardingCodeSouth = ShipmentClpPrefix + "LOTE_02_ARRAY";
+        public static readonly string ProductCode = ShipmentClpPrefix + "BD_PRODUCT_CODE_TX";
 
         /// <summary>
         /// Boarding code tag for north pier.
         /// </summary>
-        public static readonly string BoardingCodeNorth = ShipmentClpPrefix + "LOTE_01_ARRAY";
-        
-        /// <summary>
-        /// Weigth estimated for south pier.
-        /// </summary>
-        public static readonly string EstimatedWeightSouth = ShipmentClpPrefix + "PIMS_CN01_BERCS_TOT_01_D";
+        public static readonly string BoardingCode = ShipmentClpPrefix + "BD_BORDING_CODE_TX";
 
         /// <summary>
         /// Weigth estimated for north pier.
         /// </summary>
-        public static readonly string EstimatedWeightNorth = ShipmentClpPrefix + "PIMS_CN01_BERCN_TOT_01_D";
-        
-        /// <summary>
-        /// 
-        /// </summary>
-        public static readonly string PoraoID1 = ShipmentClpPrefix + "PIMS_AM_PORAO_NUM_1_D";
-        
-        /// <summary>
-        /// 
-        /// </summary>
-        public static readonly string Porao1WeigthFirstScale = ShipmentClpPrefix + "PIMS_AM_PORAO_TOT_1_D";
+        public static readonly string EstimatedWeight = ShipmentClpPrefix + "BD_ESTIMATED_WEIGHT_TX";
 
         /// <summary>
         /// 
         /// </summary>
-        public static readonly string Porao1WeigthSecondScale = ShipmentClpPrefix + "PIMS_AM_PORAO_TOT08_1_D";
+        public static readonly string PoraoID1 = ShipmentClpPrefix + "BD_PORAO_NUM_1_TX";
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        public static readonly string Porao1WeigthFirstScale = ShipmentClpPrefix + "BD_PORAO_TOT_1_PRI_TX";
 
         /// <summary>
         /// 
         /// </summary>
-        public static readonly string PoraoID2 = ShipmentClpPrefix + "PIMS_AM_PORAO_NUM_2_D";
+        public static readonly string Porao1WeigthSecondScale = ShipmentClpPrefix + "BD_PORAO_TOT_1_SEC_TX";
 
         /// <summary>
         /// 
         /// </summary>
-        public static readonly string Porao2WeigthFirstScale = ShipmentClpPrefix + "PIMS_AM_PORAO_TOT_2_D";
+        public static readonly string PoraoID2 = ShipmentClpPrefix + "BD_PORAO_NUM_2_TX";
 
         /// <summary>
         /// 
         /// </summary>
-        public static readonly string Porao2WeigthSecondScale = ShipmentClpPrefix + "PIMS_AM_PORAO_TOT08_2_D";
+        public static readonly string Porao2WeigthFirstScale = ShipmentClpPrefix + "BD_PORAO_TOT_2_PRI_TX";
 
         /// <summary>
         /// 
         /// </summary>
-        public static readonly string PoraoID3 = ShipmentClpPrefix + "PIMS_AM_PORAO_NUM_3_D";
+        public static readonly string Porao2WeigthSecondScale = ShipmentClpPrefix + "BD_PORAO_TOT_1_SEC_TX";
 
         /// <summary>
         /// 
         /// </summary>
-        public static readonly string Porao3WeigthFirstScale = ShipmentClpPrefix + "PIMS_AM_PORAO_TOT_3_D";
+        public static readonly string PoraoID3 = ShipmentClpPrefix + "BD_PORAO_NUM_3_TX";
 
         /// <summary>
         /// 
         /// </summary>
-        public static readonly string Porao3WeigthSecondScale = ShipmentClpPrefix + "PIMS_AM_PORAO_TOT08_3_D";
+        public static readonly string Porao3WeigthFirstScale = ShipmentClpPrefix + "BD_PORAO_TOT_3_PRI_TX";
 
         /// <summary>
         /// 
         /// </summary>
-        public static readonly string PartialSampleSouth = ShipmentClpPrefix + "PIMS_AM_SUL_PARC_D";
-        
+        public static readonly string Porao3WeigthSecondScale = ShipmentClpPrefix + "BD_PORAO_TOT_3_SEC_TX";
+
         /// <summary>
         /// 
         /// </summary>
-        public static readonly string PartialSampleNorth = ShipmentClpPrefix + "PIMS_AM_NORTE_PARC_D";
-        
+        public static readonly string PartialSample = ShipmentClpPrefix + "BD_PARCIAL_TX";
+
         /// <summary>
         /// 
         /// </summary>
-        public static readonly string SubPartialSampleSouth = ShipmentClpPrefix + "PIMS_AMOS_SUL_SP_VAL_QUAR";
-        
+        public static readonly string SubPartialSample = ShipmentClpPrefix + "BD_SUBPARCIAL_TX";
+
         /// <summary>
         /// 
         /// </summary>
-        public static readonly string SubPartialSampleNorth = ShipmentClpPrefix + "PIMS_AM_NORTE_SP_VAL_QUAR";
-        
+        public static readonly string SubSubPartialSample = ShipmentClpPrefix + "DB_EXPEDITA_TX";
+
         /// <summary>
         /// 
         /// </summary>
-        public static readonly string SubSubPartialSampleSouth = ShipmentClpPrefix + "PIMS_AM_SUL_QUA_SPED_VAL";
-        
+        public static readonly string IncrementNumber = ShipmentClpPrefix + "DB_NUMERO_INCREMENTO_TX";
+
         /// <summary>
         /// 
         /// </summary>
-        public static readonly string SubSubPartialSampleNorth = ShipmentClpPrefix + "PIMS_AM_NORTE_QUA_SPED_VAL";
-        
-        /// <summary>
-        /// 
-        /// </summary>
-        public static readonly string IncrementNumberSouth = ShipmentClpPrefix + "AMOS_SUL_INC_NUM";
-        
-        /// <summary>
-        /// 
-        /// </summary>
-        public static readonly string IncrementNumberNorth = ShipmentClpPrefix + "AMOS_NORTE_INC_NUM";
-        
-        /// <summary>
-        /// 
-        /// </summary>
-        public static readonly string WeightAtCutSouth = ShipmentClpPrefix + "PIMS_AMOS_SUL_TOT_01_D";
-        
-        /// <summary>
-        /// 
-        /// </summary>
-        public static readonly string WeightAtCutNorth = ShipmentClpPrefix + "PIMS_AMOS_NORTE_TOT_01_D";
+        public static readonly string WeightAtCut = ShipmentClpPrefix + "DB_PESO_CORTE_PROG_TX";
 
         /// <summary>
         /// Order name tag.
         /// </summary>
-        public static readonly string OrderName = ShipmentClpPrefix + "NUM_PORAO_CAR";
+        public static readonly string OrderName = ShipmentClpPrefix + "BD_PORAO_NUM_1_TX";
+
         // public static readonly string OrderName = ShipLoadClpPrefix + "%MW9904";
         // Another CLP possibility.
     }
