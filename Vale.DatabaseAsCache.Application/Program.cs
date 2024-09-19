@@ -19,6 +19,7 @@ namespace Vale.DatabaseAsCache.Application
                 {
                     IConfiguration configuration = hostContext.Configuration;
                     services.AddHostedService<ScheduleOpcRequest>();
+                    services.AddHostedService<Watchdog>();
                 })
                 .Build();
 

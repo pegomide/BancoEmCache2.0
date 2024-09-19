@@ -1,11 +1,11 @@
 using log4net;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Win32;
 using System;
 using System.Configuration;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
-using Vale.DatabaseAsCache.ApiService.Models;
 using Vale.DatabaseAsCache.Data.Repository;
 using Vale.DatabaseAsCache.Data.TableModels;
 using Vale.DatabaseAsCache.Service;
@@ -41,6 +41,16 @@ namespace Vale.DatabaseAsCache.Application
         /// Interface to connect into database
         /// </summary>
         private readonly ColetaFuseRepository _coletaFuseRepository;
+
+        /// <summary>
+        /// Application path to registry key
+        /// </summary>
+        private readonly string RegistryPath = WindowsRegistryInfo.BasePath + @"\ScheduleOpcRequest";
+
+        /// <summary>
+        /// Registry key to store the last value sent
+        /// </summary>
+        private readonly string RegistryKey = "LastValueSent";
 
         public ScheduleOpcRequest()
         {
@@ -104,6 +114,7 @@ namespace Vale.DatabaseAsCache.Application
                 try
                 {
                     _log.Info($"### Gatilho de leitura às {triggerStartTime:dd/MM/yyyy HH:mm:ss} ###");
+                    // VERIFICA SE TEM NOVO REGISTRO
                     string novoRegistro = _opcApiInterface.PostVerificaNovoRegistro();
                     if (novoRegistro is null)
                     {
@@ -114,17 +125,30 @@ namespace Vale.DatabaseAsCache.Application
                         if (OpcApiService.ConverteNovoRegistro(novoRegistro))
                         {
                             _log.Info($"Novo registro disponível no CLP");
+                            // BUSCA DADOS DO PIER
                             ColetaFuseData data = null;
                             string dataFromPier = _opcApiInterface.PostDataFromPier();
                             data = OpcApiService.ExtractDataFromPier(dataFromPier, triggerStartTime);
                             if (data != null)
                             {
+                                // PERSISTE DADOS NO BANCO
                                 var rowsInserted = _coletaFuseRepository.Insert(data);
                                 if (rowsInserted > 0)
                                 {
                                     _log.Info($"Dado foi salvo no banco!");
                                     _log.Debug($"{rowsInserted} dado(s) inserido(s): {data}");
-                                    // TODO: Enviar para OPC que foi inserido com sucesso (DB_INC_RECV_OK_RX)
+                                    // ENVIA SINAL DE CONFIRMAÇÃO DE ESCRITA AO OPC
+                                    bool previousValueSent = (bool)(Registry.GetValue(RegistryPath, RegistryKey, 0) ?? 0);
+                                    bool currentValueToSend = !previousValueSent;
+                                    if (_opcApiInterface.PostSendWatdogSignal(currentValueToSend))
+                                    {
+                                        Registry.SetValue(RegistryPath, RegistryKey, currentValueToSend);
+                                        _log.Debug($"Sinal de confirmação de escrita enviado com sucesso. Valor enviado: {currentValueToSend}");
+                                    }
+                                    else
+                                    {
+                                        _log.Error($"Erro ao enviar sinal confirmação de escrita ao OPC. Tentativa de envio: {currentValueToSend}");
+                                    }
                                 }
                                 else
                                 {
@@ -142,6 +166,7 @@ namespace Vale.DatabaseAsCache.Application
                 {
                     _log.Error($"Erro no gatilho principal: {ex.ToString().Replace(Environment.NewLine, string.Empty)}");
                 }
+                // Garante que o intervalo entre requisições seja respeitado, mesmo com tempo de execução alto
                 var executionDuration = DateTime.Now - triggerStartTime;
                 if (executionDuration < _poolingInterval)
                 {

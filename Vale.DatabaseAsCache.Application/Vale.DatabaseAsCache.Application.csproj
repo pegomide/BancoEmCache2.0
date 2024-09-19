@@ -226,6 +226,8 @@
     </Compile>
     <Compile Include="ScheduleOpcRequest.cs" />
     <Compile Include="SchedulerOptions.cs" />
+    <Compile Include="WatchDog.cs" />
+    <Compile Include="WindowsRegistryInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

@@ -57,7 +57,7 @@ namespace Vale.DatabaseAsCache.Service.Infrastructure
             string responseBody = null;
             try
             {
-                var requestBody = new OpcApiRequestBody()
+                OpcApiRequestBody requestBody = new OpcApiRequestBody()
                 {
                     Hostname = _hostname,
                     Servername = _servername,
@@ -89,7 +89,7 @@ namespace Vale.DatabaseAsCache.Service.Infrastructure
             string responseBody = null;
             try
             {
-                var requestBody = new OpcApiRequestBody()
+                OpcApiRequestBody requestBody = new OpcApiRequestBody()
                 {
                     Hostname = _hostname,
                     Servername = _servername,
@@ -127,6 +127,31 @@ namespace Vale.DatabaseAsCache.Service.Infrastructure
             }
 
             return responseBody;
+        }
+
+        public bool PostSendWatdogSignal(bool lastValueSent)
+        {
+            try
+            {
+                OpcApiRequestBody requestBody = new OpcApiRequestBody()
+                {
+                    Hostname = _hostname,
+                    Servername = _servername,
+                    Items = new List<string>() { Tag.WatchdogSignal },
+                    Values = new List<int>() { Convert.ToInt32(!lastValueSent) }
+                };
+                string responseBody = PostOpcRequest(requestBody, OpcRequestType.Write);
+                _log.Info($"Sinal de watchdog enviado com sucesso. Valor: {requestBody.Values.First()}");
+            }
+            catch (HttpRequestException ex)
+            {
+                _log.Error($"Erro na requisição HTTP: {ex.ToString().Replace(Environment.NewLine, string.Empty)}");
+            }
+            catch (Exception ex)
+            {
+                _log.Error($"Erro genérico ao extrair dados do pier sul: {ex.ToString().Replace(Environment.NewLine, string.Empty)}");
+            }
+            return true;
         }
 
         private enum OpcRequestType

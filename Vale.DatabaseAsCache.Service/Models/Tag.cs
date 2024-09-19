@@ -114,6 +114,11 @@
         /// </summary>
         public static readonly string OrderName = ShipmentClpPrefix + "BD_PORAO_NUM_1_TX";
 
+        /// <summary>
+        /// Watchdog signal tag.
+        /// </summary>
+        public static readonly string WatchdogSignal = ShipmentClpPrefix + "DB_WACTH_DOG_RX";
+
         // public static readonly string OrderName = ShipLoadClpPrefix + "%MW9904";
         // Another CLP possibility.
     }
