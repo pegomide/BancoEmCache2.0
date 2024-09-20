@@ -67,7 +67,7 @@
         /// <summary>
         /// 
         /// </summary>
-        public static readonly string Porao2WeigthSecondScale = ShipmentClpPrefix + "BD_PORAO_TOT_1_SEC_TX";
+        public static readonly string Porao2WeigthSecondScale = ShipmentClpPrefix + "BD_PORAO_TOT_2_SEC_TX";
 
         /// <summary>
         /// 
@@ -119,6 +119,16 @@
         /// </summary>
         public static readonly string WatchdogSignal = ShipmentClpPrefix + "DB_WACTH_DOG_RX";
 
+        /// <summary>
+        /// Confirmation signal tag.
+        /// </summary>
+        public static readonly string ConfirmationSignal = ShipmentClpPrefix + "DB_INC_RECV_OK_RX";
+
+        /// <summary>
+        /// Tag que indica que o GPV está com delay para consumir mensagens.
+        /// </summary>
+        public static readonly string GPVWithDelay = ShipmentClpPrefix + "DB_ENV_GPV_FAULT_RX";
+        
         // public static readonly string OrderName = ShipLoadClpPrefix + "%MW9904";
         // Another CLP possibility.
     }

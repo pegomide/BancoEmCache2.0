@@ -6,8 +6,10 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Vale.DatabaseAsCache.Data.Repository;
+using Vale.DatabaseAsCache.Data.TableModels;
 using Vale.DatabaseAsCache.Service;
 using Vale.DatabaseAsCache.Service.Infrastructure;
+using Vale.GetFuseData.ApiService.Models;
 using Vale.GetFuseData.ApiService.Services;
 
 namespace Vale.DatabaseAsCache.SendFuse
@@ -39,6 +41,16 @@ namespace Vale.DatabaseAsCache.SendFuse
         /// Interface to connect into database
         /// </summary>
         private readonly ColetaFuseRepository _coletaFuseRepository;
+
+        /// <summary>
+        /// Interface to connect into OpcAPI
+        /// </summary>
+        private readonly OpcApiInterface _opcApiInterface;
+
+        /// <summary>
+        /// Número máximo permitido de status pendentes para envio ao GPV.
+        /// </summary>
+        private readonly int _maximoStatusPendentes;
 
         public ScheduleDatabasePooling()
         {
@@ -89,6 +101,27 @@ namespace Vale.DatabaseAsCache.SendFuse
                 throw new FormatException();
             }
 
+            // Handling OpcApiInterface options
+            OpcApiOptions opcApiOptions = new OpcApiOptions()
+            {
+                OpcApiUrl = ConfigurationManager.AppSettings["OpcApiUrl"],
+                HostName = ConfigurationManager.AppSettings["HostName"],
+                ServerName = ConfigurationManager.AppSettings["ServerName"],
+            };
+            if (opcApiOptions.OpcApiUrl is null || opcApiOptions.HostName is null || opcApiOptions.ServerName is null)
+            {
+                _log.Error($"Erro ao ler campo de configuração da API do OPC: {nameof(OpcApiOptions)}.");
+                throw new FormatException();
+            }
+            _opcApiInterface = new OpcApiInterface(opcApiOptions);
+
+            // Handling maximum pending status for GPV
+            if (!Int32.TryParse(ConfigurationManager.AppSettings["PendingLimit"], out _maximoStatusPendentes))
+            {
+                _log.Error("Erro ao ler campo de configuração do agendador: PendingLimit.");
+                throw new FormatException();
+            }
+
             _log.Info($"Intervalo entre requisições: {_poolingInterval:c}");
         }
 
@@ -96,14 +129,15 @@ namespace Vale.DatabaseAsCache.SendFuse
         {
             while (!stoppingToken.IsCancellationRequested)
             {
-                var triggerDate = DateTime.Now;
+                DateTime triggerStartTime = DateTime.Now;
                 try
                 {
-                    _log.Info($"### Gatilho de leitura às {triggerDate:dd/MM/yyyy HH:mm:ss} ###");
-                    var data = _coletaFuseRepository.SelectMostRecentWithStatusPending();
+                    _log.Info($"### Gatilho de leitura às {triggerStartTime:dd/MM/yyyy HH:mm:ss} ###");
+                    // ENVIO DE DADOS PENDENTES AO FUSE
+                    ColetaFuseData data = _coletaFuseRepository.SelectMostRecentWithStatusPending();
                     if (data != null)
                     {
-                        var requestBody = FuseApiService.TransformDatabaseIntoRequestBody(data);
+                        FuseApiRequestBody requestBody = FuseApiService.TransformDatabaseIntoRequestBody(data);
                         _log.Info($"Dado a ser enviado ao Fuse: {requestBody}");
                         if (_fuseApiInterface.PostSendData(requestBody))
                         {
@@ -117,15 +151,25 @@ namespace Vale.DatabaseAsCache.SendFuse
                     {
                         _log.Info($"Sem dados pendentes para sincronização com Fuse!");
                     }
+
+                    // VERIFICAÇÃO DE DADOS PENDENTES
+                    int countEnviosPendentes = _coletaFuseRepository.CountStatusPending();
+                    bool isGpvWithDelay = countEnviosPendentes > _maximoStatusPendentes;
+                    if (isGpvWithDelay)
+                    {
+                        _log.Info($"Há {countEnviosPendentes} registros pendentes para envio ao GPV.");
+                    }
+                    _opcApiInterface.PostSendGPVDelay(isGpvWithDelay);
                 }
                 catch (Exception ex)
                 {
                     _log.Error($"Erro no gatilho principal: {ex.ToString().Replace(Environment.NewLine, string.Empty)}");
                 }
-                var calculationTime = DateTime.Now - triggerDate;
-                if (calculationTime < _poolingInterval)
+                // Garante que o intervalo entre requisições seja respeitado, mesmo com tempo de execução alto
+                TimeSpan executionDuration = DateTime.Now - triggerStartTime;
+                if (executionDuration < _poolingInterval)
                 {
-                    await Task.Delay(_poolingInterval - calculationTime, stoppingToken);
+                    await Task.Delay(_poolingInterval - executionDuration, stoppingToken);
                 }
             }
         }

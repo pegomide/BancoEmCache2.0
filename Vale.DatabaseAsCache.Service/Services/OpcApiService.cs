@@ -29,21 +29,6 @@ namespace Vale.GetFuseData.ApiService.Services
         }
 
         /// <summary>
-        /// Checa de qual pier é a mensagem.
-        /// </summary>
-        /// <param name="rawResponseBody"></param>
-        /// <returns>Conteúdo da resposta avaliada.</returns>
-        public static PierEnum ExtraiPier(string rawResponseBody)
-        {
-            var responseBodyList = JsonConvert.DeserializeObject<List<OpcApiResponseBody>>(rawResponseBody);
-            if (responseBodyList[0].Value == null)
-            {
-                throw new InvalidCastException();
-            }
-            return (PierEnum)Convert.ToInt32(responseBodyList[0].Value);
-        }
-
-        /// <summary>
         /// Extract data of pier.
         /// </summary>
         /// <param name="rawResponseBody"></param>
@@ -70,7 +55,8 @@ namespace Vale.GetFuseData.ApiService.Services
                 }
                 else if (body.Name.Equals(Tag.PierCode))
                 {
-                    fuseData.PIER_CODE = Convert.ToInt32(body.Value) == 1 ? "1S" : "1N";
+                    var pier = (PierEnum)Convert.ToInt32(body.Value);
+                    fuseData.PIER_CODE = pier.Equals(PierEnum.South) ? "1S" : (pier.Equals(PierEnum.North) ? "1N" : "NONE");
                 }
                 else if (body.Name.Equals(Tag.BoardingCode))
                 {
@@ -94,14 +80,12 @@ namespace Vale.GetFuseData.ApiService.Services
                 {
                     if (body.Value != null)
                     {
-                        var id = Convert.ToInt32(body.Value);
+                        int id = Convert.ToInt32(body.Value);
                         if (id > 0 && id <= 30)
                         {
                             fuseData.PORAO1_ID = id;
-                            var peso1 = responseBodyList.Find(item => item.Name.Equals(Tag.Porao1WeigthFirstScale));
-                            fuseData.PORAO1_PESO1 = Convert.ToDecimal(peso1.Value);
-                            var peso2 = responseBodyList.Find(item => item.Name.Equals(Tag.Porao1WeigthSecondScale));
-                            fuseData.PORAO1_PESO2 = Convert.ToDecimal(peso2.Value);
+                            fuseData.PORAO1_PESO1 = Convert.ToDecimal(responseBodyList.Find(item => item.Name.Equals(Tag.Porao1WeigthFirstScale)).Value);
+                            fuseData.PORAO1_PESO2 = Convert.ToDecimal(responseBodyList.Find(item => item.Name.Equals(Tag.Porao1WeigthSecondScale)).Value);
                         }
                     }
                 }
@@ -113,10 +97,8 @@ namespace Vale.GetFuseData.ApiService.Services
                         if (id > 0 && id <= 30)
                         {
                             fuseData.PORAO2_ID = id;
-                            var peso1 = responseBodyList.Find(item => item.Name.Equals(Tag.Porao2WeigthFirstScale));
-                            fuseData.PORAO2_PESO1 = Convert.ToDecimal(peso1.Value);
-                            var peso2 = responseBodyList.Find(item => item.Name.Equals(Tag.Porao2WeigthSecondScale));
-                            fuseData.PORAO2_PESO2 = Convert.ToDecimal(peso2.Value);
+                            fuseData.PORAO2_PESO1 = Convert.ToDecimal(responseBodyList.Find(item => item.Name.Equals(Tag.Porao2WeigthFirstScale)).Value);
+                            fuseData.PORAO2_PESO2 = Convert.ToDecimal(responseBodyList.Find(item => item.Name.Equals(Tag.Porao2WeigthSecondScale)).Value);
                         }
                     }
                 }
@@ -128,10 +110,8 @@ namespace Vale.GetFuseData.ApiService.Services
                         if (id > 0 && id <= 30)
                         {
                             fuseData.PORAO3_ID = id;
-                            var peso1 = responseBodyList.Find(item => item.Name.Equals(Tag.Porao3WeigthFirstScale));
-                            fuseData.PORAO3_PESO1 = Convert.ToDecimal(peso1.Value);
-                            var peso2 = responseBodyList.Find(item => item.Name.Equals(Tag.Porao3WeigthSecondScale));
-                            fuseData.PORAO3_PESO2 = Convert.ToDecimal(peso2.Value);
+                            fuseData.PORAO3_PESO1 = Convert.ToDecimal(responseBodyList.Find(item => item.Name.Equals(Tag.Porao3WeigthFirstScale)).Value);
+                            fuseData.PORAO3_PESO2 = Convert.ToDecimal(responseBodyList.Find(item => item.Name.Equals(Tag.Porao3WeigthSecondScale)).Value);
                         }
                     }
                 }

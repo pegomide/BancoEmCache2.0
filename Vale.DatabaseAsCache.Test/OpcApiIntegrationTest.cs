@@ -10,33 +10,47 @@ namespace Vale.DatabaseAsCache.Test
     [TestClass]
     public class OpcApiIntegrationTest
     {
-        private readonly OpcApiInterface _api = new OpcApiInterface(new OpcApiOptions("http://localhost:3002/api/opc/read", "localhost", "Schneider-Aut.OFS.2"));
+        private readonly OpcApiInterface _api = new OpcApiInterface(new OpcApiOptions("http://localhost:3002/api/opc/", "localhost", "Schneider-Aut.OFS.2"));
 
         [TestMethod]
         public void PostTemNovoRegistro_Test()
         {
-            var response = _api.PostVerificaNovoRegistro();
-            Assert.IsNotNull(response);
-        }
-
-        [TestMethod]
-        public void PostVerificaPier_Test()
-        {
-            var response = _api.PostVerificaPier();
-            Assert.IsNotNull(response);
-        }
-
-        [TestMethod]
-        public void PostDataSouth_Test()
-        {
-            var response = _api.PostDataSouth();
+            string response = _api.PostVerificaNovoRegistro();
             Assert.IsNotNull(response);
         }
 
         [TestMethod]
         public void PostDataNorth_Test()
         {
-            var response = _api.PostDataFromPier();
+            string response = _api.PostDataFromPier();
+            Assert.IsNotNull(response);
+        }
+
+        [TestMethod]
+        public void PostEnviaWatchDog()
+        {
+            bool response = _api.PostSendWatdogSignal(true);
+            Assert.IsNotNull(response);
+        }
+
+        [TestMethod]
+        public void PostEnviaConfirmação()
+        {
+            bool response = _api.PostSendConfirmationSignal(true);
+            Assert.IsNotNull(response);
+        }
+
+        [TestMethod]
+        public void PostEnviaSetGPVDelay()
+        {
+            bool response = _api.PostSendWatdogSignal(true);
+            Assert.IsNotNull(response);
+        }
+
+        [TestMethod]
+        public void PostEnviaResetGPVDelay()
+        {
+            bool response = _api.PostSendWatdogSignal(false);
             Assert.IsNotNull(response);
         }
     }

@@ -132,7 +132,7 @@ namespace Vale.DatabaseAsCache.Application
                             if (data != null)
                             {
                                 // PERSISTE DADOS NO BANCO
-                                var rowsInserted = _coletaFuseRepository.Insert(data);
+                                int rowsInserted = _coletaFuseRepository.Insert(data);
                                 if (rowsInserted > 0)
                                 {
                                     _log.Info($"Dado foi salvo no banco!");
@@ -140,7 +140,7 @@ namespace Vale.DatabaseAsCache.Application
                                     // ENVIA SINAL DE CONFIRMAÇÃO DE ESCRITA AO OPC
                                     bool previousValueSent = (bool)(Registry.GetValue(RegistryPath, RegistryKey, 0) ?? 0);
                                     bool currentValueToSend = !previousValueSent;
-                                    if (_opcApiInterface.PostSendWatdogSignal(currentValueToSend))
+                                    if (_opcApiInterface.PostSendConfirmationSignal(currentValueToSend))
                                     {
                                         Registry.SetValue(RegistryPath, RegistryKey, currentValueToSend);
                                         _log.Debug($"Sinal de confirmação de escrita enviado com sucesso. Valor enviado: {currentValueToSend}");
@@ -167,7 +167,7 @@ namespace Vale.DatabaseAsCache.Application
                     _log.Error($"Erro no gatilho principal: {ex.ToString().Replace(Environment.NewLine, string.Empty)}");
                 }
                 // Garante que o intervalo entre requisições seja respeitado, mesmo com tempo de execução alto
-                var executionDuration = DateTime.Now - triggerStartTime;
+                TimeSpan executionDuration = DateTime.Now - triggerStartTime;
                 if (executionDuration < _poolingInterval)
                 {
                     await Task.Delay(_poolingInterval - executionDuration, stoppingToken);

@@ -78,7 +78,8 @@ namespace Vale.DatabaseAsCache.Application
                 {
                     _log.Error($"Erro no gatilho watchdog: {ex.ToString().Replace(Environment.NewLine, string.Empty)}");
                 }
-                var executionDuration = DateTime.Now - triggerStartTime;
+                // Garante que o intervalo entre requisições seja respeitado, mesmo com tempo de execução alto
+                TimeSpan executionDuration = DateTime.Now - triggerStartTime;
                 if (executionDuration < _watchdogInterval)
                 {
                     await Task.Delay(_watchdogInterval - executionDuration, stoppingToken);

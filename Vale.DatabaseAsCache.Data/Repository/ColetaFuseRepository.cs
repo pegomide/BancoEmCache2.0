@@ -72,7 +72,7 @@ namespace Vale.DatabaseAsCache.Data.Repository
             {
                 using (var transaction = new TransactionScope())
                 {
-                    var sql = $@"
+                    string sql = $@"
 SELECT [PIER_CODE]
     ,[BOARDING_CODE]
     ,[INCREMENT_NUMBER]
@@ -210,7 +210,7 @@ VALUES
             {
                 using (var transaction = new TransactionScope())
                 {
-                    var sql = $@"
+                    string sql = $@"
 UPDATE [dbo].[{_tableName}]
    SET [STATUS_TYPE] = 'DONE'
  WHERE [BOARDING_CODE] = '{data.BOARDING_CODE}'
@@ -233,6 +233,37 @@ UPDATE [dbo].[{_tableName}]
             }
 
             return lineUpdated;
+        }
+
+        /// <summary>
+        /// Count the amount of line that currently holds the status "pending"
+        /// </summary>
+        /// <returns>Value returned from query as integer. Negative if error happens.</returns>
+        public int CountStatusPending()
+        {
+            try
+            {
+                using (var transaction = new TransactionScope())
+                {
+                    string sql = $@"
+SELECT COUNT(*)
+FROM [dbo].[{_tableName}]
+WHERE [STATUS_TYPE] = 'PENDING'";
+                    int response = _connection.ExecuteScalar<int>(sql);
+                    transaction.Complete();
+                    return response;
+                }
+            }
+            catch (SqlException ex)
+            {
+                _log.Error($"Erro ao executar seleção: {ex.ToString().Replace(Environment.NewLine, string.Empty)}");
+            }
+            catch (TransactionAbortedException ex)
+            {
+                _log.Error($"Seleção no banco abortada durante transação: {ex.ToString().Replace(Environment.NewLine, string.Empty)}");
+            }
+
+            return -1;
         }
     }
 }

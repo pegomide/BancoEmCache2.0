@@ -129,7 +129,12 @@ namespace Vale.DatabaseAsCache.Service.Infrastructure
             return responseBody;
         }
 
-        public bool PostSendWatdogSignal(bool lastValueSent)
+        /// <summary>
+        /// Envia sinal para sinalizar que a comunicação entre aplicação e OPC está ativa.
+        /// </summary>
+        /// <param name="signal"></param>
+        /// <returns></returns>
+        public bool PostSendWatdogSignal(bool signal)
         {
             try
             {
@@ -138,10 +143,11 @@ namespace Vale.DatabaseAsCache.Service.Infrastructure
                     Hostname = _hostname,
                     Servername = _servername,
                     Items = new List<string>() { Tag.WatchdogSignal },
-                    Values = new List<int>() { Convert.ToInt32(!lastValueSent) }
+                    Values = new List<int>() { Convert.ToInt32(signal) }
                 };
                 string responseBody = PostOpcRequest(requestBody, OpcRequestType.Write);
                 _log.Info($"Sinal de watchdog enviado com sucesso. Valor: {requestBody.Values.First()}");
+                return true;
             }
             catch (HttpRequestException ex)
             {
@@ -151,7 +157,69 @@ namespace Vale.DatabaseAsCache.Service.Infrastructure
             {
                 _log.Error($"Erro genérico ao extrair dados do pier sul: {ex.ToString().Replace(Environment.NewLine, string.Empty)}");
             }
-            return true;
+            return false;
+        }
+
+        /// <summary>
+        /// Envia sinal confirmando que foi lido os dados e salvo no banco de dados.
+        /// </summary>
+        /// <param name="signal"></param>
+        /// <returns></returns>
+        public bool PostSendConfirmationSignal(bool signal)
+        {
+            try
+            {
+                OpcApiRequestBody requestBody = new OpcApiRequestBody()
+                {
+                    Hostname = _hostname,
+                    Servername = _servername,
+                    Items = new List<string>() { Tag.ConfirmationSignal },
+                    Values = new List<int>() { Convert.ToInt32(signal) }
+                };
+                string responseBody = PostOpcRequest(requestBody, OpcRequestType.Write);
+                _log.Info($"Sinal de confirmação enviado com sucesso. Valor: {requestBody.Values.First()}");
+                return true;
+            }
+            catch (HttpRequestException ex)
+            {
+                _log.Error($"Erro na requisição HTTP: {ex.ToString().Replace(Environment.NewLine, string.Empty)}");
+            }
+            catch (Exception ex)
+            {
+                _log.Error($"Erro genérico ao extrair dados do pier sul: {ex.ToString().Replace(Environment.NewLine, string.Empty)}");
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Send signal to indicate that the GPV reading is pending.
+        /// </summary>
+        /// <param name="signal">Further, it is converted to int before sending.</param>
+        /// <returns>If value was sent successfully.</returns>
+        public bool PostSendGPVDelay(bool signal)
+        {
+            try
+            {
+                OpcApiRequestBody requestBody = new OpcApiRequestBody()
+                {
+                    Hostname = _hostname,
+                    Servername = _servername,
+                    Items = new List<string>() { Tag.GPVWithDelay },
+                    Values = new List<int>() { Convert.ToInt32(signal) }
+                };
+                string responseBody = PostOpcRequest(requestBody, OpcRequestType.Write);
+                _log.Info($"Sinal de pendencia de leitura do GPV atualizado com sucesso. Valor: {requestBody.Values.First()}");
+                return true;
+            }
+            catch (HttpRequestException ex)
+            {
+                _log.Error($"Erro na requisição HTTP: {ex.ToString().Replace(Environment.NewLine, string.Empty)}");
+            }
+            catch (Exception ex)
+            {
+                _log.Error($"Erro genérico ao extrair dados do pier sul: {ex.ToString().Replace(Environment.NewLine, string.Empty)}");
+            }
+            return false;
         }
 
         private enum OpcRequestType

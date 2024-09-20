@@ -14,6 +14,10 @@
     {
       "type": "route",
       "uuid": "a7afddcd-56ca-42dc-ac37-df944731c05b"
+    },
+    {
+      "type": "route",
+      "uuid": "e8e15837-4436-4a33-bdb0-a8655f8c821c"
     }
   ],
   "folders": [],
@@ -69,7 +73,7 @@
         },
         {
           "uuid": "8cf6def1-830c-4db3-9d48-fce0713c0930",
-          "body": "[\r\n    {\r\n        \"Value\": false,\r\n        \"TimeStamp\": \"2023-04-18T15:35:28.319-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!PIMS_AM_NEW_INCR\",\r\n        \"FloatValue\": 0.0,\r\n        \"DoubleValue\": 0.0,\r\n        \"Int32Value\": 0,\r\n        \"StringValue\": \"False\"\r\n    }\r\n]",
+          "body": "[\r\n    {\r\n        \"Value\": false,\r\n        \"TimeStamp\": \"2023-04-18T15:35:28.319-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!BD_AM_NEW_INCR_TX\",\r\n        \"FloatValue\": 0.0,\r\n        \"DoubleValue\": 0.0,\r\n        \"Int32Value\": 0,\r\n        \"StringValue\": \"False\"\r\n    }\r\n]",
           "latency": 0,
           "statusCode": 200,
           "label": "New registry false (even requests = False)",
@@ -96,7 +100,7 @@
             {
               "target": "body",
               "modifier": "items",
-              "value": "EMB!PIMS_AM_NEW_INCR",
+              "value": "EMB!BD_AM_NEW_INCR_TX",
               "invert": false,
               "operator": "equals"
             },
@@ -115,7 +119,7 @@
         },
         {
           "uuid": "a963e901-4a7a-47c9-a437-7172eb146033",
-          "body": "[\r\n    {\r\n        \"Value\": true,\r\n        \"TimeStamp\": \"2023-04-18T15:35:28.319-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!PIMS_AM_NEW_INCR\",\r\n        \"FloatValue\": 1.0,\r\n        \"DoubleValue\": 1.0,\r\n        \"Int32Value\": 1,\r\n        \"StringValue\": \"True\"\r\n    }\r\n]",
+          "body": "[\r\n    {\r\n        \"Value\": true,\r\n        \"TimeStamp\": \"2023-04-18T15:35:28.319-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!BD_AM_NEW_INCR_TX\",\r\n        \"FloatValue\": 1.0,\r\n        \"DoubleValue\": 1.0,\r\n        \"Int32Value\": 1,\r\n        \"StringValue\": \"True\"\r\n    }\r\n]",
           "latency": 0,
           "statusCode": 200,
           "label": "New registry (odd requests = True)",
@@ -142,7 +146,7 @@
             {
               "target": "body",
               "modifier": "items",
-              "value": "EMB!PIMS_AM_NEW_INCR",
+              "value": "EMB!BD_AM_NEW_INCR_TX",
               "invert": false,
               "operator": "equals"
             }
@@ -239,7 +243,7 @@
         },
         {
           "uuid": "3c56e731-1f4c-43b5-8f8a-04bfc1cf2cfa",
-          "body": "[\r\n    {\r\n        \"Value\": [\r\n            21318,\r\n            20295,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0\r\n        ],\r\n        \"TimeStamp\": \"2023-04-25T11:50:29.615-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!PRODUTO_01_ARRAY\",\r\n        \"FloatValue\": 0.0,\r\n        \"DoubleValue\": 0.0,\r\n        \"Int32Value\": 0,\r\n        \"StringValue\": \"System.Int16[]\"\r\n    },\r\n    {\r\n        \"Value\": [\r\n            12848,\r\n            12851,\r\n            11569,\r\n            12338,\r\n            12800,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0\r\n        ],\r\n        \"TimeStamp\": \"2023-04-25T11:50:29.615-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!LOTE_02_ARRAY\",\r\n        \"FloatValue\": 0.0,\r\n        \"DoubleValue\": 0.0,\r\n        \"Int32Value\": 0,\r\n        \"StringValue\": \"System.Int16[]\"\r\n    },\r\n    {\r\n        \"Value\": 288300,\r\n        \"TimeStamp\": \"2023-04-18T15:42:59.671-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!PIMS_CN01_BERCS_TOT_01_D\",\r\n        \"FloatValue\": 288300.0,\r\n        \"DoubleValue\": 288300.0,\r\n        \"Int32Value\": 288300,\r\n        \"StringValue\": \"288300\"\r\n    },\r\n    {\r\n        \"Value\": 6,\r\n        \"TimeStamp\": \"2023-04-18T15:42:59.671-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!PIMS_AM_PORAO_NUM_1_D\",\r\n        \"FloatValue\": 6.0,\r\n        \"DoubleValue\": 6.0,\r\n        \"Int32Value\": 6,\r\n        \"StringValue\": \"6\"\r\n    },\r\n    {\r\n        \"Value\": 0,\r\n        \"TimeStamp\": \"2023-04-18T15:42:59.671-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!PIMS_AM_PORAO_TOT_1_D\",\r\n        \"FloatValue\": 0.0,\r\n        \"DoubleValue\": 0.0,\r\n        \"Int32Value\": 0,\r\n        \"StringValue\": \"0\"\r\n    },\r\n    {\r\n        \"Value\": 0,\r\n        \"TimeStamp\": \"2023-04-18T15:42:59.671-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!PIMS_AM_PORAO_TOT08_1_D\",\r\n        \"FloatValue\": 0.0,\r\n        \"DoubleValue\": 0.0,\r\n        \"Int32Value\": 0,\r\n        \"StringValue\": \"0\"\r\n    },\r\n    {\r\n        \"Value\": 2,\r\n        \"TimeStamp\": \"2023-04-18T15:42:59.671-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!PIMS_AM_PORAO_NUM_2_D\",\r\n        \"FloatValue\": 2.0,\r\n        \"DoubleValue\": 2.0,\r\n        \"Int32Value\": 2,\r\n        \"StringValue\": \"2\"\r\n    },\r\n    {\r\n        \"Value\": 568,\r\n        \"TimeStamp\": \"2023-04-18T15:42:59.671-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!PIMS_AM_PORAO_TOT_2_D\",\r\n        \"FloatValue\": 568.0,\r\n        \"DoubleValue\": 568.0,\r\n        \"Int32Value\": 568,\r\n        \"StringValue\": \"568\"\r\n    },\r\n    {\r\n        \"Value\": 568,\r\n        \"TimeStamp\": \"2023-04-18T15:42:59.671-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!PIMS_AM_PORAO_TOT08_2_D\",\r\n        \"FloatValue\": 568.0,\r\n        \"DoubleValue\": 568.0,\r\n        \"Int32Value\": 568,\r\n        \"StringValue\": \"568\"\r\n    },\r\n    {\r\n        \"Value\": 0,\r\n        \"TimeStamp\": \"2023-04-18T15:42:59.671-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!PIMS_AM_PORAO_NUM_3_D\",\r\n        \"FloatValue\": 0.0,\r\n        \"DoubleValue\": 0.0,\r\n        \"Int32Value\": 0,\r\n        \"StringValue\": \"0\"\r\n    },\r\n    {\r\n        \"Value\": 0,\r\n        \"TimeStamp\": \"2023-04-18T15:42:59.671-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!PIMS_AM_PORAO_TOT_3_D\",\r\n        \"FloatValue\": 0.0,\r\n        \"DoubleValue\": 0.0,\r\n        \"Int32Value\": 0,\r\n        \"StringValue\": \"0\"\r\n    },\r\n    {\r\n        \"Value\": 0,\r\n        \"TimeStamp\": \"2023-04-18T15:42:59.671-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!PIMS_AM_PORAO_TOT08_3_D\",\r\n        \"FloatValue\": 0.0,\r\n        \"DoubleValue\": 0.0,\r\n        \"Int32Value\": 0,\r\n        \"StringValue\": \"0\"\r\n    },\r\n    {\r\n        \"Value\": 6,\r\n        \"TimeStamp\": \"2023-04-18T15:42:59.671-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!PIMS_AM_SUL_PARC_D\",\r\n        \"FloatValue\": 6.0,\r\n        \"DoubleValue\": 6.0,\r\n        \"Int32Value\": 6,\r\n        \"StringValue\": \"6\"\r\n    },\r\n    {\r\n        \"Value\": 3,\r\n        \"TimeStamp\": \"2023-04-18T15:42:59.671-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!PIMS_AMOS_SUL_SP_VAL_QUAR\",\r\n        \"FloatValue\": 3.0,\r\n        \"DoubleValue\": 3.0,\r\n        \"Int32Value\": 3,\r\n        \"StringValue\": \"3\"\r\n    },\r\n    {\r\n        \"Value\": 3,\r\n        \"TimeStamp\": \"2023-04-18T15:42:59.671-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!PIMS_AM_SUL_QUA_SPED_VAL\",\r\n        \"FloatValue\": 3.0,\r\n        \"DoubleValue\": 3.0,\r\n        \"Int32Value\": 3,\r\n        \"StringValue\": \"3\"\r\n    },\r\n    {\r\n        \"Value\": {{faker 'datatype.number'}},\r\n        \"TimeStamp\": \"2023-04-18T15:42:59.671-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!AMOS_SUL_INC_NUM\",\r\n        \"FloatValue\": 0.0,\r\n        \"DoubleValue\": 0.0,\r\n        \"Int32Value\": 0,\r\n        \"StringValue\": \"0\"\r\n    }\r\n]",
+          "body": "[\r\n    {\r\n        \"Value\": [\r\n            21318,\r\n            20295,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0\r\n        ],\r\n        \"TimeStamp\": \"2023-04-25T11:50:29.615-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!BD_PRODUCT_CODE_TX\",\r\n        \"FloatValue\": 0.0,\r\n        \"DoubleValue\": 0.0,\r\n        \"Int32Value\": 0,\r\n        \"StringValue\": \"System.Int16[]\"\r\n    },\r\n    {\r\n        \"Value\": [\r\n            12848,\r\n            12851,\r\n            11569,\r\n            12338,\r\n            12800,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0\r\n        ],\r\n        \"TimeStamp\": \"2023-04-25T11:50:29.615-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!BD_BORDING_CODE_TX\",\r\n        \"FloatValue\": 0.0,\r\n        \"DoubleValue\": 0.0,\r\n        \"Int32Value\": 0,\r\n        \"StringValue\": \"System.Int16[]\"\r\n    },\r\n    {\r\n        \"Value\": 288300,\r\n        \"TimeStamp\": \"2023-04-18T15:42:59.671-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!BD_ESTIMATED_WEIGHT_TX\",\r\n        \"FloatValue\": 288300.0,\r\n        \"DoubleValue\": 288300.0,\r\n        \"Int32Value\": 288300,\r\n        \"StringValue\": \"288300\"\r\n    },\r\n    {\r\n        \"Value\": 6,\r\n        \"TimeStamp\": \"2023-04-18T15:42:59.671-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!BD_PORAO_NUM_1_TX\",\r\n        \"FloatValue\": 6.0,\r\n        \"DoubleValue\": 6.0,\r\n        \"Int32Value\": 6,\r\n        \"StringValue\": \"6\"\r\n    },\r\n    {\r\n        \"Value\": 0,\r\n        \"TimeStamp\": \"2023-04-18T15:42:59.671-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!BD_PORAO_TOT_1_PRI_TX\",\r\n        \"FloatValue\": 0.0,\r\n        \"DoubleValue\": 0.0,\r\n        \"Int32Value\": 0,\r\n        \"StringValue\": \"0\"\r\n    },\r\n    {\r\n        \"Value\": 0,\r\n        \"TimeStamp\": \"2023-04-18T15:42:59.671-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!BD_PORAO_TOT_1_SEC_TX\",\r\n        \"FloatValue\": 0.0,\r\n        \"DoubleValue\": 0.0,\r\n        \"Int32Value\": 0,\r\n        \"StringValue\": \"0\"\r\n    },\r\n    {\r\n        \"Value\": 2,\r\n        \"TimeStamp\": \"2023-04-18T15:42:59.671-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!BD_PORAO_NUM_2_TX\",\r\n        \"FloatValue\": 2.0,\r\n        \"DoubleValue\": 2.0,\r\n        \"Int32Value\": 2,\r\n        \"StringValue\": \"2\"\r\n    },\r\n    {\r\n        \"Value\": 568,\r\n        \"TimeStamp\": \"2023-04-18T15:42:59.671-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!BD_PORAO_TOT_2_PRI_TX\",\r\n        \"FloatValue\": 568.0,\r\n        \"DoubleValue\": 568.0,\r\n        \"Int32Value\": 568,\r\n        \"StringValue\": \"568\"\r\n    },\r\n    {\r\n        \"Value\": 568,\r\n        \"TimeStamp\": \"2023-04-18T15:42:59.671-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!BD_PORAO_TOT_1_SEC_TX\",\r\n        \"FloatValue\": 568.0,\r\n        \"DoubleValue\": 568.0,\r\n        \"Int32Value\": 568,\r\n        \"StringValue\": \"568\"\r\n    },\r\n    {\r\n        \"Value\": 0,\r\n        \"TimeStamp\": \"2023-04-18T15:42:59.671-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!BD_PORAO_NUM_3_TX\",\r\n        \"FloatValue\": 0.0,\r\n        \"DoubleValue\": 0.0,\r\n        \"Int32Value\": 0,\r\n        \"StringValue\": \"0\"\r\n    },\r\n    {\r\n        \"Value\": 0,\r\n        \"TimeStamp\": \"2023-04-18T15:42:59.671-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!BD_PORAO_TOT_3_PRI_TX\",\r\n        \"FloatValue\": 0.0,\r\n        \"DoubleValue\": 0.0,\r\n        \"Int32Value\": 0,\r\n        \"StringValue\": \"0\"\r\n    },\r\n    {\r\n        \"Value\": 0,\r\n        \"TimeStamp\": \"2023-04-18T15:42:59.671-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!BD_PORAO_TOT_3_SEC_TX\",\r\n        \"FloatValue\": 0.0,\r\n        \"DoubleValue\": 0.0,\r\n        \"Int32Value\": 0,\r\n        \"StringValue\": \"0\"\r\n    },\r\n    {\r\n        \"Value\": 6,\r\n        \"TimeStamp\": \"2023-04-18T15:42:59.671-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!BD_PARCIAL_TX\",\r\n        \"FloatValue\": 6.0,\r\n        \"DoubleValue\": 6.0,\r\n        \"Int32Value\": 6,\r\n        \"StringValue\": \"6\"\r\n    },\r\n    {\r\n        \"Value\": 3,\r\n        \"TimeStamp\": \"2023-04-18T15:42:59.671-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!BD_SUBPARCIAL_TX\",\r\n        \"FloatValue\": 3.0,\r\n        \"DoubleValue\": 3.0,\r\n        \"Int32Value\": 3,\r\n        \"StringValue\": \"3\"\r\n    },\r\n    {\r\n        \"Value\": 3,\r\n        \"TimeStamp\": \"2023-04-18T15:42:59.671-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!DB_EXPEDITA_TX\",\r\n        \"FloatValue\": 3.0,\r\n        \"DoubleValue\": 3.0,\r\n        \"Int32Value\": 3,\r\n        \"StringValue\": \"3\"\r\n    },\r\n    {\r\n        \"Value\": {{faker 'datatype.number'}},\r\n        \"TimeStamp\": \"2023-04-18T15:42:59.671-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!DB_NUMERO_INCREMENTO_TX\",\r\n        \"FloatValue\": 0.0,\r\n        \"DoubleValue\": 0.0,\r\n        \"Int32Value\": 0,\r\n        \"StringValue\": \"0\"\r\n    }\r\n]",
           "latency": 0,
           "statusCode": 200,
           "label": "Data South",
@@ -266,56 +270,56 @@
             {
               "target": "body",
               "modifier": "items",
-              "value": "EMB!PRODUTO_01_ARRAY",
+              "value": "EMB!BD_PRODUCT_CODE_TX",
               "invert": false,
               "operator": "equals"
             },
             {
               "target": "body",
               "modifier": "items",
-              "value": "EMB!LOTE_02_ARRAY",
+              "value": "EMB!BD_BORDING_CODE_TX",
               "invert": false,
               "operator": "equals"
             },
             {
               "target": "body",
               "modifier": "items",
-              "value": "EMB!PIMS_CN01_BERCS_TOT_01_D",
+              "value": "EMB!BD_ESTIMATED_WEIGHT_TX",
               "invert": false,
               "operator": "equals"
             },
             {
               "target": "body",
               "modifier": "items",
-              "value": "EMB!PIMS_AM_SUL_PARC_D",
+              "value": "EMB!BD_PARCIAL_TX",
               "invert": false,
               "operator": "equals"
             },
             {
               "target": "body",
               "modifier": "items",
-              "value": "EMB!PIMS_AMOS_SUL_SP_VAL_QUAR",
+              "value": "EMB!BD_SUBPARCIAL_TX",
               "invert": false,
               "operator": "equals"
             },
             {
               "target": "body",
               "modifier": "items",
-              "value": "EMB!PIMS_AM_SUL_QUA_SPED_VAL",
+              "value": "EMB!DB_EXPEDITA_TX",
               "invert": false,
               "operator": "equals"
             },
             {
               "target": "body",
               "modifier": "items",
-              "value": "EMB!AMOS_SUL_INC_NUM",
+              "value": "EMB!DB_NUMERO_INCREMENTO_TX",
               "invert": false,
               "operator": "equals"
             },
             {
               "target": "body",
               "modifier": "items",
-              "value": "EMB!PIMS_AMOS_SUL_TOT_01_D",
+              "value": "EMB!DB_PESO_CORTE_PROG_TX",
               "invert": false,
               "operator": "equals"
             }
@@ -327,7 +331,7 @@
         },
         {
           "uuid": "16348b4c-ab74-44d7-a4e9-cc8902677e67",
-          "body": "[\r\n    {\r\n        \"Value\": [\r\n            21318,\r\n            20295,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0\r\n        ],\r\n        \"TimeStamp\": \"2023-04-25T11:50:29.615-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!PRODUTO_01_ARRAY\",\r\n        \"FloatValue\": 0.0,\r\n        \"DoubleValue\": 0.0,\r\n        \"Int32Value\": 0,\r\n        \"StringValue\": \"System.Int16[]\"\r\n    },\r\n    {\r\n        \"Value\": [\r\n            12848,\r\n            12851,\r\n            11569,\r\n            12338,\r\n            12800,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0\r\n        ],\r\n        \"TimeStamp\": \"2023-04-25T11:50:29.615-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!LOTE_01_ARRAY\",\r\n        \"FloatValue\": 0.0,\r\n        \"DoubleValue\": 0.0,\r\n        \"Int32Value\": 0,\r\n        \"StringValue\": \"System.Int16[]\"\r\n    },\r\n    {\r\n        \"Value\": 111411,\r\n        \"TimeStamp\": \"2023-04-18T15:53:41.239-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!PIMS_CN01_BERCN_TOT_01_D\",\r\n        \"FloatValue\": 111411.0,\r\n        \"DoubleValue\": 111411.0,\r\n        \"Int32Value\": 111411,\r\n        \"StringValue\": \"111411\"\r\n    },\r\n    {\r\n        \"Value\": 6,\r\n        \"TimeStamp\": \"2023-04-18T15:53:41.239-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!PIMS_AM_PORAO_NUM_1_D\",\r\n        \"FloatValue\": 6.0,\r\n        \"DoubleValue\": 6.0,\r\n        \"Int32Value\": 6,\r\n        \"StringValue\": \"6\"\r\n    },\r\n    {\r\n        \"Value\": 0,\r\n        \"TimeStamp\": \"2023-04-18T15:53:41.239-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!PIMS_AM_PORAO_TOT_1_D\",\r\n        \"FloatValue\": 0.0,\r\n        \"DoubleValue\": 0.0,\r\n        \"Int32Value\": 0,\r\n        \"StringValue\": \"0\"\r\n    },\r\n    {\r\n        \"Value\": 0,\r\n        \"TimeStamp\": \"2023-04-18T15:53:41.239-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!PIMS_AM_PORAO_TOT08_1_D\",\r\n        \"FloatValue\": 0.0,\r\n        \"DoubleValue\": 0.0,\r\n        \"Int32Value\": 0,\r\n        \"StringValue\": \"0\"\r\n    },\r\n    {\r\n        \"Value\": 2,\r\n        \"TimeStamp\": \"2023-04-18T15:53:41.239-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!PIMS_AM_PORAO_NUM_2_D\",\r\n        \"FloatValue\": 2.0,\r\n        \"DoubleValue\": 2.0,\r\n        \"Int32Value\": 2,\r\n        \"StringValue\": \"2\"\r\n    },\r\n    {\r\n        \"Value\": 568,\r\n        \"TimeStamp\": \"2023-04-18T15:53:41.239-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!PIMS_AM_PORAO_TOT_2_D\",\r\n        \"FloatValue\": 568.0,\r\n        \"DoubleValue\": 568.0,\r\n        \"Int32Value\": 568,\r\n        \"StringValue\": \"568\"\r\n    },\r\n    {\r\n        \"Value\": 568,\r\n        \"TimeStamp\": \"2023-04-18T15:53:41.239-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!PIMS_AM_PORAO_TOT08_2_D\",\r\n        \"FloatValue\": 568.0,\r\n        \"DoubleValue\": 568.0,\r\n        \"Int32Value\": 568,\r\n        \"StringValue\": \"568\"\r\n    },\r\n    {\r\n        \"Value\": 0,\r\n        \"TimeStamp\": \"2023-04-18T15:53:41.239-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!PIMS_AM_PORAO_NUM_3_D\",\r\n        \"FloatValue\": 0.0,\r\n        \"DoubleValue\": 0.0,\r\n        \"Int32Value\": 0,\r\n        \"StringValue\": \"0\"\r\n    },\r\n    {\r\n        \"Value\": 0,\r\n        \"TimeStamp\": \"2023-04-18T15:53:41.239-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!PIMS_AM_PORAO_TOT_3_D\",\r\n        \"FloatValue\": 0.0,\r\n        \"DoubleValue\": 0.0,\r\n        \"Int32Value\": 0,\r\n        \"StringValue\": \"0\"\r\n    },\r\n    {\r\n        \"Value\": 0,\r\n        \"TimeStamp\": \"2023-04-18T15:53:41.239-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!PIMS_AM_PORAO_TOT08_3_D\",\r\n        \"FloatValue\": 0.0,\r\n        \"DoubleValue\": 0.0,\r\n        \"Int32Value\": 0,\r\n        \"StringValue\": \"0\"\r\n    },\r\n    {\r\n        \"Value\": 3,\r\n        \"TimeStamp\": \"2023-04-18T15:53:41.239-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!PIMS_AM_NORTE_PARC_D\",\r\n        \"FloatValue\": 3.0,\r\n        \"DoubleValue\": 3.0,\r\n        \"Int32Value\": 3,\r\n        \"StringValue\": \"3\"\r\n    },\r\n    {\r\n        \"Value\": 1,\r\n        \"TimeStamp\": \"2023-04-18T15:53:41.239-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!PIMS_AM_NORTE_SP_VAL_QUAR\",\r\n        \"FloatValue\": 1.0,\r\n        \"DoubleValue\": 1.0,\r\n        \"Int32Value\": 1,\r\n        \"StringValue\": \"1\"\r\n    },\r\n    {\r\n        \"Value\": 3,\r\n        \"TimeStamp\": \"2023-04-18T15:53:41.239-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!PIMS_AM_NORTE_QUA_SPED_VAL\",\r\n        \"FloatValue\": 3.0,\r\n        \"DoubleValue\": 3.0,\r\n        \"Int32Value\": 3,\r\n        \"StringValue\": \"3\"\r\n    },\r\n    {\r\n        \"Value\": {{faker 'datatype.number'}},\r\n        \"TimeStamp\": \"2023-04-18T15:42:59.671-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!AMOS_NORTE_INC_NUM\",\r\n        \"FloatValue\": 0.0,\r\n        \"DoubleValue\": 0.0,\r\n        \"Int32Value\": 0,\r\n        \"StringValue\": \"0\"\r\n    }\r\n]",
+          "body": "[\r\n    {\r\n        \"Value\": [\r\n            21318,\r\n            20295,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0\r\n        ],\r\n        \"TimeStamp\": \"2023-04-25T11:50:29.615-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!BD_PRODUCT_CODE_TX\",\r\n        \"FloatValue\": 0.0,\r\n        \"DoubleValue\": 0.0,\r\n        \"Int32Value\": 0,\r\n        \"StringValue\": \"System.Int16[]\"\r\n    },\r\n    {\r\n        \"Value\": [\r\n            12848,\r\n            12851,\r\n            11569,\r\n            12338,\r\n            12800,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0\r\n        ],\r\n        \"TimeStamp\": \"2023-04-25T11:50:29.615-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!BD_BORDING_CODE_TX\",\r\n        \"FloatValue\": 0.0,\r\n        \"DoubleValue\": 0.0,\r\n        \"Int32Value\": 0,\r\n        \"StringValue\": \"System.Int16[]\"\r\n    },\r\n    {\r\n        \"Value\": 111411,\r\n        \"TimeStamp\": \"2023-04-18T15:53:41.239-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!BD_ESTIMATED_WEIGHT_TX\",\r\n        \"FloatValue\": 111411.0,\r\n        \"DoubleValue\": 111411.0,\r\n        \"Int32Value\": 111411,\r\n        \"StringValue\": \"111411\"\r\n    },\r\n    {\r\n        \"Value\": 6,\r\n        \"TimeStamp\": \"2023-04-18T15:53:41.239-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!BD_PORAO_NUM_1_TX\",\r\n        \"FloatValue\": 6.0,\r\n        \"DoubleValue\": 6.0,\r\n        \"Int32Value\": 6,\r\n        \"StringValue\": \"6\"\r\n    },\r\n    {\r\n        \"Value\": 0,\r\n        \"TimeStamp\": \"2023-04-18T15:53:41.239-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!BD_PORAO_TOT_1_PRI_TX\",\r\n        \"FloatValue\": 0.0,\r\n        \"DoubleValue\": 0.0,\r\n        \"Int32Value\": 0,\r\n        \"StringValue\": \"0\"\r\n    },\r\n    {\r\n        \"Value\": 0,\r\n        \"TimeStamp\": \"2023-04-18T15:53:41.239-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!BD_PORAO_TOT_1_SEC_TX\",\r\n        \"FloatValue\": 0.0,\r\n        \"DoubleValue\": 0.0,\r\n        \"Int32Value\": 0,\r\n        \"StringValue\": \"0\"\r\n    },\r\n    {\r\n        \"Value\": 2,\r\n        \"TimeStamp\": \"2023-04-18T15:53:41.239-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!BD_PORAO_NUM_2_TX\",\r\n        \"FloatValue\": 2.0,\r\n        \"DoubleValue\": 2.0,\r\n        \"Int32Value\": 2,\r\n        \"StringValue\": \"2\"\r\n    },\r\n    {\r\n        \"Value\": 568,\r\n        \"TimeStamp\": \"2023-04-18T15:53:41.239-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!BD_PORAO_TOT_2_PRI_TX\",\r\n        \"FloatValue\": 568.0,\r\n        \"DoubleValue\": 568.0,\r\n        \"Int32Value\": 568,\r\n        \"StringValue\": \"568\"\r\n    },\r\n    {\r\n        \"Value\": 568,\r\n        \"TimeStamp\": \"2023-04-18T15:53:41.239-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!BD_PORAO_TOT_1_SEC_TX\",\r\n        \"FloatValue\": 568.0,\r\n        \"DoubleValue\": 568.0,\r\n        \"Int32Value\": 568,\r\n        \"StringValue\": \"568\"\r\n    },\r\n    {\r\n        \"Value\": 0,\r\n        \"TimeStamp\": \"2023-04-18T15:53:41.239-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!BD_PORAO_NUM_3_TX\",\r\n        \"FloatValue\": 0.0,\r\n        \"DoubleValue\": 0.0,\r\n        \"Int32Value\": 0,\r\n        \"StringValue\": \"0\"\r\n    },\r\n    {\r\n        \"Value\": 0,\r\n        \"TimeStamp\": \"2023-04-18T15:53:41.239-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!BD_PORAO_TOT_3_PRI_TX\",\r\n        \"FloatValue\": 0.0,\r\n        \"DoubleValue\": 0.0,\r\n        \"Int32Value\": 0,\r\n        \"StringValue\": \"0\"\r\n    },\r\n    {\r\n        \"Value\": 0,\r\n        \"TimeStamp\": \"2023-04-18T15:53:41.239-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!BD_PORAO_TOT_3_SEC_TX\",\r\n        \"FloatValue\": 0.0,\r\n        \"DoubleValue\": 0.0,\r\n        \"Int32Value\": 0,\r\n        \"StringValue\": \"0\"\r\n    },\r\n    {\r\n        \"Value\": 3,\r\n        \"TimeStamp\": \"2023-04-18T15:53:41.239-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!BD_PARCIAL_TX\",\r\n        \"FloatValue\": 3.0,\r\n        \"DoubleValue\": 3.0,\r\n        \"Int32Value\": 3,\r\n        \"StringValue\": \"3\"\r\n    },\r\n    {\r\n        \"Value\": 1,\r\n        \"TimeStamp\": \"2023-04-18T15:53:41.239-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!BD_SUBPARCIAL_TX\",\r\n        \"FloatValue\": 1.0,\r\n        \"DoubleValue\": 1.0,\r\n        \"Int32Value\": 1,\r\n        \"StringValue\": \"1\"\r\n    },\r\n    {\r\n        \"Value\": 3,\r\n        \"TimeStamp\": \"2023-04-18T15:53:41.239-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!DB_EXPEDITA_TX\",\r\n        \"FloatValue\": 3.0,\r\n        \"DoubleValue\": 3.0,\r\n        \"Int32Value\": 3,\r\n        \"StringValue\": \"3\"\r\n    },\r\n    {\r\n        \"Value\": {{faker 'datatype.number'}},\r\n        \"TimeStamp\": \"2023-04-18T15:42:59.671-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!DB_NUMERO_INCREMENTO_TX\",\r\n        \"FloatValue\": 0.0,\r\n        \"DoubleValue\": 0.0,\r\n        \"Int32Value\": 0,\r\n        \"StringValue\": \"0\"\r\n    }\r\n]",
           "latency": 0,
           "statusCode": 200,
           "label": "Data North",
@@ -354,56 +358,56 @@
             {
               "target": "body",
               "modifier": "items",
-              "value": "EMB!PRODUTO_01_ARRAY",
+              "value": "EMB!BD_PRODUCT_CODE_TX",
               "invert": false,
               "operator": "equals"
             },
             {
               "target": "body",
               "modifier": "items",
-              "value": "EMB!LOTE_01_ARRAY",
+              "value": "EMB!BD_BORDING_CODE_TX",
               "invert": false,
               "operator": "equals"
             },
             {
               "target": "body",
               "modifier": "items",
-              "value": "EMB!PIMS_CN01_BERCN_TOT_01_D",
+              "value": "EMB!BD_ESTIMATED_WEIGHT_TX",
               "invert": false,
               "operator": "equals"
             },
             {
               "target": "body",
               "modifier": "items",
-              "value": "EMB!PIMS_AM_NORTE_PARC_D",
+              "value": "EMB!BD_PARCIAL_TX",
               "invert": false,
               "operator": "equals"
             },
             {
               "target": "body",
               "modifier": "items",
-              "value": "EMB!PIMS_AM_NORTE_SP_VAL_QUAR",
+              "value": "EMB!BD_SUBPARCIAL_TX",
               "invert": false,
               "operator": "equals"
             },
             {
               "target": "body",
               "modifier": "items",
-              "value": "EMB!PIMS_AM_NORTE_QUA_SPED_VAL",
+              "value": "EMB!DB_EXPEDITA_TX",
               "invert": false,
               "operator": "equals"
             },
             {
               "target": "body",
               "modifier": "items",
-              "value": "EMB!AMOS_NORTE_INC_NUM",
+              "value": "EMB!DB_NUMERO_INCREMENTO_TX",
               "invert": false,
               "operator": "equals"
             },
             {
               "target": "body",
               "modifier": "items",
-              "value": "EMB!PIMS_AMOS_NORTE_TOT_01_D",
+              "value": "EMB!DB_PESO_CORTE_PROG_TX",
               "invert": false,
               "operator": "equals"
             }
@@ -444,6 +448,151 @@
       ],
       "enabled": true,
       "responseMode": null
+    },
+    {
+      "uuid": "e8e15837-4436-4a33-bdb0-a8655f8c821c",
+      "type": "http",
+      "documentation": "Default CLP communication",
+      "method": "post",
+      "endpoint": "api/opc/write",
+      "responses": [
+        {
+          "uuid": "df1d285d-6732-401c-9b73-beadaa06fdf3",
+          "body": "{\r\n    \"Message\": \"An error has occurred.\",\r\n    \"ExceptionMessage\": \"Object reference not set to an instance of an object.\",\r\n    \"ExceptionType\": \"System.NullReferenceException\",\r\n    \"StackTrace\": \"   at Vale.ProcessApi.Controllers.OpcController.Read(OpcReadRequest request)\\r\\n   at lambda_method(Closure , Object , Object[] )\\r\\n   at System.Web.Http.Controllers.ReflectedHttpActionDescriptor.ActionExecutor.<>c__DisplayClass10.<GetExecutor>b__9(Object instance, Object[] methodParameters)\\r\\n   at System.Web.Http.Controllers.ReflectedHttpActionDescriptor.ExecuteAsync(HttpControllerContext controllerContext, IDictionary`2 arguments, CancellationToken cancellationToken)\\r\\n--- End of stack trace from previous location where exception was thrown ---\\r\\n   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()\\r\\n   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)\\r\\n   at System.Web.Http.Controllers.ApiControllerActionInvoker.<InvokeActionAsyncCore>d__0.MoveNext()\\r\\n--- End of stack trace from previous location where exception was thrown ---\\r\\n   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()\\r\\n   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)\\r\\n   at System.Web.Http.Controllers.ActionFilterResult.<ExecuteAsync>d__2.MoveNext()\\r\\n--- End of stack trace from previous location where exception was thrown ---\\r\\n   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()\\r\\n   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)\\r\\n   at System.Web.Http.Dispatcher.HttpControllerDispatcher.<SendAsync>d__1.MoveNext()\"\r\n}",
+          "latency": 0,
+          "statusCode": 500,
+          "label": "Error Tag reading",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true
+        },
+        {
+          "uuid": "904fb395-0be7-4ace-981a-a307139c1fc8",
+          "body": "[\r\n    {\r\n        \"Value\": \"Erro ao adicionar Grupo [Group_00].\",\r\n        \"TimeStamp\": \"2023-04-18T15:49:39.7553651-03:00\",\r\n        \"Quality\": \"Bad\",\r\n        \"Name\": \"The remote server is not currently connected.\",\r\n        \"FloatValue\": 0.0,\r\n        \"DoubleValue\": 0.0,\r\n        \"Int32Value\": 0,\r\n        \"StringValue\": \"Erro ao adicionar Grupo [Group_00].\"\r\n    }\r\n]",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Servernave does not exists",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "servername",
+              "value": "Schneider-Aut.OFS.2",
+              "invert": true,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false
+        },
+        {
+          "uuid": "c04ecbf6-773c-41ed-9493-bd92acee26e1",
+          "body": "1",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Set bit",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "8pb3",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "hostname",
+              "value": "localhost",
+              "invert": false,
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "servername",
+              "value": "Schneider-Aut.OFS.2",
+              "invert": false,
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "items",
+              "value": "EMB!BD_AM_NEW_INCR_TX",
+              "invert": false,
+              "operator": "equals"
+            },
+            {
+              "target": "request_number",
+              "modifier": "",
+              "value": "1",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false
+        },
+        {
+          "uuid": "60d8f81e-c522-49e8-9166-a6e308ad5cd5",
+          "body": "0",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "Reset bit",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "8pb3",
+          "sendFileAsBody": false,
+          "rules": [
+            {
+              "target": "body",
+              "modifier": "hostname",
+              "value": "localhost",
+              "invert": false,
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "servername",
+              "value": "Schneider-Aut.OFS.2",
+              "invert": false,
+              "operator": "equals"
+            },
+            {
+              "target": "body",
+              "modifier": "items",
+              "value": "EMB!BD_AM_NEW_INCR_TX",
+              "invert": false,
+              "operator": "equals"
+            },
+            {
+              "target": "request_number",
+              "modifier": "",
+              "value": "1",
+              "invert": false,
+              "operator": "equals"
+            }
+          ],
+          "rulesOperator": "AND",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": false
+        }
+      ],
+      "enabled": true,
+      "responseMode": null
     }
   ],
   "proxyMode": false,
@@ -473,28 +622,28 @@
       "id": "8pb3",
       "name": "New increment false data",
       "documentation": "",
-      "value": "[\r\n    {\r\n        \"Value\": false,\r\n        \"TimeStamp\": \"2023-04-18T15:35:28.319-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!PIMS_AM_NEW_INCR\",\r\n        \"FloatValue\": 0.0,\r\n        \"DoubleValue\": 0.0,\r\n        \"Int32Value\": 0,\r\n        \"StringValue\": \"False\"\r\n    }\r\n]"
+      "value": "[\r\n    {\r\n        \"Value\": false,\r\n        \"TimeStamp\": \"2023-04-18T15:35:28.319-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!BD_AM_NEW_INCR_TX\",\r\n        \"FloatValue\": 0.0,\r\n        \"DoubleValue\": 0.0,\r\n        \"Int32Value\": 0,\r\n        \"StringValue\": \"False\"\r\n    }\r\n]"
     },
     {
       "uuid": "ed7d8a6a-a73d-4a8d-a4c7-1dbd47734b02",
       "id": "h3a7",
       "name": "New increment true data",
       "documentation": "",
-      "value": "[\r\n    {\r\n        \"Value\": true,\r\n        \"TimeStamp\": \"2023-04-18T15:35:28.319-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!PIMS_AM_NEW_INCR\",\r\n        \"FloatValue\": 1.0,\r\n        \"DoubleValue\": 1.0,\r\n        \"Int32Value\": 1,\r\n        \"StringValue\": \"True\"\r\n    }\r\n]"
+      "value": "[\r\n    {\r\n        \"Value\": true,\r\n        \"TimeStamp\": \"2023-04-18T15:35:28.319-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!BD_AM_NEW_INCR_TX\",\r\n        \"FloatValue\": 1.0,\r\n        \"DoubleValue\": 1.0,\r\n        \"Int32Value\": 1,\r\n        \"StringValue\": \"True\"\r\n    }\r\n]"
     },
     {
       "uuid": "717cce52-4675-4369-b439-cb0dc1bd858b",
       "id": "0y4p",
       "name": "South pier data",
       "documentation": "",
-      "value": "[\r\n    {\r\n        \"Value\": [\r\n            21318,\r\n            20295,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0\r\n        ],\r\n        \"TimeStamp\": \"2023-04-25T11:50:29.615-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!PIMS_C20_MW29706_PRODUTO\",\r\n        \"FloatValue\": 0.0,\r\n        \"DoubleValue\": 0.0,\r\n        \"Int32Value\": 0,\r\n        \"StringValue\": \"System.Int16[]\"\r\n    },\r\n    {\r\n        \"Value\": [\r\n            12848,\r\n            12851,\r\n            11569,\r\n            12338,\r\n            12800,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0\r\n        ],\r\n        \"TimeStamp\": \"2023-04-25T11:50:29.615-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!PIMS_TIG_CNG02_GRL_SHIP_01_D\",\r\n        \"FloatValue\": 0.0,\r\n        \"DoubleValue\": 0.0,\r\n        \"Int32Value\": 0,\r\n        \"StringValue\": \"System.Int16[]\"\r\n    },\r\n    {\r\n        \"Value\": 288300,\r\n        \"TimeStamp\": \"2023-04-18T15:42:59.671-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!PIMS_CN01_BERCS_TOT_01_D\",\r\n        \"FloatValue\": 288300.0,\r\n        \"DoubleValue\": 288300.0,\r\n        \"Int32Value\": 288300,\r\n        \"StringValue\": \"288300\"\r\n    },\r\n    {\r\n        \"Value\": 6,\r\n        \"TimeStamp\": \"2023-04-18T15:42:59.671-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!PIMS_AM_PORAO_NUM_1_D\",\r\n        \"FloatValue\": 6.0,\r\n        \"DoubleValue\": 6.0,\r\n        \"Int32Value\": 6,\r\n        \"StringValue\": \"6\"\r\n    },\r\n    {\r\n        \"Value\": 0,\r\n        \"TimeStamp\": \"2023-04-18T15:42:59.671-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!PIMS_AM_PORAO_TOT_1_D\",\r\n        \"FloatValue\": 0.0,\r\n        \"DoubleValue\": 0.0,\r\n        \"Int32Value\": 0,\r\n        \"StringValue\": \"0\"\r\n    },\r\n    {\r\n        \"Value\": 0,\r\n        \"TimeStamp\": \"2023-04-18T15:42:59.671-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!PIMS_AM_PORAO_TOT08_1_D\",\r\n        \"FloatValue\": 0.0,\r\n        \"DoubleValue\": 0.0,\r\n        \"Int32Value\": 0,\r\n        \"StringValue\": \"0\"\r\n    },\r\n    {\r\n        \"Value\": 2,\r\n        \"TimeStamp\": \"2023-04-18T15:42:59.671-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!PIMS_AM_PORAO_NUM_2_D\",\r\n        \"FloatValue\": 2.0,\r\n        \"DoubleValue\": 2.0,\r\n        \"Int32Value\": 2,\r\n        \"StringValue\": \"2\"\r\n    },\r\n    {\r\n        \"Value\": 568,\r\n        \"TimeStamp\": \"2023-04-18T15:42:59.671-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!PIMS_AM_PORAO_TOT_2_D\",\r\n        \"FloatValue\": 568.0,\r\n        \"DoubleValue\": 568.0,\r\n        \"Int32Value\": 568,\r\n        \"StringValue\": \"568\"\r\n    },\r\n    {\r\n        \"Value\": 568,\r\n        \"TimeStamp\": \"2023-04-18T15:42:59.671-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!PIMS_AM_PORAO_TOT08_2_D\",\r\n        \"FloatValue\": 568.0,\r\n        \"DoubleValue\": 568.0,\r\n        \"Int32Value\": 568,\r\n        \"StringValue\": \"568\"\r\n    },\r\n    {\r\n        \"Value\": 0,\r\n        \"TimeStamp\": \"2023-04-18T15:42:59.671-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!PIMS_AM_PORAO_NUM_3_D\",\r\n        \"FloatValue\": 0.0,\r\n        \"DoubleValue\": 0.0,\r\n        \"Int32Value\": 0,\r\n        \"StringValue\": \"0\"\r\n    },\r\n    {\r\n        \"Value\": 0,\r\n        \"TimeStamp\": \"2023-04-18T15:42:59.671-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!PIMS_AM_PORAO_TOT_3_D\",\r\n        \"FloatValue\": 0.0,\r\n        \"DoubleValue\": 0.0,\r\n        \"Int32Value\": 0,\r\n        \"StringValue\": \"0\"\r\n    },\r\n    {\r\n        \"Value\": 0,\r\n        \"TimeStamp\": \"2023-04-18T15:42:59.671-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!PIMS_AM_PORAO_TOT08_3_D\",\r\n        \"FloatValue\": 0.0,\r\n        \"DoubleValue\": 0.0,\r\n        \"Int32Value\": 0,\r\n        \"StringValue\": \"0\"\r\n    },\r\n    {\r\n        \"Value\": 6,\r\n        \"TimeStamp\": \"2023-04-18T15:42:59.671-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!PIMS_AM_SUL_PARC_D\",\r\n        \"FloatValue\": 6.0,\r\n        \"DoubleValue\": 6.0,\r\n        \"Int32Value\": 6,\r\n        \"StringValue\": \"6\"\r\n    },\r\n    {\r\n        \"Value\": 3,\r\n        \"TimeStamp\": \"2023-04-18T15:42:59.671-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!PIMS_AMOS_SUL_SP_VAL_QUAR\",\r\n        \"FloatValue\": 3.0,\r\n        \"DoubleValue\": 3.0,\r\n        \"Int32Value\": 3,\r\n        \"StringValue\": \"3\"\r\n    },\r\n    {\r\n        \"Value\": 3,\r\n        \"TimeStamp\": \"2023-04-18T15:42:59.671-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!PIMS_AM_SUL_QUA_SPED_VAL\",\r\n        \"FloatValue\": 3.0,\r\n        \"DoubleValue\": 3.0,\r\n        \"Int32Value\": 3,\r\n        \"StringValue\": \"3\"\r\n    },\r\n    {\r\n        \"Value\": {{faker 'datatype.number'}},\r\n        \"TimeStamp\": \"2023-04-18T15:42:59.671-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!AMOS_SUL_INC_NUM\",\r\n        \"FloatValue\": 0.0,\r\n        \"DoubleValue\": 0.0,\r\n        \"Int32Value\": 0,\r\n        \"StringValue\": \"0\"\r\n    }\r\n]"
+      "value": "[\r\n    {\r\n        \"Value\": [\r\n            21318,\r\n            20295,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0\r\n        ],\r\n        \"TimeStamp\": \"2023-04-25T11:50:29.615-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!PIMS_C20_MW29706_PRODUTO\",\r\n        \"FloatValue\": 0.0,\r\n        \"DoubleValue\": 0.0,\r\n        \"Int32Value\": 0,\r\n        \"StringValue\": \"System.Int16[]\"\r\n    },\r\n    {\r\n        \"Value\": [\r\n            12848,\r\n            12851,\r\n            11569,\r\n            12338,\r\n            12800,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0\r\n        ],\r\n        \"TimeStamp\": \"2023-04-25T11:50:29.615-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!PIMS_TIG_CNG02_GRL_SHIP_01_D\",\r\n        \"FloatValue\": 0.0,\r\n        \"DoubleValue\": 0.0,\r\n        \"Int32Value\": 0,\r\n        \"StringValue\": \"System.Int16[]\"\r\n    },\r\n    {\r\n        \"Value\": 288300,\r\n        \"TimeStamp\": \"2023-04-18T15:42:59.671-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!BD_ESTIMATED_WEIGHT_TX\",\r\n        \"FloatValue\": 288300.0,\r\n        \"DoubleValue\": 288300.0,\r\n        \"Int32Value\": 288300,\r\n        \"StringValue\": \"288300\"\r\n    },\r\n    {\r\n        \"Value\": 6,\r\n        \"TimeStamp\": \"2023-04-18T15:42:59.671-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!BD_PORAO_NUM_1_TX\",\r\n        \"FloatValue\": 6.0,\r\n        \"DoubleValue\": 6.0,\r\n        \"Int32Value\": 6,\r\n        \"StringValue\": \"6\"\r\n    },\r\n    {\r\n        \"Value\": 0,\r\n        \"TimeStamp\": \"2023-04-18T15:42:59.671-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!BD_PORAO_TOT_1_PRI_TX\",\r\n        \"FloatValue\": 0.0,\r\n        \"DoubleValue\": 0.0,\r\n        \"Int32Value\": 0,\r\n        \"StringValue\": \"0\"\r\n    },\r\n    {\r\n        \"Value\": 0,\r\n        \"TimeStamp\": \"2023-04-18T15:42:59.671-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!BD_PORAO_TOT_1_SEC_TX\",\r\n        \"FloatValue\": 0.0,\r\n        \"DoubleValue\": 0.0,\r\n        \"Int32Value\": 0,\r\n        \"StringValue\": \"0\"\r\n    },\r\n    {\r\n        \"Value\": 2,\r\n        \"TimeStamp\": \"2023-04-18T15:42:59.671-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!BD_PORAO_NUM_2_TX\",\r\n        \"FloatValue\": 2.0,\r\n        \"DoubleValue\": 2.0,\r\n        \"Int32Value\": 2,\r\n        \"StringValue\": \"2\"\r\n    },\r\n    {\r\n        \"Value\": 568,\r\n        \"TimeStamp\": \"2023-04-18T15:42:59.671-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!BD_PORAO_TOT_2_PRI_TX\",\r\n        \"FloatValue\": 568.0,\r\n        \"DoubleValue\": 568.0,\r\n        \"Int32Value\": 568,\r\n        \"StringValue\": \"568\"\r\n    },\r\n    {\r\n        \"Value\": 568,\r\n        \"TimeStamp\": \"2023-04-18T15:42:59.671-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!BD_PORAO_TOT_1_SEC_TX\",\r\n        \"FloatValue\": 568.0,\r\n        \"DoubleValue\": 568.0,\r\n        \"Int32Value\": 568,\r\n        \"StringValue\": \"568\"\r\n    },\r\n    {\r\n        \"Value\": 0,\r\n        \"TimeStamp\": \"2023-04-18T15:42:59.671-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!BD_PORAO_NUM_3_TX\",\r\n        \"FloatValue\": 0.0,\r\n        \"DoubleValue\": 0.0,\r\n        \"Int32Value\": 0,\r\n        \"StringValue\": \"0\"\r\n    },\r\n    {\r\n        \"Value\": 0,\r\n        \"TimeStamp\": \"2023-04-18T15:42:59.671-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!BD_PORAO_TOT_3_PRI_TX\",\r\n        \"FloatValue\": 0.0,\r\n        \"DoubleValue\": 0.0,\r\n        \"Int32Value\": 0,\r\n        \"StringValue\": \"0\"\r\n    },\r\n    {\r\n        \"Value\": 0,\r\n        \"TimeStamp\": \"2023-04-18T15:42:59.671-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!BD_PORAO_TOT_3_SEC_TX\",\r\n        \"FloatValue\": 0.0,\r\n        \"DoubleValue\": 0.0,\r\n        \"Int32Value\": 0,\r\n        \"StringValue\": \"0\"\r\n    },\r\n    {\r\n        \"Value\": 6,\r\n        \"TimeStamp\": \"2023-04-18T15:42:59.671-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!BD_PARCIAL_TX\",\r\n        \"FloatValue\": 6.0,\r\n        \"DoubleValue\": 6.0,\r\n        \"Int32Value\": 6,\r\n        \"StringValue\": \"6\"\r\n    },\r\n    {\r\n        \"Value\": 3,\r\n        \"TimeStamp\": \"2023-04-18T15:42:59.671-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!BD_SUBPARCIAL_TX\",\r\n        \"FloatValue\": 3.0,\r\n        \"DoubleValue\": 3.0,\r\n        \"Int32Value\": 3,\r\n        \"StringValue\": \"3\"\r\n    },\r\n    {\r\n        \"Value\": 3,\r\n        \"TimeStamp\": \"2023-04-18T15:42:59.671-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!DB_EXPEDITA_TX\",\r\n        \"FloatValue\": 3.0,\r\n        \"DoubleValue\": 3.0,\r\n        \"Int32Value\": 3,\r\n        \"StringValue\": \"3\"\r\n    },\r\n    {\r\n        \"Value\": {{faker 'datatype.number'}},\r\n        \"TimeStamp\": \"2023-04-18T15:42:59.671-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!DB_NUMERO_INCREMENTO_TX\",\r\n        \"FloatValue\": 0.0,\r\n        \"DoubleValue\": 0.0,\r\n        \"Int32Value\": 0,\r\n        \"StringValue\": \"0\"\r\n    }\r\n]"
     },
     {
       "uuid": "a68d64cc-d87e-4232-93b2-91ed4168f16b",
       "id": "s30n",
       "name": "North pier data",
       "documentation": "",
-      "value": "[\r\n    {\r\n        \"Value\": [\r\n            21318,\r\n            20295,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0\r\n        ],\r\n        \"TimeStamp\": \"2023-04-25T11:50:29.615-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!PIMS_C20_MW29706_PRODUTO\",\r\n        \"FloatValue\": 0.0,\r\n        \"DoubleValue\": 0.0,\r\n        \"Int32Value\": 0,\r\n        \"StringValue\": \"System.Int16[]\"\r\n    },\r\n    {\r\n        \"Value\": [\r\n            12848,\r\n            12851,\r\n            11569,\r\n            12338,\r\n            12800,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0\r\n        ],\r\n        \"TimeStamp\": \"2023-04-25T11:50:29.615-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!PIMS_TIG_CNG01_GRL_SHIP_01_D\",\r\n        \"FloatValue\": 0.0,\r\n        \"DoubleValue\": 0.0,\r\n        \"Int32Value\": 0,\r\n        \"StringValue\": \"System.Int16[]\"\r\n    },\r\n    {\r\n        \"Value\": 111411,\r\n        \"TimeStamp\": \"2023-04-18T15:53:41.239-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!PIMS_CN01_BERCN_TOT_01_D\",\r\n        \"FloatValue\": 111411.0,\r\n        \"DoubleValue\": 111411.0,\r\n        \"Int32Value\": 111411,\r\n        \"StringValue\": \"111411\"\r\n    },\r\n    {\r\n        \"Value\": 6,\r\n        \"TimeStamp\": \"2023-04-18T15:53:41.239-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!PIMS_AM_PORAO_NUM_1_D\",\r\n        \"FloatValue\": 6.0,\r\n        \"DoubleValue\": 6.0,\r\n        \"Int32Value\": 6,\r\n        \"StringValue\": \"6\"\r\n    },\r\n    {\r\n        \"Value\": 0,\r\n        \"TimeStamp\": \"2023-04-18T15:53:41.239-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!PIMS_AM_PORAO_TOT_1_D\",\r\n        \"FloatValue\": 0.0,\r\n        \"DoubleValue\": 0.0,\r\n        \"Int32Value\": 0,\r\n        \"StringValue\": \"0\"\r\n    },\r\n    {\r\n        \"Value\": 0,\r\n        \"TimeStamp\": \"2023-04-18T15:53:41.239-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!PIMS_AM_PORAO_TOT08_1_D\",\r\n        \"FloatValue\": 0.0,\r\n        \"DoubleValue\": 0.0,\r\n        \"Int32Value\": 0,\r\n        \"StringValue\": \"0\"\r\n    },\r\n    {\r\n        \"Value\": 2,\r\n        \"TimeStamp\": \"2023-04-18T15:53:41.239-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!PIMS_AM_PORAO_NUM_2_D\",\r\n        \"FloatValue\": 2.0,\r\n        \"DoubleValue\": 2.0,\r\n        \"Int32Value\": 2,\r\n        \"StringValue\": \"2\"\r\n    },\r\n    {\r\n        \"Value\": 568,\r\n        \"TimeStamp\": \"2023-04-18T15:53:41.239-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!PIMS_AM_PORAO_TOT_2_D\",\r\n        \"FloatValue\": 568.0,\r\n        \"DoubleValue\": 568.0,\r\n        \"Int32Value\": 568,\r\n        \"StringValue\": \"568\"\r\n    },\r\n    {\r\n        \"Value\": 568,\r\n        \"TimeStamp\": \"2023-04-18T15:53:41.239-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!PIMS_AM_PORAO_TOT08_2_D\",\r\n        \"FloatValue\": 568.0,\r\n        \"DoubleValue\": 568.0,\r\n        \"Int32Value\": 568,\r\n        \"StringValue\": \"568\"\r\n    },\r\n    {\r\n        \"Value\": 0,\r\n        \"TimeStamp\": \"2023-04-18T15:53:41.239-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!PIMS_AM_PORAO_NUM_3_D\",\r\n        \"FloatValue\": 0.0,\r\n        \"DoubleValue\": 0.0,\r\n        \"Int32Value\": 0,\r\n        \"StringValue\": \"0\"\r\n    },\r\n    {\r\n        \"Value\": 0,\r\n        \"TimeStamp\": \"2023-04-18T15:53:41.239-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!PIMS_AM_PORAO_TOT_3_D\",\r\n        \"FloatValue\": 0.0,\r\n        \"DoubleValue\": 0.0,\r\n        \"Int32Value\": 0,\r\n        \"StringValue\": \"0\"\r\n    },\r\n    {\r\n        \"Value\": 0,\r\n        \"TimeStamp\": \"2023-04-18T15:53:41.239-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!PIMS_AM_PORAO_TOT08_3_D\",\r\n        \"FloatValue\": 0.0,\r\n        \"DoubleValue\": 0.0,\r\n        \"Int32Value\": 0,\r\n        \"StringValue\": \"0\"\r\n    },\r\n    {\r\n        \"Value\": 3,\r\n        \"TimeStamp\": \"2023-04-18T15:53:41.239-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!PIMS_AM_NORTE_PARC_D\",\r\n        \"FloatValue\": 3.0,\r\n        \"DoubleValue\": 3.0,\r\n        \"Int32Value\": 3,\r\n        \"StringValue\": \"3\"\r\n    },\r\n    {\r\n        \"Value\": 1,\r\n        \"TimeStamp\": \"2023-04-18T15:53:41.239-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!PIMS_AM_NORTE_SP_VAL_QUAR\",\r\n        \"FloatValue\": 1.0,\r\n        \"DoubleValue\": 1.0,\r\n        \"Int32Value\": 1,\r\n        \"StringValue\": \"1\"\r\n    },\r\n    {\r\n        \"Value\": 3,\r\n        \"TimeStamp\": \"2023-04-18T15:53:41.239-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!PIMS_AM_NORTE_QUA_SPED_VAL\",\r\n        \"FloatValue\": 3.0,\r\n        \"DoubleValue\": 3.0,\r\n        \"Int32Value\": 3,\r\n        \"StringValue\": \"3\"\r\n    }\r\n]"
+      "value": "[\r\n    {\r\n        \"Value\": [\r\n            21318,\r\n            20295,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0\r\n        ],\r\n        \"TimeStamp\": \"2023-04-25T11:50:29.615-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!PIMS_C20_MW29706_PRODUTO\",\r\n        \"FloatValue\": 0.0,\r\n        \"DoubleValue\": 0.0,\r\n        \"Int32Value\": 0,\r\n        \"StringValue\": \"System.Int16[]\"\r\n    },\r\n    {\r\n        \"Value\": [\r\n            12848,\r\n            12851,\r\n            11569,\r\n            12338,\r\n            12800,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0,\r\n            0\r\n        ],\r\n        \"TimeStamp\": \"2023-04-25T11:50:29.615-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!PIMS_TIG_CNG01_GRL_SHIP_01_D\",\r\n        \"FloatValue\": 0.0,\r\n        \"DoubleValue\": 0.0,\r\n        \"Int32Value\": 0,\r\n        \"StringValue\": \"System.Int16[]\"\r\n    },\r\n    {\r\n        \"Value\": 111411,\r\n        \"TimeStamp\": \"2023-04-18T15:53:41.239-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!BD_ESTIMATED_WEIGHT_TX\",\r\n        \"FloatValue\": 111411.0,\r\n        \"DoubleValue\": 111411.0,\r\n        \"Int32Value\": 111411,\r\n        \"StringValue\": \"111411\"\r\n    },\r\n    {\r\n        \"Value\": 6,\r\n        \"TimeStamp\": \"2023-04-18T15:53:41.239-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!BD_PORAO_NUM_1_TX\",\r\n        \"FloatValue\": 6.0,\r\n        \"DoubleValue\": 6.0,\r\n        \"Int32Value\": 6,\r\n        \"StringValue\": \"6\"\r\n    },\r\n    {\r\n        \"Value\": 0,\r\n        \"TimeStamp\": \"2023-04-18T15:53:41.239-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!BD_PORAO_TOT_1_PRI_TX\",\r\n        \"FloatValue\": 0.0,\r\n        \"DoubleValue\": 0.0,\r\n        \"Int32Value\": 0,\r\n        \"StringValue\": \"0\"\r\n    },\r\n    {\r\n        \"Value\": 0,\r\n        \"TimeStamp\": \"2023-04-18T15:53:41.239-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!BD_PORAO_TOT_1_SEC_TX\",\r\n        \"FloatValue\": 0.0,\r\n        \"DoubleValue\": 0.0,\r\n        \"Int32Value\": 0,\r\n        \"StringValue\": \"0\"\r\n    },\r\n    {\r\n        \"Value\": 2,\r\n        \"TimeStamp\": \"2023-04-18T15:53:41.239-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!BD_PORAO_NUM_2_TX\",\r\n        \"FloatValue\": 2.0,\r\n        \"DoubleValue\": 2.0,\r\n        \"Int32Value\": 2,\r\n        \"StringValue\": \"2\"\r\n    },\r\n    {\r\n        \"Value\": 568,\r\n        \"TimeStamp\": \"2023-04-18T15:53:41.239-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!BD_PORAO_TOT_2_PRI_TX\",\r\n        \"FloatValue\": 568.0,\r\n        \"DoubleValue\": 568.0,\r\n        \"Int32Value\": 568,\r\n        \"StringValue\": \"568\"\r\n    },\r\n    {\r\n        \"Value\": 568,\r\n        \"TimeStamp\": \"2023-04-18T15:53:41.239-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!BD_PORAO_TOT_1_SEC_TX\",\r\n        \"FloatValue\": 568.0,\r\n        \"DoubleValue\": 568.0,\r\n        \"Int32Value\": 568,\r\n        \"StringValue\": \"568\"\r\n    },\r\n    {\r\n        \"Value\": 0,\r\n        \"TimeStamp\": \"2023-04-18T15:53:41.239-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!BD_PORAO_NUM_3_TX\",\r\n        \"FloatValue\": 0.0,\r\n        \"DoubleValue\": 0.0,\r\n        \"Int32Value\": 0,\r\n        \"StringValue\": \"0\"\r\n    },\r\n    {\r\n        \"Value\": 0,\r\n        \"TimeStamp\": \"2023-04-18T15:53:41.239-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!BD_PORAO_TOT_3_PRI_TX\",\r\n        \"FloatValue\": 0.0,\r\n        \"DoubleValue\": 0.0,\r\n        \"Int32Value\": 0,\r\n        \"StringValue\": \"0\"\r\n    },\r\n    {\r\n        \"Value\": 0,\r\n        \"TimeStamp\": \"2023-04-18T15:53:41.239-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!BD_PORAO_TOT_3_SEC_TX\",\r\n        \"FloatValue\": 0.0,\r\n        \"DoubleValue\": 0.0,\r\n        \"Int32Value\": 0,\r\n        \"StringValue\": \"0\"\r\n    },\r\n    {\r\n        \"Value\": 3,\r\n        \"TimeStamp\": \"2023-04-18T15:53:41.239-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!BD_PARCIAL_TX\",\r\n        \"FloatValue\": 3.0,\r\n        \"DoubleValue\": 3.0,\r\n        \"Int32Value\": 3,\r\n        \"StringValue\": \"3\"\r\n    },\r\n    {\r\n        \"Value\": 1,\r\n        \"TimeStamp\": \"2023-04-18T15:53:41.239-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!BD_SUBPARCIAL_TX\",\r\n        \"FloatValue\": 1.0,\r\n        \"DoubleValue\": 1.0,\r\n        \"Int32Value\": 1,\r\n        \"StringValue\": \"1\"\r\n    },\r\n    {\r\n        \"Value\": 3,\r\n        \"TimeStamp\": \"2023-04-18T15:53:41.239-03:00\",\r\n        \"Quality\": \"good\",\r\n        \"Name\": \"EMB!DB_EXPEDITA_TX\",\r\n        \"FloatValue\": 3.0,\r\n        \"DoubleValue\": 3.0,\r\n        \"Int32Value\": 3,\r\n        \"StringValue\": \"3\"\r\n    }\r\n]"
     },
     {
       "uuid": "cef56331-b4d7-4870-99bd-16bd9fb9a7ae",
@@ -515,7 +664,7 @@
       "id": "365n",
       "name": "SulProductionData",
       "documentation": "",
-      "value": "[\n  {\n    \"Value\": [\n      21318,\n      18242,\n      8224,\n      8224,\n      8224,\n      8224,\n      8224,\n      8224,\n      0,\n      0,\n      0,\n      0,\n      0,\n      0,\n      0,\n      0\n    ],\n    \"TimeStamp\": \"2023-05-03T15:25:26.736-03:00\",\n    \"Quality\": \"good\",\n    \"Name\": \"EMB!PRODUTO_01_ARRAY\",\n    \"FloatValue\": 0.0,\n    \"DoubleValue\": 0.0,\n    \"Int32Value\": 0,\n    \"StringValue\": \"System.Int16[]\"\n  },\n  {\n    \"Value\": [\n      12848,\n      12851,\n      11569,\n      12854,\n      13104,\n      8224,\n      8224,\n      8224,\n      0,\n      0,\n      0,\n      0,\n      0,\n      0,\n      0,\n      0\n    ],\n    \"TimeStamp\": \"2023-05-03T15:25:26.736-03:00\",\n    \"Quality\": \"good\",\n    \"Name\": \"EMB!LOTE_02_ARRAY\",\n    \"FloatValue\": 0.0,\n    \"DoubleValue\": 0.0,\n    \"Int32Value\": 0,\n    \"StringValue\": \"System.Int16[]\"\n  },\n  {\n    \"Value\": 293502,\n    \"TimeStamp\": \"2023-05-03T15:25:26.736-03:00\",\n    \"Quality\": \"good\",\n    \"Name\": \"EMB!PIMS_CN01_BERCS_TOT_01_D\",\n    \"FloatValue\": 293502.0,\n    \"DoubleValue\": 293502.0,\n    \"Int32Value\": 293502,\n    \"StringValue\": \"293502\"\n  },\n  {\n    \"Value\": 1,\n    \"TimeStamp\": \"2023-05-03T15:25:26.736-03:00\",\n    \"Quality\": \"good\",\n    \"Name\": \"EMB!PIMS_AM_PORAO_NUM_1_D\",\n    \"FloatValue\": 1.0,\n    \"DoubleValue\": 1.0,\n    \"Int32Value\": 1,\n    \"StringValue\": \"1\"\n  },\n  {\n    \"Value\": 542,\n    \"TimeStamp\": \"2023-05-03T15:25:26.736-03:00\",\n    \"Quality\": \"good\",\n    \"Name\": \"EMB!PIMS_AM_PORAO_TOT_1_D\",\n    \"FloatValue\": 542.0,\n    \"DoubleValue\": 542.0,\n    \"Int32Value\": 542,\n    \"StringValue\": \"542\"\n  },\n  {\n    \"Value\": 617,\n    \"TimeStamp\": \"2023-05-03T15:25:26.736-03:00\",\n    \"Quality\": \"good\",\n    \"Name\": \"EMB!PIMS_AM_PORAO_TOT08_1_D\",\n    \"FloatValue\": 617.0,\n    \"DoubleValue\": 617.0,\n    \"Int32Value\": 617,\n    \"StringValue\": \"617\"\n  },\n  {\n    \"Value\": 4,\n    \"TimeStamp\": \"2023-05-03T15:25:26.736-03:00\",\n    \"Quality\": \"good\",\n    \"Name\": \"EMB!PIMS_AM_PORAO_NUM_2_D\",\n    \"FloatValue\": 4.0,\n    \"DoubleValue\": 4.0,\n    \"Int32Value\": 4,\n    \"StringValue\": \"4\"\n  },\n  {\n    \"Value\": 521,\n    \"TimeStamp\": \"2023-05-03T15:25:26.736-03:00\",\n    \"Quality\": \"good\",\n    \"Name\": \"EMB!PIMS_AM_PORAO_TOT08_2_D\",\n    \"FloatValue\": 521.0,\n    \"DoubleValue\": 521.0,\n    \"Int32Value\": 521,\n    \"StringValue\": \"521\"\n  },\n  {\n    \"Value\": 541,\n    \"TimeStamp\": \"2023-05-03T15:25:26.736-03:00\",\n    \"Quality\": \"good\",\n    \"Name\": \"EMB!PIMS_AM_PORAO_TOT_2_D\",\n    \"FloatValue\": 541.0,\n    \"DoubleValue\": 541.0,\n    \"Int32Value\": 541,\n    \"StringValue\": \"541\"\n  },\n  {\n    \"Value\": 0,\n    \"TimeStamp\": \"2023-05-03T15:25:26.736-03:00\",\n    \"Quality\": \"good\",\n    \"Name\": \"EMB!PIMS_AM_PORAO_NUM_3_D\",\n    \"FloatValue\": 0.0,\n    \"DoubleValue\": 0.0,\n    \"Int32Value\": 0,\n    \"StringValue\": \"0\"\n  },\n  {\n    \"Value\": 0,\n    \"TimeStamp\": \"2023-05-03T15:25:26.736-03:00\",\n    \"Quality\": \"good\",\n    \"Name\": \"EMB!PIMS_AM_PORAO_TOT08_3_D\",\n    \"FloatValue\": 0.0,\n    \"DoubleValue\": 0.0,\n    \"Int32Value\": 0,\n    \"StringValue\": \"0\"\n  },\n  {\n    \"Value\": 0,\n    \"TimeStamp\": \"2023-05-03T15:25:26.736-03:00\",\n    \"Quality\": \"good\",\n    \"Name\": \"EMB!PIMS_AM_PORAO_TOT_3_D\",\n    \"FloatValue\": 0.0,\n    \"DoubleValue\": 0.0,\n    \"Int32Value\": 0,\n    \"StringValue\": \"0\"\n  },\n  {\n    \"Value\": 2,\n    \"TimeStamp\": \"2023-05-03T15:25:26.736-03:00\",\n    \"Quality\": \"good\",\n    \"Name\": \"EMB!PIMS_AM_SUL_PARC_D\",\n    \"FloatValue\": 2.0,\n    \"DoubleValue\": 2.0,\n    \"Int32Value\": 2,\n    \"StringValue\": \"2\"\n  },\n  {\n    \"Value\": 3,\n    \"TimeStamp\": \"2023-05-03T15:25:26.736-03:00\",\n    \"Quality\": \"good\",\n    \"Name\": \"EMB!PIMS_AMOS_SUL_SP_VAL_QUAR\",\n    \"FloatValue\": 3.0,\n    \"DoubleValue\": 3.0,\n    \"Int32Value\": 3,\n    \"StringValue\": \"3\"\n  },\n  {\n    \"Value\": 3,\n    \"TimeStamp\": \"2023-05-03T15:25:26.736-03:00\",\n    \"Quality\": \"good\",\n    \"Name\": \"EMB!PIMS_AM_SUL_QUA_SPED_VAL\",\n    \"FloatValue\": 3.0,\n    \"DoubleValue\": 3.0,\n    \"Int32Value\": 3,\n    \"StringValue\": \"3\"\n  },\n  {\n    \"Value\": 79,\n    \"TimeStamp\": \"2023-05-03T15:25:26.736-03:00\",\n    \"Quality\": \"good\",\n    \"Name\": \"EMB!AMOS_SUL_INC_NUM\",\n    \"FloatValue\": 79.0,\n    \"DoubleValue\": 79.0,\n    \"Int32Value\": 79,\n    \"StringValue\": \"79\"\n  },\n  {\n    \"Value\": 1129,\n    \"TimeStamp\": \"2023-05-03T15:25:26.736-03:00\",\n    \"Quality\": \"good\",\n    \"Name\": \"EMB!PIMS_AMOS_SUL_TOT_01_D\",\n    \"FloatValue\": 1129.0,\n    \"DoubleValue\": 1129.0,\n    \"Int32Value\": 1129,\n    \"StringValue\": \"1129\"\n  }\n]"
+      "value": "[\n  {\n    \"Value\": [\n      21318,\n      18242,\n      8224,\n      8224,\n      8224,\n      8224,\n      8224,\n      8224,\n      0,\n      0,\n      0,\n      0,\n      0,\n      0,\n      0,\n      0\n    ],\n    \"TimeStamp\": \"2023-05-03T15:25:26.736-03:00\",\n    \"Quality\": \"good\",\n    \"Name\": \"EMB!BD_PRODUCT_CODE_TX\",\n    \"FloatValue\": 0.0,\n    \"DoubleValue\": 0.0,\n    \"Int32Value\": 0,\n    \"StringValue\": \"System.Int16[]\"\n  },\n  {\n    \"Value\": [\n      12848,\n      12851,\n      11569,\n      12854,\n      13104,\n      8224,\n      8224,\n      8224,\n      0,\n      0,\n      0,\n      0,\n      0,\n      0,\n      0,\n      0\n    ],\n    \"TimeStamp\": \"2023-05-03T15:25:26.736-03:00\",\n    \"Quality\": \"good\",\n    \"Name\": \"EMB!BD_BORDING_CODE_TX\",\n    \"FloatValue\": 0.0,\n    \"DoubleValue\": 0.0,\n    \"Int32Value\": 0,\n    \"StringValue\": \"System.Int16[]\"\n  },\n  {\n    \"Value\": 293502,\n    \"TimeStamp\": \"2023-05-03T15:25:26.736-03:00\",\n    \"Quality\": \"good\",\n    \"Name\": \"EMB!BD_ESTIMATED_WEIGHT_TX\",\n    \"FloatValue\": 293502.0,\n    \"DoubleValue\": 293502.0,\n    \"Int32Value\": 293502,\n    \"StringValue\": \"293502\"\n  },\n  {\n    \"Value\": 1,\n    \"TimeStamp\": \"2023-05-03T15:25:26.736-03:00\",\n    \"Quality\": \"good\",\n    \"Name\": \"EMB!BD_PORAO_NUM_1_TX\",\n    \"FloatValue\": 1.0,\n    \"DoubleValue\": 1.0,\n    \"Int32Value\": 1,\n    \"StringValue\": \"1\"\n  },\n  {\n    \"Value\": 542,\n    \"TimeStamp\": \"2023-05-03T15:25:26.736-03:00\",\n    \"Quality\": \"good\",\n    \"Name\": \"EMB!BD_PORAO_TOT_1_PRI_TX\",\n    \"FloatValue\": 542.0,\n    \"DoubleValue\": 542.0,\n    \"Int32Value\": 542,\n    \"StringValue\": \"542\"\n  },\n  {\n    \"Value\": 617,\n    \"TimeStamp\": \"2023-05-03T15:25:26.736-03:00\",\n    \"Quality\": \"good\",\n    \"Name\": \"EMB!BD_PORAO_TOT_1_SEC_TX\",\n    \"FloatValue\": 617.0,\n    \"DoubleValue\": 617.0,\n    \"Int32Value\": 617,\n    \"StringValue\": \"617\"\n  },\n  {\n    \"Value\": 4,\n    \"TimeStamp\": \"2023-05-03T15:25:26.736-03:00\",\n    \"Quality\": \"good\",\n    \"Name\": \"EMB!BD_PORAO_NUM_2_TX\",\n    \"FloatValue\": 4.0,\n    \"DoubleValue\": 4.0,\n    \"Int32Value\": 4,\n    \"StringValue\": \"4\"\n  },\n  {\n    \"Value\": 521,\n    \"TimeStamp\": \"2023-05-03T15:25:26.736-03:00\",\n    \"Quality\": \"good\",\n    \"Name\": \"EMB!BD_PORAO_TOT_1_SEC_TX\",\n    \"FloatValue\": 521.0,\n    \"DoubleValue\": 521.0,\n    \"Int32Value\": 521,\n    \"StringValue\": \"521\"\n  },\n  {\n    \"Value\": 541,\n    \"TimeStamp\": \"2023-05-03T15:25:26.736-03:00\",\n    \"Quality\": \"good\",\n    \"Name\": \"EMB!BD_PORAO_TOT_2_PRI_TX\",\n    \"FloatValue\": 541.0,\n    \"DoubleValue\": 541.0,\n    \"Int32Value\": 541,\n    \"StringValue\": \"541\"\n  },\n  {\n    \"Value\": 0,\n    \"TimeStamp\": \"2023-05-03T15:25:26.736-03:00\",\n    \"Quality\": \"good\",\n    \"Name\": \"EMB!BD_PORAO_NUM_3_TX\",\n    \"FloatValue\": 0.0,\n    \"DoubleValue\": 0.0,\n    \"Int32Value\": 0,\n    \"StringValue\": \"0\"\n  },\n  {\n    \"Value\": 0,\n    \"TimeStamp\": \"2023-05-03T15:25:26.736-03:00\",\n    \"Quality\": \"good\",\n    \"Name\": \"EMB!BD_PORAO_TOT_3_SEC_TX\",\n    \"FloatValue\": 0.0,\n    \"DoubleValue\": 0.0,\n    \"Int32Value\": 0,\n    \"StringValue\": \"0\"\n  },\n  {\n    \"Value\": 0,\n    \"TimeStamp\": \"2023-05-03T15:25:26.736-03:00\",\n    \"Quality\": \"good\",\n    \"Name\": \"EMB!BD_PORAO_TOT_3_PRI_TX\",\n    \"FloatValue\": 0.0,\n    \"DoubleValue\": 0.0,\n    \"Int32Value\": 0,\n    \"StringValue\": \"0\"\n  },\n  {\n    \"Value\": 2,\n    \"TimeStamp\": \"2023-05-03T15:25:26.736-03:00\",\n    \"Quality\": \"good\",\n    \"Name\": \"EMB!BD_PARCIAL_TX\",\n    \"FloatValue\": 2.0,\n    \"DoubleValue\": 2.0,\n    \"Int32Value\": 2,\n    \"StringValue\": \"2\"\n  },\n  {\n    \"Value\": 3,\n    \"TimeStamp\": \"2023-05-03T15:25:26.736-03:00\",\n    \"Quality\": \"good\",\n    \"Name\": \"EMB!BD_SUBPARCIAL_TX\",\n    \"FloatValue\": 3.0,\n    \"DoubleValue\": 3.0,\n    \"Int32Value\": 3,\n    \"StringValue\": \"3\"\n  },\n  {\n    \"Value\": 3,\n    \"TimeStamp\": \"2023-05-03T15:25:26.736-03:00\",\n    \"Quality\": \"good\",\n    \"Name\": \"EMB!DB_EXPEDITA_TX\",\n    \"FloatValue\": 3.0,\n    \"DoubleValue\": 3.0,\n    \"Int32Value\": 3,\n    \"StringValue\": \"3\"\n  },\n  {\n    \"Value\": 79,\n    \"TimeStamp\": \"2023-05-03T15:25:26.736-03:00\",\n    \"Quality\": \"good\",\n    \"Name\": \"EMB!DB_NUMERO_INCREMENTO_TX\",\n    \"FloatValue\": 79.0,\n    \"DoubleValue\": 79.0,\n    \"Int32Value\": 79,\n    \"StringValue\": \"79\"\n  },\n  {\n    \"Value\": 1129,\n    \"TimeStamp\": \"2023-05-03T15:25:26.736-03:00\",\n    \"Quality\": \"good\",\n    \"Name\": \"EMB!DB_PESO_CORTE_PROG_TX\",\n    \"FloatValue\": 1129.0,\n    \"DoubleValue\": 1129.0,\n    \"Int32Value\": 1129,\n    \"StringValue\": \"1129\"\n  }\n]"
     }
   ]
 }
