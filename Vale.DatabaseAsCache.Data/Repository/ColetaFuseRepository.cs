@@ -54,7 +54,7 @@ namespace Vale.DatabaseAsCache.Data.Repository
             }
             catch (TransactionAbortedException ex)
             {
-                _log.Error($"Checagem de conexão ao banco abortada durante transação: {ex}");
+                _log.ErrorFormat("Checagem de conexão ao banco abortada durante transação: {0}", ex.ToString().Replace(Environment.NewLine, string.Empty));
                 isOpen = false;
             }
             return isOpen;
@@ -97,7 +97,7 @@ SELECT [PIER_CODE]
     ,[SUBSUBPARTIAL_SAMPLE]
     ,[WEIGHTATCUT]
     ,[STATUS_TYPE]
-FROM [dbo].[{_tableName}]
+FROM [dbo].[ {_tableName} ]
 WHERE [STATUS_TYPE] = 'PENDING'
 ORDER BY [INCREMENT_DATETIME] DESC";
                     response = _connection.QueryFirstOrDefault<ColetaFuseData>(sql);
@@ -106,11 +106,11 @@ ORDER BY [INCREMENT_DATETIME] DESC";
             }
             catch (SqlException ex)
             {
-                _log.Error($"Erro ao executar seleção: {ex.ToString().Replace(Environment.NewLine, string.Empty)}");
+                _log.ErrorFormat("Erro ao executar seleção: {0}", ex.ToString().Replace(Environment.NewLine, string.Empty));
             }
             catch (TransactionAbortedException ex)
             {
-                _log.Error($"Seleção no banco abortada durante transação: {ex.ToString().Replace(Environment.NewLine, string.Empty)}");
+                _log.ErrorFormat("Seleção no banco abortada durante transação: {0}", ex.ToString().Replace(Environment.NewLine, string.Empty));
             }
 
             return response;
@@ -193,11 +193,11 @@ VALUES
             }
             catch (SqlException ex)
             {
-                _log.Error($"Erro ao executar inserção: {ex.ToString().Replace(Environment.NewLine, string.Empty)}");
+                _log.ErrorFormat("Erro ao executar inserção: {0}", ex.ToString().Replace(Environment.NewLine, string.Empty));
             }
             catch (TransactionAbortedException ex)
             {
-                _log.Error($"Inserção no banco abortada durante transação: {ex.ToString().Replace(Environment.NewLine, string.Empty)}");
+                _log.ErrorFormat("Inserção no banco abortada durante transação: {0}", ex.ToString().Replace(Environment.NewLine, string.Empty));
             }
 
             return numRowsInserted;
@@ -223,12 +223,12 @@ UPDATE [dbo].[{_tableName}]
             }
             catch (SqlException ex)
             {
-                _log.Error($"Erro ao executar seleção: {ex.ToString().Replace(Environment.NewLine, string.Empty)}");
+                _log.ErrorFormat("Erro ao executar seleção: {}", ex.ToString().Replace(Environment.NewLine, string.Empty));
                 lineUpdated = false;
             }
             catch (TransactionAbortedException ex)
             {
-                _log.Error($"Seleção no banco abortada durante transação: {ex.ToString().Replace(Environment.NewLine, string.Empty)}");
+                _log.ErrorFormat("Seleção no banco abortada durante transação: {0}", ex.ToString().Replace(Environment.NewLine, string.Empty));
                 lineUpdated = false;
             }
 
@@ -247,7 +247,7 @@ UPDATE [dbo].[{_tableName}]
                 {
                     string sql = $@"
 SELECT COUNT(*)
-FROM [dbo].[{_tableName}]
+FROM [dbo].[ {_tableName} ]
 WHERE [STATUS_TYPE] = 'PENDING'";
                     int response = _connection.ExecuteScalar<int>(sql);
                     transaction.Complete();
@@ -256,11 +256,11 @@ WHERE [STATUS_TYPE] = 'PENDING'";
             }
             catch (SqlException ex)
             {
-                _log.Error($"Erro ao executar seleção: {ex.ToString().Replace(Environment.NewLine, string.Empty)}");
+                _log.ErrorFormat("Erro ao executar seleção: {0}", ex.ToString().Replace(Environment.NewLine, string.Empty));
             }
             catch (TransactionAbortedException ex)
             {
-                _log.Error($"Seleção no banco abortada durante transação: {ex.ToString().Replace(Environment.NewLine, string.Empty)}");
+                _log.ErrorFormat("Seleção no banco abortada durante transação: {0}", ex.ToString().Replace(Environment.NewLine, string.Empty));
             }
 
             return -1;

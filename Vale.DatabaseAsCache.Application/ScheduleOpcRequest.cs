@@ -1,8 +1,10 @@
 using log4net;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Win32;
 using System;
 using System.Configuration;
+using System.Diagnostics;
+using System.Globalization;
+using System.IO;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -43,19 +45,14 @@ namespace Vale.DatabaseAsCache.Application
         private readonly ColetaFuseRepository _coletaFuseRepository;
 
         /// <summary>
-        /// Application path to registry key
+        /// Caminho para o arquivo local onde os dados serão armazenados
         /// </summary>
-        private readonly string RegistryPath = WindowsRegistryInfo.BasePath + @"\ScheduleOpcRequest";
-
-        /// <summary>
-        /// Registry key to store the last value sent
-        /// </summary>
-        private readonly string RegistryKey = "LastValueSent";
+        private readonly string _dataFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "sendsignal.txt");
 
         public ScheduleOpcRequest()
         {
             // Handling scheduler pooling interval
-            if (!TimeSpan.TryParse(ConfigurationManager.AppSettings["SchedulerInterval"], out _poolingInterval))
+            if (!TimeSpan.TryParse(ConfigurationManager.AppSettings["SchedulerInterval"], CultureInfo.InvariantCulture, out _poolingInterval))
             {
                 _log.Error("Erro ao ler campo de configuração do agendador: SchedulerInterval.");
                 throw new FormatException();
@@ -63,7 +60,7 @@ namespace Vale.DatabaseAsCache.Application
 
             if (TimeSpan.Compare(_poolingInterval, minimalInterval).Equals(-1) || TimeSpan.Compare(_poolingInterval, maximalInterval).Equals(1))
             {
-                _log.Error($"Configuração do agendador possui intervalo fora do aceitável: utilize intervalos entre {minimalInterval:c} e {maximalInterval:c}.");
+                _log.ErrorFormat("Configuração do agendador possui intervalo fora do aceitável: utilize intervalos entre {0:c} e {1:c}.", minimalInterval, maximalInterval);
                 throw new FormatException();
             }
 
@@ -89,7 +86,7 @@ namespace Vale.DatabaseAsCache.Application
                 Regex r = new Regex(@"(\b25[0-5]|\b2[0-4][0-9]|\b[01]?[0-9][0-9]?)(\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}", RegexOptions.IgnoreCase);
                 string serverIP = r.Match(connectionStringMain).ToString();
 
-                _log.Info($"Estabelecendo conexão com o banco de dados: {serverIP}");
+                _log.InfoFormat("Estabelecendo conexão com o banco de dados: {0}", serverIP);
                 _coletaFuseRepository = new ColetaFuseRepository(connectionStringMain);
                 if (!_coletaFuseRepository.IsConnectionOpen())
                 {
@@ -103,58 +100,30 @@ namespace Vale.DatabaseAsCache.Application
                 throw new FormatException();
             }
 
-            _log.Info($"Intervalo entre requisições: {_poolingInterval:c}");
+            _log.InfoFormat("Intervalo entre requisições: {0:c}", _poolingInterval);
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             while (!stoppingToken.IsCancellationRequested)
             {
+                var stopWatch = Stopwatch.StartNew();
                 DateTime triggerStartTime = DateTime.Now;
                 try
                 {
-                    _log.Info($"### Gatilho de leitura às {triggerStartTime:dd/MM/yyyy HH:mm:ss} ###");
+                    _log.InfoFormat("### Gatilho de leitura às {0:dd/MM/yyyy HH:mm:ss} ###", triggerStartTime);
                     // VERIFICA SE TEM NOVO REGISTRO
                     string novoRegistro = _opcApiInterface.PostVerificaNovoRegistro();
                     if (novoRegistro is null)
                     {
-                        _log.Info($"Erro ao requisitar verificação de novo registro");
+                        _log.Info("Erro ao requisitar verificação de novo registro");
                     }
                     else
                     {
                         if (OpcApiService.ConverteNovoRegistro(novoRegistro))
                         {
-                            _log.Info($"Novo registro disponível no CLP");
-                            // BUSCA DADOS DO PIER
-                            ColetaFuseData data = null;
-                            string dataFromPier = _opcApiInterface.PostDataFromPier();
-                            data = OpcApiService.ExtractDataFromPier(dataFromPier, triggerStartTime);
-                            if (data != null)
-                            {
-                                // PERSISTE DADOS NO BANCO
-                                int rowsInserted = _coletaFuseRepository.Insert(data);
-                                if (rowsInserted > 0)
-                                {
-                                    _log.Info($"Dado foi salvo no banco!");
-                                    _log.Debug($"{rowsInserted} dado(s) inserido(s): {data}");
-                                    // ENVIA SINAL DE CONFIRMAÇÃO DE ESCRITA AO OPC
-                                    bool previousValueSent = (bool)(Registry.GetValue(RegistryPath, RegistryKey, 0) ?? 0);
-                                    bool currentValueToSend = !previousValueSent;
-                                    if (_opcApiInterface.PostSendConfirmationSignal(currentValueToSend))
-                                    {
-                                        Registry.SetValue(RegistryPath, RegistryKey, currentValueToSend);
-                                        _log.Debug($"Sinal de confirmação de escrita enviado com sucesso. Valor enviado: {currentValueToSend}");
-                                    }
-                                    else
-                                    {
-                                        _log.Error($"Erro ao enviar sinal confirmação de escrita ao OPC. Tentativa de envio: {currentValueToSend}");
-                                    }
-                                }
-                                else
-                                {
-                                    _log.Info($"Erro ao salvar dados no banco.");
-                                }
-                            }
+                            _log.Info("Novo registro disponível no CLP");
+                            BuscaDadosPier(triggerStartTime);
                         }
                         else
                         {
@@ -164,14 +133,89 @@ namespace Vale.DatabaseAsCache.Application
                 }
                 catch (Exception ex)
                 {
-                    _log.Error($"Erro no gatilho principal: {ex.ToString().Replace(Environment.NewLine, string.Empty)}");
+                    _log.ErrorFormat("Erro no gatilho principal: {0}", ex.ToString().Replace(Environment.NewLine, string.Empty));
                 }
                 // Garante que o intervalo entre requisições seja respeitado, mesmo com tempo de execução alto
-                TimeSpan executionDuration = DateTime.Now - triggerStartTime;
+                stopWatch.Stop();
+                TimeSpan executionDuration = stopWatch.Elapsed;
                 if (executionDuration < _poolingInterval)
                 {
                     await Task.Delay(_poolingInterval - executionDuration, stoppingToken);
                 }
+            }
+        }
+
+        /// <summary>
+        /// Busca dados do pier para processamento
+        /// </summary>
+        /// <param name="triggerStartTime"></param>
+        private void BuscaDadosPier(DateTime triggerStartTime)
+        {
+            string dataFromPier = _opcApiInterface.PostDataFromPier();
+            ColetaFuseData data = OpcApiService.ExtractDataFromPier(dataFromPier, triggerStartTime);
+            if (data != null)
+            {
+                // PERSISTE DADOS NO BANCO
+                int rowsInserted = _coletaFuseRepository.Insert(data);
+                if (rowsInserted > 0)
+                {
+                    _log.Info($"Dado foi salvo no banco!");
+                    _log.DebugFormat("{0} dado(s) inserido(s): {1}", rowsInserted, data);
+                    SendConfirmationSignal();
+                }
+                else
+                {
+                    _log.Info($"Erro ao salvar dados no banco.");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Envia sinal de confirmação de escrita ao OPC
+        /// </summary>
+        private void SendConfirmationSignal()
+        {
+            bool signalFileExist = CheckSendSignalFileExists();
+            if (_opcApiInterface.PostSendConfirmationSignal(signalFileExist))
+            {
+                ToogleSendSignalFile(signalFileExist);
+                _log.DebugFormat("Sinal de confirmação de escrita enviado com sucesso. Valor enviado: {0}", signalFileExist);
+            }
+            else
+            {
+                _log.ErrorFormat("Erro ao enviar sinal confirmação de escrita ao OPC. Tentativa de envio: {0}", signalFileExist);
+            }
+        }
+
+        private bool CheckSendSignalFileExists()
+        {
+            try
+            {
+                return File.Exists(_dataFilePath);
+            }
+            catch (Exception ex)
+            {
+                _log.ErrorFormat("Erro ao ler o arquivo de controle do SendSignal: {0}", ex.Message);
+            }
+            return false;
+        }
+
+        private void ToogleSendSignalFile(bool fileExists)
+        {
+            try
+            {
+                if (fileExists)
+                {
+                    File.Delete(_dataFilePath);
+                }
+                else
+                {
+                    File.WriteAllText(_dataFilePath, "foo");
+                }
+            }
+            catch (Exception ex)
+            {
+                _log.ErrorFormat("Erro ao salvar o arquivo de controle do SendSignal: {0}", ex.Message);
             }
         }
     }

@@ -1,7 +1,6 @@
 ﻿using log4net;
 using Newtonsoft.Json;
 using System;
-using System.Linq;
 using System.Net.Http;
 using System.Text;
 using Vale.GetFuseData.ApiService.Models;
@@ -27,7 +26,7 @@ namespace Vale.DatabaseAsCache.Service.Infrastructure
             string baseUrl = fuseApiOptions.FuseApiUrl;
             if (!baseUrl.EndsWith("/"))
             {
-                baseUrl.Append('/');
+                baseUrl += '/';
             }
             client = new HttpClient(handler)
             {
@@ -50,19 +49,19 @@ namespace Vale.DatabaseAsCache.Service.Infrastructure
                 HttpContent content = new StringContent(body.ToString(), Encoding.UTF8, "application/json");
                 using (HttpResponseMessage response = client.PostAsync("", content).Result)
                 {
-                    _log.Debug($"PostSendData response: {JsonConvert.SerializeObject(response)}");
+                    _log.DebugFormat("PostSendData response: {0}", JsonConvert.SerializeObject(response));
                     response.EnsureSuccessStatusCode();
                     return true;
                 }
             }
             catch (HttpRequestException ex)
             {
-                _log.Error($"Erro na requisição HTTP: {ex.ToString().Replace(Environment.NewLine, string.Empty)}");
+                _log.ErrorFormat("Erro na requisição HTTP: {0}", ex.ToString().Replace(Environment.NewLine, string.Empty));
                 return false;
             }
             catch (Exception ex)
             {
-                _log.Error($"Erro genérico ao checar se há novo registro: {ex.ToString().Replace(Environment.NewLine, string.Empty)}");
+                _log.ErrorFormat("Erro genérico ao checar se há novo registro: {0}", ex.ToString().Replace(Environment.NewLine, string.Empty));
                 return false;
             }
         }

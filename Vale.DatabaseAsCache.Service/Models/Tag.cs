@@ -1,12 +1,7 @@
 ﻿namespace Vale.DatabaseAsCache.ApiService.Models
 {
-    public class Tag
+    public static class Tag
     {
-        /// <summary>
-        /// Mnemonic of Ship Load PLC
-        /// </summary>
-        private static readonly string ShipLoadClpPrefix = "CN02!";
-
         /// <summary>
         /// Mnemonic of Shipment PLC
         /// </summary>
@@ -128,8 +123,5 @@
         /// Tag que indica que o GPV está com delay para consumir mensagens.
         /// </summary>
         public static readonly string GPVWithDelay = ShipmentClpPrefix + "DB_ENV_GPV_FAULT_RX";
-        
-        // public static readonly string OrderName = ShipLoadClpPrefix + "%MW9904";
-        // Another CLP possibility.
     }
 }

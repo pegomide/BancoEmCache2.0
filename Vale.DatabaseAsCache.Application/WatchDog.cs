@@ -1,8 +1,9 @@
 using log4net;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Win32;
 using System;
+using System.IO;
 using System.Configuration;
+using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 using Vale.DatabaseAsCache.Service;
@@ -28,14 +29,10 @@ namespace Vale.DatabaseAsCache.Application
         private readonly TimeSpan _watchdogInterval = new TimeSpan(0, 0, 30);
 
         /// <summary>
-        /// Application path to registry key
+        /// Caminho para o arquivo local onde os dados serão armazenados
         /// </summary>
-        private string _registryPath = WindowsRegistryInfo.BasePath + @"\WatchDog";
+        private readonly string _dataFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "watchdog.txt");
 
-        /// <summary>
-        /// Registry key to store the last value sent
-        /// </summary>
-        private string _registryKey = "LastValueSent";
 
         public Watchdog()
         {
@@ -56,34 +53,68 @@ namespace Vale.DatabaseAsCache.Application
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            bool lastValueSent = (bool)(Registry.GetValue(_registryPath, _registryKey, 0) ?? 0);
-            bool currentValueToSend = !lastValueSent;
+            bool thereIsWatchDogFile = CheckWatchDogFileExists();
+
             while (!stoppingToken.IsCancellationRequested)
             {
-                DateTime triggerStartTime = DateTime.Now;
+                var stopWatch = Stopwatch.StartNew();
                 try
                 {
-                    _log.Info($"### Gatilho de watchdog às {triggerStartTime:dd/MM/yyyy HH:mm:ss} ###");
-                    if (_opcApiInterface.PostSendWatdogSignal(currentValueToSend))
+                    _log.InfoFormat("### Gatilho de watchdog às {0:dd/MM/yyyy HH:mm:ss} ###", DateTime.Now);
+                    if (_opcApiInterface.PostSendWatdogSignal(thereIsWatchDogFile))
                     {
-                        Registry.SetValue(_registryPath, _registryKey, currentValueToSend);
-                        _log.Debug($"Sinal de watchdog enviado com sucesso. Valor enviado: {currentValueToSend}");
+                        ToogleWatchDogFile(thereIsWatchDogFile);
+                        _log.DebugFormat("Sinal de watchdog enviado com sucesso: {0}", thereIsWatchDogFile);
                     }
                     else
                     {
-                        _log.Error($"Erro ao enviar sinal de watchdog. Tentativa de envio: {currentValueToSend}");
+                        _log.ErrorFormat("Erro ao enviar sinal de watchdog. Tentativa de envio: {0}", thereIsWatchDogFile);
                     }
                 }
                 catch (Exception ex)
                 {
-                    _log.Error($"Erro no gatilho watchdog: {ex.ToString().Replace(Environment.NewLine, string.Empty)}");
+                    _log.ErrorFormat("Erro no gatilho watchdog: {0}", ex.ToString().Replace(Environment.NewLine, string.Empty));
                 }
+
                 // Garante que o intervalo entre requisições seja respeitado, mesmo com tempo de execução alto
-                TimeSpan executionDuration = DateTime.Now - triggerStartTime;
+                stopWatch.Stop();
+                TimeSpan executionDuration = stopWatch.Elapsed;
                 if (executionDuration < _watchdogInterval)
                 {
                     await Task.Delay(_watchdogInterval - executionDuration, stoppingToken);
                 }
+            }
+        }
+
+        private bool CheckWatchDogFileExists()
+        {
+            try
+            {
+                return File.Exists(_dataFilePath);
+            }
+            catch (Exception ex)
+            {
+                _log.ErrorFormat("Erro ao ler o arquivo de controle do watchDog: {0}", ex.Message);
+            }
+            return false;
+        }
+
+        private void ToogleWatchDogFile(bool fileExists)
+        {
+            try
+            {
+                if (fileExists)
+                {
+                    File.Delete(_dataFilePath);
+                }
+                else
+                {
+                    File.WriteAllText(_dataFilePath, "foo");
+                }
+            }
+            catch (Exception ex)
+            {
+                _log.ErrorFormat("Erro ao salvar o arquivo de controle do watchDog: {0}", ex.Message);
             }
         }
     }

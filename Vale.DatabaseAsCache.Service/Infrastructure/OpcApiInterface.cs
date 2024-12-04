@@ -2,10 +2,7 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Globalization;
-using System.Linq;
-using System.Net;
 using System.Net.Http;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -19,6 +16,7 @@ namespace Vale.DatabaseAsCache.Service.Infrastructure
         private readonly HttpClient client;
         private readonly string _hostname;
         private readonly string _servername;
+        private const string HttpRequestErrorMessage = "Erro na requisição HTTP: {0}";
 
         public OpcApiInterface(OpcApiOptions opcApiOptions)
         {
@@ -36,7 +34,7 @@ namespace Vale.DatabaseAsCache.Service.Infrastructure
             string baseUrl = opcApiOptions.OpcApiUrl;
             if (!baseUrl.EndsWith("/"))
             {
-                baseUrl.Append('/');
+                baseUrl += '/';
             }
             client = new HttpClient(handler)
             {
@@ -67,11 +65,11 @@ namespace Vale.DatabaseAsCache.Service.Infrastructure
             }
             catch (HttpRequestException ex)
             {
-                _log.Error($"Erro na requisição HTTP: {ex.ToString().Replace(Environment.NewLine, string.Empty)}");
+                _log.ErrorFormat(HttpRequestErrorMessage, ex.ToString().Replace(Environment.NewLine, string.Empty));
             }
             catch (Exception ex)
             {
-                _log.Error($"Erro genérico ao checar se há novo registro: {ex.ToString().Replace(Environment.NewLine, string.Empty)}");
+                _log.ErrorFormat("Erro genérico ao checar se há novo registro: {0}", ex.ToString().Replace(Environment.NewLine, string.Empty));
             }
 
             return responseBody;
@@ -94,36 +92,36 @@ namespace Vale.DatabaseAsCache.Service.Infrastructure
                     Hostname = _hostname,
                     Servername = _servername,
                     Items = new List<string>() {
-                        Tag.PierCode,
-                        Tag.ProductCode,
-                        Tag.BoardingCode,
-                        Tag.EstimatedWeight,
-                        Tag.PoraoID1,
-                        Tag.Porao1WeigthFirstScale,
-                        Tag.Porao1WeigthSecondScale,
-                        Tag.PoraoID2,
-                        Tag.Porao2WeigthSecondScale,
-                        Tag.Porao2WeigthFirstScale,
-                        Tag.PoraoID3,
-                        Tag.Porao3WeigthSecondScale,
-                        Tag.Porao3WeigthFirstScale,
-                        Tag.PartialSample,
-                        Tag.SubPartialSample,
-                        Tag.SubSubPartialSample,
-                        Tag.IncrementNumber,
-                        Tag.WeightAtCut,
-                        Tag.OrderName
-                    }
+                            Tag.PierCode,
+                            Tag.ProductCode,
+                            Tag.BoardingCode,
+                            Tag.EstimatedWeight,
+                            Tag.PoraoID1,
+                            Tag.Porao1WeigthFirstScale,
+                            Tag.Porao1WeigthSecondScale,
+                            Tag.PoraoID2,
+                            Tag.Porao2WeigthSecondScale,
+                            Tag.Porao2WeigthFirstScale,
+                            Tag.PoraoID3,
+                            Tag.Porao3WeigthSecondScale,
+                            Tag.Porao3WeigthFirstScale,
+                            Tag.PartialSample,
+                            Tag.SubPartialSample,
+                            Tag.SubSubPartialSample,
+                            Tag.IncrementNumber,
+                            Tag.WeightAtCut,
+                            Tag.OrderName
+                        }
                 };
                 responseBody = PostOpcRequest(requestBody, OpcRequestType.Read);
             }
             catch (HttpRequestException ex)
             {
-                _log.Error($"Erro na requisição HTTP: {ex.ToString().Replace(Environment.NewLine, string.Empty)}");
+                _log.ErrorFormat(HttpRequestErrorMessage, ex.ToString().Replace(Environment.NewLine, string.Empty));
             }
             catch (Exception ex)
             {
-                _log.Error($"Erro genérico ao extrair dados do pier sul: {ex.ToString().Replace(Environment.NewLine, string.Empty)}");
+                _log.ErrorFormat("Erro genérico ao extrair dados do pier sul: {0}", ex.ToString().Replace(Environment.NewLine, string.Empty));
             }
 
             return responseBody;
@@ -146,16 +144,16 @@ namespace Vale.DatabaseAsCache.Service.Infrastructure
                     Values = new List<int>() { Convert.ToInt32(signal) }
                 };
                 string responseBody = PostOpcRequest(requestBody, OpcRequestType.Write);
-                _log.Info($"Sinal de watchdog enviado com sucesso. Valor: {requestBody.Values.First()}");
+                _log.InfoFormat("Sinal de watchdog enviado com sucesso ao OPC: {0}", responseBody);
                 return true;
             }
             catch (HttpRequestException ex)
             {
-                _log.Error($"Erro na requisição HTTP: {ex.ToString().Replace(Environment.NewLine, string.Empty)}");
+                _log.ErrorFormat(HttpRequestErrorMessage, ex.ToString().Replace(Environment.NewLine, string.Empty));
             }
             catch (Exception ex)
             {
-                _log.Error($"Erro genérico ao extrair dados do pier sul: {ex.ToString().Replace(Environment.NewLine, string.Empty)}");
+                _log.ErrorFormat("Erro genérico ao extrair dados do pier sul: {0}", ex.ToString().Replace(Environment.NewLine, string.Empty));
             }
             return false;
         }
@@ -177,16 +175,16 @@ namespace Vale.DatabaseAsCache.Service.Infrastructure
                     Values = new List<int>() { Convert.ToInt32(signal) }
                 };
                 string responseBody = PostOpcRequest(requestBody, OpcRequestType.Write);
-                _log.Info($"Sinal de confirmação enviado com sucesso. Valor: {requestBody.Values.First()}");
+                _log.InfoFormat("Sinal de confirmação enviado com sucesso. Valor: {0}", responseBody);
                 return true;
             }
             catch (HttpRequestException ex)
             {
-                _log.Error($"Erro na requisição HTTP: {ex.ToString().Replace(Environment.NewLine, string.Empty)}");
+                _log.ErrorFormat(HttpRequestErrorMessage, ex.ToString().Replace(Environment.NewLine, string.Empty));
             }
             catch (Exception ex)
             {
-                _log.Error($"Erro genérico ao extrair dados do pier sul: {ex.ToString().Replace(Environment.NewLine, string.Empty)}");
+                _log.ErrorFormat("Erro genérico ao extrair dados do pier sul: {0}", ex.ToString().Replace(Environment.NewLine, string.Empty));
             }
             return false;
         }
@@ -208,16 +206,16 @@ namespace Vale.DatabaseAsCache.Service.Infrastructure
                     Values = new List<int>() { Convert.ToInt32(signal) }
                 };
                 string responseBody = PostOpcRequest(requestBody, OpcRequestType.Write);
-                _log.Info($"Sinal de pendencia de leitura do GPV atualizado com sucesso. Valor: {requestBody.Values.First()}");
+                _log.InfoFormat("Sinal de pendencia de leitura do GPV atualizado com sucesso. Valor: {0}", responseBody);
                 return true;
             }
             catch (HttpRequestException ex)
             {
-                _log.Error($"Erro na requisição HTTP: {ex.ToString().Replace(Environment.NewLine, string.Empty)}");
+                _log.ErrorFormat(HttpRequestErrorMessage, ex.ToString().Replace(Environment.NewLine, string.Empty));
             }
             catch (Exception ex)
             {
-                _log.Error($"Erro genérico ao extrair dados do pier sul: {ex.ToString().Replace(Environment.NewLine, string.Empty)}");
+                _log.ErrorFormat("Erro genérico ao extrair dados do pier sul: {0}", ex.ToString().Replace(Environment.NewLine, string.Empty));
             }
             return false;
         }
@@ -239,10 +237,10 @@ namespace Vale.DatabaseAsCache.Service.Infrastructure
             HttpContent content = new StringContent(JsonConvert.SerializeObject(requestBody), Encoding.UTF8, "application/json");
             using (HttpResponseMessage response = client.PostAsync(requestType.ToString().ToLower(CultureInfo.InvariantCulture), content).Result)
             {
-                _log.Debug($"[{callerName}] RequestItem: {string.Join(",", requestBody.Items)}, StatusCode: {response.StatusCode}");
+                _log.DebugFormat("[{0}] RequestItem: {1}, StatusCode: {2}", callerName, string.Join(",", requestBody.Items), response.StatusCode);
                 response.EnsureSuccessStatusCode();
                 string responseBody = response.Content.ReadAsStringAsync().Result;
-                _log.Debug($"[{callerName}] Response: {responseBody}");
+                _log.DebugFormat("[{0}] Response: {1}", callerName, responseBody);
                 return responseBody;
             }
         }

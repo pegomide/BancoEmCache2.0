@@ -56,9 +56,9 @@
     <Compile Include="Models\FuseApiRequestBody.cs" />
     <Compile Include="Models\OpcApiResponseBody.cs" />
     <Compile Include="Models\OpcApiRequestBody.cs" />
-    <Compile Include="Models\PierEnum.cs" />
-    <Compile Include="Models\StatusEnum.cs" />
-    <Compile Include="Models\SubPartialEnum.cs" />
+    <Compile Include="Models\PierCode.cs" />
+    <Compile Include="Models\SendingStatus.cs" />
+    <Compile Include="Models\SubPartial.cs" />
     <Compile Include="Models\Tag.cs" />
     <Compile Include="FuseApiOptions.cs" />
     <Compile Include="OpcApiOptions.cs" />

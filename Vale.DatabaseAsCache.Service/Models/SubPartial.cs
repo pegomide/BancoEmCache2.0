@@ -1,6 +1,6 @@
 ﻿namespace Vale.GetFuseData.ApiService.Models
 {
-    public enum SubPartialEnum
+    public enum SubPartial
     {
         None = 0,
         A = 1,

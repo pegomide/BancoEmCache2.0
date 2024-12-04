@@ -44,7 +44,7 @@
           "rulesOperator": "OR",
           "disableTemplating": false,
           "fallbackTo404": false,
-          "default": true
+          "default": false
         },
         {
           "uuid": "cbebe035-c583-48f9-9c03-cdbf713f9b2f",
@@ -327,7 +327,7 @@
           "rulesOperator": "AND",
           "disableTemplating": false,
           "fallbackTo404": false,
-          "default": false
+          "default": true
         },
         {
           "uuid": "16348b4c-ab74-44d7-a4e9-cc8902677e67",
@@ -471,7 +471,7 @@
           "rulesOperator": "OR",
           "disableTemplating": false,
           "fallbackTo404": false,
-          "default": true
+          "default": false
         },
         {
           "uuid": "904fb395-0be7-4ace-981a-a307139c1fc8",
@@ -542,7 +542,7 @@
           "rulesOperator": "AND",
           "disableTemplating": false,
           "fallbackTo404": false,
-          "default": false
+          "default": true
         },
         {
           "uuid": "60d8f81e-c522-49e8-9166-a6e308ad5cd5",

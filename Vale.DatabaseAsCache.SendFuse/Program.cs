@@ -1,12 +1,11 @@
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Configuration;
 using log4net;
 using System;
 
 namespace Vale.DatabaseAsCache.SendFuse
 {
-    internal class Program
+    internal static class Program
     {
         static void Main(string[] args)
         {
@@ -17,7 +16,6 @@ namespace Vale.DatabaseAsCache.SendFuse
             IHost host = Host.CreateDefaultBuilder(args)
                 .ConfigureServices((hostContext, services) =>
                 {
-                    IConfiguration configuration = hostContext.Configuration;
                     services.AddHostedService<ScheduleDatabasePooling>();
                 })
                 .Build();

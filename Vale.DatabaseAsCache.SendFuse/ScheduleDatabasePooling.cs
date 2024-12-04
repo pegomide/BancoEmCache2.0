@@ -2,6 +2,8 @@ using log4net;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.Configuration;
+using System.Diagnostics;
+using System.Globalization;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -55,7 +57,7 @@ namespace Vale.DatabaseAsCache.SendFuse
         public ScheduleDatabasePooling()
         {
             // Handling scheduler pooling interval
-            if (!TimeSpan.TryParse(ConfigurationManager.AppSettings["SchedulerInterval"], out _poolingInterval))
+            if (!TimeSpan.TryParse(ConfigurationManager.AppSettings["SchedulerInterval"], CultureInfo.InvariantCulture, out _poolingInterval))
             {
                 _log.Error("Erro ao ler campo de configuração do agendador: SchedulerInterval.");
                 throw new FormatException();
@@ -63,7 +65,7 @@ namespace Vale.DatabaseAsCache.SendFuse
 
             if (TimeSpan.Compare(_poolingInterval, minimalInterval).Equals(-1) || TimeSpan.Compare(_poolingInterval, maximalInterval).Equals(1))
             {
-                _log.Error($"Configuração do agendador possui intervalo fora do aceitável: utilize intervalos entre {minimalInterval:c} e {maximalInterval:c}.");
+                _log.ErrorFormat("Configuração do agendador possui intervalo fora do aceitável: utilize intervalos entre {0:c} e {1:c}.", minimalInterval, maximalInterval);
                 throw new FormatException();
             }
 
@@ -87,7 +89,7 @@ namespace Vale.DatabaseAsCache.SendFuse
                 Regex r = new Regex(@"(\b25[0-5]|\b2[0-4][0-9]|\b[01]?[0-9][0-9]?)(\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}", RegexOptions.IgnoreCase);
                 string serverIP = r.Match(connectionStringMain).ToString();
 
-                _log.Info($"Estabelecendo conexão com o banco de dados: {serverIP}");
+                _log.InfoFormat("Estabelecendo conexão com o banco de dados: {0}", serverIP);
                 _coletaFuseRepository = new ColetaFuseRepository(connectionStringMain);
                 if (!_coletaFuseRepository.IsConnectionOpen())
                 {
@@ -110,7 +112,7 @@ namespace Vale.DatabaseAsCache.SendFuse
             };
             if (opcApiOptions.OpcApiUrl is null || opcApiOptions.HostName is null || opcApiOptions.ServerName is null)
             {
-                _log.Error($"Erro ao ler campo de configuração da API do OPC: {nameof(OpcApiOptions)}.");
+                _log.ErrorFormat("Erro ao ler campo de configuração da API do OPC: {0}.", nameof(OpcApiOptions));
                 throw new FormatException();
             }
             _opcApiInterface = new OpcApiInterface(opcApiOptions);
@@ -122,34 +124,33 @@ namespace Vale.DatabaseAsCache.SendFuse
                 throw new FormatException();
             }
 
-            _log.Info($"Intervalo entre requisições: {_poolingInterval:c}");
+            _log.InfoFormat("Intervalo entre requisições: {0:c}", _poolingInterval);
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             while (!stoppingToken.IsCancellationRequested)
             {
+                var stopWatch = Stopwatch.StartNew();
                 DateTime triggerStartTime = DateTime.Now;
                 try
                 {
-                    _log.Info($"### Gatilho de leitura às {triggerStartTime:dd/MM/yyyy HH:mm:ss} ###");
+                    _log.InfoFormat("### Gatilho de leitura às {0:dd/MM/yyyy HH:mm:ss} ###", triggerStartTime);
                     // ENVIO DE DADOS PENDENTES AO FUSE
                     ColetaFuseData data = _coletaFuseRepository.SelectMostRecentWithStatusPending();
                     if (data != null)
                     {
                         FuseApiRequestBody requestBody = FuseApiService.TransformDatabaseIntoRequestBody(data);
-                        _log.Info($"Dado a ser enviado ao Fuse: {requestBody}");
-                        if (_fuseApiInterface.PostSendData(requestBody))
+                        _log.InfoFormat("Dado a ser enviado ao Fuse: {0}", requestBody);
+                        if (_fuseApiInterface.PostSendData(requestBody) && (_coletaFuseRepository.UpdateStatusToDone(data)))
                         {
-                            if (_coletaFuseRepository.UpdateStatusToDone(data))
-                            {
-                                _log.Info("Status atualizado na tabela como enviado (DONE).");
-                            }
+                            _log.Info("Status atualizado na tabela como enviado (DONE).");
+
                         }
                     }
                     else
                     {
-                        _log.Info($"Sem dados pendentes para sincronização com Fuse!");
+                        _log.Info("Sem dados pendentes para sincronização com Fuse!");
                     }
 
                     // VERIFICAÇÃO DE DADOS PENDENTES
@@ -157,16 +158,17 @@ namespace Vale.DatabaseAsCache.SendFuse
                     bool isGpvWithDelay = countEnviosPendentes > _maximoStatusPendentes;
                     if (isGpvWithDelay)
                     {
-                        _log.Info($"Há {countEnviosPendentes} registros pendentes para envio ao GPV.");
+                        _log.InfoFormat("Há {0} registros pendentes para envio ao GPV.", countEnviosPendentes);
                     }
                     _opcApiInterface.PostSendGPVDelay(isGpvWithDelay);
                 }
                 catch (Exception ex)
                 {
-                    _log.Error($"Erro no gatilho principal: {ex.ToString().Replace(Environment.NewLine, string.Empty)}");
+                    _log.ErrorFormat("Erro no gatilho principal: {0}", ex.ToString().Replace(Environment.NewLine, string.Empty));
                 }
                 // Garante que o intervalo entre requisições seja respeitado, mesmo com tempo de execução alto
-                TimeSpan executionDuration = DateTime.Now - triggerStartTime;
+                stopWatch.Stop();
+                TimeSpan executionDuration = stopWatch.Elapsed;
                 if (executionDuration < _poolingInterval)
                 {
                     await Task.Delay(_poolingInterval - executionDuration, stoppingToken);

@@ -3,7 +3,7 @@
     /// <summary>
     /// PierEnum type
     /// </summary>
-    public enum PierEnum
+    public enum PierCode
     {
         None = 0,
         South = 1,

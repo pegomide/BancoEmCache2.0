@@ -13,9 +13,9 @@ namespace Vale.DatabaseAsCache.Data.TableModels
 
         public string PRODUCT_CODE { get; set; }
 
-        public string CLIENT_CODE = null;
+        public string CLIENT_CODE { get; set; } = null;
 
-        public string STACKER_NAME = "CNG2";
+        public string STACKER_NAME { get; set; } = "CNG2";
 
         public decimal? ESTIMATED_WEIGHT { get; set; }
 
@@ -36,7 +36,7 @@ namespace Vale.DatabaseAsCache.Data.TableModels
 
         public int? ORDER_NUMBER { get; set; }
 
-        public decimal? BOARDING_LINE = 1;
+        public decimal? BOARDING_LINE { get; set; } = 1;
 
         public DateTime? INCREMENT_DATETIME { get; set; }
 

@@ -14,6 +14,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Itens de Solução", "Itens de Solução", "{BB6D7EA6-2E77-444F-B30D-08898400CEE3}"
 	ProjectSection(SolutionItems) = preProject
 		DatabaseAsCache.json = DatabaseAsCache.json
+		README.md = README.md
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vale.DatabaseAsCache.SendFuse", "Vale.DatabaseAsCache.SendFuse\Vale.DatabaseAsCache.SendFuse.csproj", "{98EE9944-1C92-471C-A277-91FDE1B4424C}"

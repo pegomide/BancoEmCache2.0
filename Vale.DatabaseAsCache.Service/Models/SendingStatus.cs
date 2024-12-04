@@ -1,6 +1,6 @@
 ﻿namespace Vale.DatabaseAsCache.ApiService.Models
 {
-    public enum StatusEnum
+    public enum SendingStatus
     {
         None = 0,
         Pending = 1,
