@@ -206,7 +206,7 @@ namespace Vale.DatabaseAsCache.Service.Infrastructure
                     Values = new List<int>() { Convert.ToInt32(signal) }
                 };
                 string responseBody = PostOpcRequest(requestBody, OpcRequestType.Write);
-                _log.InfoFormat("Sinal de pendencia de leitura do GPV atualizado com sucesso. Valor: {0}", responseBody);
+                _log.InfoFormat("Sinal de pendencia de leitura do GPV atualizado com sucesso. Valor: {0}", signal);
                 return true;
             }
             catch (HttpRequestException ex)

@@ -97,7 +97,7 @@ SELECT [PIER_CODE]
     ,[SUBSUBPARTIAL_SAMPLE]
     ,[WEIGHTATCUT]
     ,[STATUS_TYPE]
-FROM [dbo].[ {_tableName} ]
+FROM [dbo].[{_tableName}]
 WHERE [STATUS_TYPE] = 'PENDING'
 ORDER BY [INCREMENT_DATETIME] DESC";
                     response = _connection.QueryFirstOrDefault<ColetaFuseData>(sql);
@@ -247,7 +247,7 @@ UPDATE [dbo].[{_tableName}]
                 {
                     string sql = $@"
 SELECT COUNT(*)
-FROM [dbo].[ {_tableName} ]
+FROM [dbo].[{_tableName}]
 WHERE [STATUS_TYPE] = 'PENDING'";
                     int response = _connection.ExecuteScalar<int>(sql);
                     transaction.Complete();

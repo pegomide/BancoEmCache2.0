@@ -44,11 +44,6 @@ namespace Vale.DatabaseAsCache.Application
         /// </summary>
         private readonly ColetaFuseRepository _coletaFuseRepository;
 
-        /// <summary>
-        /// Caminho para o arquivo local onde os dados serão armazenados
-        /// </summary>
-        private readonly string _dataFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "sendsignal.txt");
-
         public ScheduleOpcRequest()
         {
             // Handling scheduler pooling interval
@@ -157,7 +152,7 @@ namespace Vale.DatabaseAsCache.Application
             {
                 // PERSISTE DADOS NO BANCO
                 int rowsInserted = _coletaFuseRepository.Insert(data);
-                if (rowsInserted > 0)
+                if (rowsInserted != 0)
                 {
                     _log.Info($"Dado foi salvo no banco!");
                     _log.DebugFormat("{0} dado(s) inserido(s): {1}", rowsInserted, data);
@@ -175,47 +170,13 @@ namespace Vale.DatabaseAsCache.Application
         /// </summary>
         private void SendConfirmationSignal()
         {
-            bool signalFileExist = CheckSendSignalFileExists();
-            if (_opcApiInterface.PostSendConfirmationSignal(signalFileExist))
+            if (_opcApiInterface.PostSendConfirmationSignal(true))
             {
-                ToogleSendSignalFile(signalFileExist);
-                _log.DebugFormat("Sinal de confirmação de escrita enviado com sucesso. Valor enviado: {0}", signalFileExist);
+                _log.DebugFormat("Sinal de confirmação de escrita enviado com sucesso. Valor enviado: {0}", true);
             }
             else
             {
-                _log.ErrorFormat("Erro ao enviar sinal confirmação de escrita ao OPC. Tentativa de envio: {0}", signalFileExist);
-            }
-        }
-
-        private bool CheckSendSignalFileExists()
-        {
-            try
-            {
-                return File.Exists(_dataFilePath);
-            }
-            catch (Exception ex)
-            {
-                _log.ErrorFormat("Erro ao ler o arquivo de controle do SendSignal: {0}", ex.Message);
-            }
-            return false;
-        }
-
-        private void ToogleSendSignalFile(bool fileExists)
-        {
-            try
-            {
-                if (fileExists)
-                {
-                    File.Delete(_dataFilePath);
-                }
-                else
-                {
-                    File.WriteAllText(_dataFilePath, "foo");
-                }
-            }
-            catch (Exception ex)
-            {
-                _log.ErrorFormat("Erro ao salvar o arquivo de controle do SendSignal: {0}", ex.Message);
+                _log.ErrorFormat("Erro ao enviar sinal confirmação de escrita ao OPC. Tentativa de envio: {0}", true);
             }
         }
     }

@@ -31,7 +31,7 @@ namespace Vale.DatabaseAsCache.Application
         /// <summary>
         /// Caminho para o arquivo local onde os dados serão armazenados
         /// </summary>
-        private readonly string _dataFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "watchdog.txt");
+        private bool _lastValue = true;
 
 
         public Watchdog()
@@ -53,22 +53,20 @@ namespace Vale.DatabaseAsCache.Application
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            bool thereIsWatchDogFile = CheckWatchDogFileExists();
-
             while (!stoppingToken.IsCancellationRequested)
             {
                 var stopWatch = Stopwatch.StartNew();
                 try
                 {
                     _log.InfoFormat("### Gatilho de watchdog às {0:dd/MM/yyyy HH:mm:ss} ###", DateTime.Now);
-                    if (_opcApiInterface.PostSendWatdogSignal(thereIsWatchDogFile))
+                    if (_opcApiInterface.PostSendWatdogSignal(_lastValue))
                     {
-                        ToogleWatchDogFile(thereIsWatchDogFile);
-                        _log.DebugFormat("Sinal de watchdog enviado com sucesso: {0}", thereIsWatchDogFile);
+                        _log.DebugFormat("Sinal de watchdog enviado com sucesso: {0}", _lastValue);
+                        _lastValue = !_lastValue;
                     }
                     else
                     {
-                        _log.ErrorFormat("Erro ao enviar sinal de watchdog. Tentativa de envio: {0}", thereIsWatchDogFile);
+                        _log.ErrorFormat("Erro ao enviar sinal de watchdog. Tentativa de envio: {0}", _lastValue);
                     }
                 }
                 catch (Exception ex)
@@ -83,38 +81,6 @@ namespace Vale.DatabaseAsCache.Application
                 {
                     await Task.Delay(_watchdogInterval - executionDuration, stoppingToken);
                 }
-            }
-        }
-
-        private bool CheckWatchDogFileExists()
-        {
-            try
-            {
-                return File.Exists(_dataFilePath);
-            }
-            catch (Exception ex)
-            {
-                _log.ErrorFormat("Erro ao ler o arquivo de controle do watchDog: {0}", ex.Message);
-            }
-            return false;
-        }
-
-        private void ToogleWatchDogFile(bool fileExists)
-        {
-            try
-            {
-                if (fileExists)
-                {
-                    File.Delete(_dataFilePath);
-                }
-                else
-                {
-                    File.WriteAllText(_dataFilePath, "foo");
-                }
-            }
-            catch (Exception ex)
-            {
-                _log.ErrorFormat("Erro ao salvar o arquivo de controle do watchDog: {0}", ex.Message);
             }
         }
     }

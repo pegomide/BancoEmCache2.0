@@ -142,10 +142,11 @@ namespace Vale.DatabaseAsCache.SendFuse
                     {
                         FuseApiRequestBody requestBody = FuseApiService.TransformDatabaseIntoRequestBody(data);
                         _log.InfoFormat("Dado a ser enviado ao Fuse: {0}", requestBody);
-                        if (_fuseApiInterface.PostSendData(requestBody) && (_coletaFuseRepository.UpdateStatusToDone(data)))
+                        bool isSentFuse = _fuseApiInterface.PostSendData(requestBody);
+                        bool isUpdatedStatus = _coletaFuseRepository.UpdateStatusToDone(data);
+                        if (isSentFuse && isUpdatedStatus)
                         {
                             _log.Info("Status atualizado na tabela como enviado (DONE).");
-
                         }
                     }
                     else
@@ -155,7 +156,7 @@ namespace Vale.DatabaseAsCache.SendFuse
 
                     // VERIFICAÇÃO DE DADOS PENDENTES
                     int countEnviosPendentes = _coletaFuseRepository.CountStatusPending();
-                    bool isGpvWithDelay = countEnviosPendentes > _maximoStatusPendentes;
+                    bool isGpvWithDelay = countEnviosPendentes >= _maximoStatusPendentes;
                     if (isGpvWithDelay)
                     {
                         _log.InfoFormat("Há {0} registros pendentes para envio ao GPV.", countEnviosPendentes);

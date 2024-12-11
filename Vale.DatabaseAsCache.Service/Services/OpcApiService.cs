@@ -89,6 +89,15 @@ namespace Vale.GetFuseData.ApiService.Services
         /// <param name="body"></param>
         private static void ProcessBodyFromResponse(List<OpcApiResponseBody> responseBodyList, ColetaFuseData fuseData, OpcApiResponseBody body)
         {
+            if(body.Name.Equals(Tag.Porao1WeigthFirstScale) 
+                || body.Name.Equals(Tag.Porao1WeigthSecondScale) 
+                || body.Name.Equals(Tag.Porao2WeigthFirstScale) 
+                || body.Name.Equals(Tag.Porao2WeigthSecondScale)
+                || body.Name.Equals(Tag.Porao3WeigthFirstScale)
+                || body.Name.Equals(Tag.Porao3WeigthSecondScale))
+            {
+                return;
+            }
             if (body.Name.Equals(Tag.PierCode))
             {
                 var pier = (PierCode)Convert.ToInt32(body.Value);
@@ -119,6 +128,7 @@ namespace Vale.GetFuseData.ApiService.Services
                     int id = Convert.ToInt32(body.Value);
                     if (id > 0 && id <= 30)
                     {
+                        fuseData.ORDER_NUMBER = Convert.ToInt32(body.Value);
                         fuseData.PORAO1_ID = id;
                         fuseData.PORAO1_PESO1 = Convert.ToDecimal(responseBodyList.Find(item => item.Name.Equals(Tag.Porao1WeigthFirstScale)).Value);
                         fuseData.PORAO1_PESO2 = Convert.ToDecimal(responseBodyList.Find(item => item.Name.Equals(Tag.Porao1WeigthSecondScale)).Value);
@@ -150,10 +160,6 @@ namespace Vale.GetFuseData.ApiService.Services
                         fuseData.PORAO3_PESO2 = Convert.ToDecimal(responseBodyList.Find(item => item.Name.Equals(Tag.Porao3WeigthSecondScale)).Value);
                     }
                 }
-            }
-            else if (body.Name.Equals(Tag.OrderName))
-            {
-                fuseData.ORDER_NUMBER = Convert.ToInt32(body.Value);
             }
             else if (body.Name.Equals(Tag.PartialSample))
             {
