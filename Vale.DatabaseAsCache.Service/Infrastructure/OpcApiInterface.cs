@@ -143,8 +143,7 @@ namespace Vale.DatabaseAsCache.Service.Infrastructure
                     Items = new List<string>() { Tag.WatchdogSignal },
                     Values = new List<int>() { Convert.ToInt32(signal) }
                 };
-                string responseBody = PostOpcRequest(requestBody, OpcRequestType.Write);
-                _log.InfoFormat("Sinal de watchdog enviado com sucesso ao OPC: {0}", responseBody);
+                PostOpcRequest(requestBody, OpcRequestType.Write);
                 return true;
             }
             catch (HttpRequestException ex)
@@ -153,7 +152,7 @@ namespace Vale.DatabaseAsCache.Service.Infrastructure
             }
             catch (Exception ex)
             {
-                _log.ErrorFormat("Erro genérico ao extrair dados do pier sul: {0}", ex.ToString().Replace(Environment.NewLine, string.Empty));
+                _log.ErrorFormat("Erro genérico ao enviar dados do WatchDog: {0}", ex.ToString().Replace(Environment.NewLine, string.Empty));
             }
             return false;
         }
@@ -174,8 +173,7 @@ namespace Vale.DatabaseAsCache.Service.Infrastructure
                     Items = new List<string>() { Tag.ConfirmationSignal },
                     Values = new List<int>() { Convert.ToInt32(signal) }
                 };
-                string responseBody = PostOpcRequest(requestBody, OpcRequestType.Write);
-                _log.InfoFormat("Sinal de confirmação enviado com sucesso. Valor: {0}", responseBody);
+                PostOpcRequest(requestBody, OpcRequestType.Write);
                 return true;
             }
             catch (HttpRequestException ex)

@@ -122,7 +122,7 @@ namespace Vale.DatabaseAsCache.Application
                         }
                         else
                         {
-                            _log.Info($"Nenhum registro disponível no CLP");
+                            _log.Info("Nenhum registro disponível no CLP");
                         }
                     }
                 }
@@ -152,7 +152,7 @@ namespace Vale.DatabaseAsCache.Application
             {
                 // PERSISTE DADOS NO BANCO
                 int rowsInserted = _coletaFuseRepository.Insert(data);
-                if (rowsInserted != 0)
+                if (rowsInserted > 0)
                 {
                     _log.Info($"Dado foi salvo no banco!");
                     _log.DebugFormat("{0} dado(s) inserido(s): {1}", rowsInserted, data);

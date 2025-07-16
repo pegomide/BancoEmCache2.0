@@ -120,7 +120,7 @@ ORDER BY [INCREMENT_DATETIME] DESC";
         /// Insert new line into table
         /// </summary>
         /// <param name="data">Objeto com dados a serem inseridos.</param>
-        /// <returns>Number of lines inserted. Probably one.</returns>
+        /// <returns>Number of lines inserted. Probably one. Negative value means an error.</returns>
         public int Insert(ColetaFuseData data)
         {
             if (data is null)
